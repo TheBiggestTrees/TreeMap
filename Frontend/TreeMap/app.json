@@ -1,24 +1,25 @@
 {
   "expo": {
-    "name": "TreeMap",
-    "slug": "TreeMap",
+    "name": "treemap",
+    "slug": "treemap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2x0NjB2dzlmMDZ2MjJpbWkzZnRwbGhzbiJ9.lIDlClsXZroDhK86RjHLqg"
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "plugins": [
-      [
-        "@rnmapbox/maps",
-        {
-          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2x0NWN2a3p4MGNhNjJobXoxcXlka2liZCJ9.CcEYTYlz-FUVm7bOCdKKYA"
-        }
-      ]
-    ],
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -29,7 +30,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.treemap"
     },
     "web": {
       "favicon": "./assets/favicon.png"
