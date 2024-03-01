@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "treemap",
+    "slug": "treemap",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.thebiggesttrees.treemap"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2x0N3dndnk0MDYxeDJpbzRxM3NqMTh2OSJ9.3o_QTMyOWf2hV7ixJFrZww"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "be5ca333-292c-4577-ad3a-0fba6d1e6241"
+      }
+    }
+  }
+}
