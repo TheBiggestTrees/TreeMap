@@ -11,10 +11,8 @@ Mapbox.setAccessToken(
 
 const App = () => {
   const sliderRef = useRef();
+  const [sliderTitle, setSliderTitle] = useState("");
 
-  const handleRenderMarker = () => {
-    return <Sites sliderRef={sliderRef} />;
-  };
   return (
     <View style={styles.page}>
       <View style={styles.container}>
@@ -30,9 +28,9 @@ const App = () => {
             animationMode={"none"}
           />
           {/* <Trees /> */}
-          <Sites sliderRef={sliderRef} />
+          <Sites sliderRef={sliderRef} setSliderTitle={setSliderTitle} />
         </Mapbox.MapView>
-        <Slider sliderRef={sliderRef} />
+        <Slider sliderTitle={sliderTitle} sliderRef={sliderRef} />
       </View>
     </View>
   );

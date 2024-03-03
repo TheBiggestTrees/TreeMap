@@ -4,7 +4,7 @@ import Mapbox from "@rnmapbox/maps";
 import { View } from "react-native";
 
 const Sites = (props) => {
-  const { sliderRef } = props;
+  const { sliderRef, setSliderTitle } = props;
 
   return sites.features.map((site, index) => {
     if (Object.values(site.geometry.coordinates) != "") {
@@ -13,7 +13,13 @@ const Sites = (props) => {
           id={"site_" + `${site.properties["Primary ID"]}`}
           key={`${site.properties["Primary ID"]}` + `${index}`}
           coordinate={Object.values(site.geometry.coordinates)}
-          onSelected={() => sliderRef.current.show(275)}
+          onSelected={(e) => {
+            setSliderTitle(e.id);
+            sliderRef.current.show({
+              toValue: 125,
+              velocity: 1,
+            });
+          }}
         >
           <View
             style={{
