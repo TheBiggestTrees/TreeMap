@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import Sites from "./components/Sites";
+import Trees from "./components/Trees";
 import Mapbox from "@rnmapbox/maps";
+import Slider from "./components/Slider";
 
 Mapbox.setAccessToken(
   "pk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2xzb2JiZXI4MGRiODJrb3c5NnlmZnRjYyJ9.Fv2ex2k4_1efbXdhZjMl1Q"
 );
 
 const App = () => {
+  const sliderRef = useRef();
+
+  const handleRenderMarker = () => {
+    return <Sites sliderRef={sliderRef} />;
+  };
   return (
     <View style={styles.page}>
       <View style={styles.container}>
@@ -18,11 +26,12 @@ const App = () => {
           <Mapbox.Camera
             zoomLevel={10}
             centerCoordinate={[-95.92682, 36.135769]}
+            animationMode={"none"}
           />
+          {/* <Trees /> */}
+          <Sites sliderRef={sliderRef} />
         </Mapbox.MapView>
-        <View className="bg-black">
-          <Text className="text-white">Tailwind is working</Text>
-        </View>
+        <Slider sliderRef={sliderRef} />
       </View>
     </View>
   );
