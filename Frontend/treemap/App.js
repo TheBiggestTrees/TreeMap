@@ -22,6 +22,7 @@ const App = () => {
           scaleBarEnabled={false}
           styleURL="mapbox://styles/tiirnako/clsoeendf04ev01nlbuki52pf"
           style={styles.map}
+          deselectAnnotationOnTap={true}
         >
           <Mapbox.Camera
             zoomLevel={10}
