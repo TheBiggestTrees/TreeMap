@@ -3,14 +3,14 @@ import { Button, Text, View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 
 const Slider = (props) => {
-  const { sliderRef, sliderTitle } = props;
+  const { sliderRef, sliderTitle, setShowTreeLayer } = props;
 
   return (
     <>
       <SlidingUpPanel
         ref={sliderRef}
-        height={800}
-        draggableRange={{ top: 800, bottom: 0 }}
+        onBottomReached={() => setShowTreeLayer(false)}
+        onBackButtonPress={() => setShowTreeLayer(false)}
         backdropOpacity={0}
       >
         <View className="flex bg-gray-500 h-full rounded-xl p-4 items-center ">

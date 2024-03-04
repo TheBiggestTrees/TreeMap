@@ -4,7 +4,7 @@ import Mapbox from "@rnmapbox/maps";
 import { View } from "react-native";
 
 const Sites = (props) => {
-  const { sliderRef, setSliderTitle } = props;
+  const { sliderRef, setShowTreeLayer, setSliderTitle, camera } = props;
 
   return sites.features.map((site, index) => {
     if (Object.values(site.geometry.coordinates) != "") {
@@ -18,6 +18,15 @@ const Sites = (props) => {
             sliderRef.current.show({
               toValue: 125,
               velocity: 1,
+            });
+
+            setShowTreeLayer(true);
+
+            camera.current?.setCamera({
+              centerCoordinate: Object.values(site.geometry.coordinates),
+              zoomLevel: 17,
+              animationDuration: 800,
+              animationMode: "flyTo",
             });
           }}
         >
