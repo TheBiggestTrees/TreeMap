@@ -1,17 +1,19 @@
+import Mapbox from "@rnmapbox/maps";
 import React from "react";
 import { Button, Text, View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 
 const Slider = (props) => {
-  const { sliderRef, sliderTitle, setShowTreeLayer } = props;
+  const { sliderRef, sliderTitle, camera } = props;
 
   return (
     <>
       <SlidingUpPanel
         ref={sliderRef}
-        onBottomReached={() => setShowTreeLayer(false)}
-        onBackButtonPress={() => setShowTreeLayer(false)}
         showBackdrop={false}
+        onBottomReached={() => {
+          camera.current.zoomTo(15);
+        }}
       >
         <View className="flex bg-gray-500 h-full rounded-xl p-4 items-center ">
           <View className="w-full">

@@ -5,7 +5,7 @@ import Mapbox, { CircleLayer, ShapeSource } from "@rnmapbox/maps";
 import { View } from "react-native";
 
 const Sites = (props) => {
-  const { sliderRef, mapRef, setShowTreeLayer, setSliderTitle, camera } = props;
+  const { sliderRef, mapRef, setSliderTitle, camera } = props;
   const map = mapRef;
 
   useEffect(() => {}, []);
@@ -19,10 +19,8 @@ const Sites = (props) => {
           setSliderTitle(e.features[0].properties["Site Name"]);
           sliderRef.current.show({
             toValue: 125,
-            velocity: 1,
+            velocity: 500,
           });
-
-          setShowTreeLayer(true);
 
           camera.current?.setCamera({
             centerCoordinate: e.features[0].geometry.coordinates,
@@ -40,6 +38,8 @@ const Sites = (props) => {
             circleStrokeWidth: 1,
             circleStrokeColor: "#000",
           }}
+          minZoomLevel={0}
+          maxZoomLevel={16.5}
         />
       </Mapbox.ShapeSource>
     </>

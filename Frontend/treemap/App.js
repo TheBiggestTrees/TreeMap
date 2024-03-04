@@ -14,7 +14,7 @@ const App = () => {
   const sliderRef = useRef();
   const mapRef = useRef();
   const camera = useRef();
-  const [showTreeLayer, setShowTreeLayer] = useState(false);
+
   const [sliderTitle, setSliderTitle] = useState("");
   const [showSplash, setShowSplash] = useState(true);
 
@@ -40,21 +40,17 @@ const App = () => {
             ref={camera}
           />
 
-          {showTreeLayer ? (
-            <Trees />
-          ) : (
-            <Sites
-              sliderRef={sliderRef}
-              setShowTreeLayer={setShowTreeLayer}
-              setSliderTitle={setSliderTitle}
-              camera={camera}
-            />
-          )}
+          <Trees />
+          <Sites
+            sliderRef={sliderRef}
+            setSliderTitle={setSliderTitle}
+            camera={camera}
+          />
         </Mapbox.MapView>
         <Slider
-          setShowTreeLayer={setShowTreeLayer}
           sliderTitle={sliderTitle}
           sliderRef={sliderRef}
+          camera={camera}
         />
       </View>
     </View>
