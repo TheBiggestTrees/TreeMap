@@ -12,6 +12,7 @@ Mapbox.setAccessToken(
 
 const App = () => {
   const sliderRef = useRef();
+  const mapRef = useRef();
   const camera = useRef();
   const [showTreeLayer, setShowTreeLayer] = useState(false);
   const [sliderTitle, setSliderTitle] = useState("");
@@ -24,10 +25,10 @@ const App = () => {
         {showSplash && <Splash />}
 
         <Mapbox.MapView
+          ref={mapRef}
           scaleBarEnabled={false}
           styleURL="mapbox://styles/tiirnako/clsoeendf04ev01nlbuki52pf"
           style={styles.map}
-          deselectAnnotationOnTap={true}
           onLayout={() => {
             setShowSplash(false);
           }}
@@ -38,6 +39,7 @@ const App = () => {
             animationMode={"none"}
             ref={camera}
           />
+
           {showTreeLayer ? (
             <Trees />
           ) : (

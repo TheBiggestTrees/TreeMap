@@ -6,7 +6,25 @@ import { View } from "react-native";
 const Trees = () => {
   return (
     <>
-      {trees.features.map((tree, index) => {
+      <Mapbox.ShapeSource
+        id="trees1"
+        shape={trees}
+        buffer={64}
+        cluster
+        clusterMaxZoomLevel={15}
+      >
+        <Mapbox.CircleLayer
+          id="Treepoint"
+          style={{
+            circleRadius: 4,
+            circleColor: "#1bc21b",
+            circleStrokeWidth: 1,
+            circleStrokeColor: "#000",
+          }}
+        />
+      </Mapbox.ShapeSource>
+
+      {/* {trees.features.map((tree, index) => {
         if (Object.values(tree.geometry.coordinates) != "") {
           return (
             <Mapbox.PointAnnotation
@@ -27,7 +45,7 @@ const Trees = () => {
             </Mapbox.PointAnnotation>
           );
         }
-      })}
+      })} */}
     </>
   );
 };

@@ -11,15 +11,13 @@ const Slider = (props) => {
         ref={sliderRef}
         onBottomReached={() => setShowTreeLayer(false)}
         onBackButtonPress={() => setShowTreeLayer(false)}
-        backdropOpacity={0}
+        showBackdrop={false}
       >
         <View className="flex bg-gray-500 h-full rounded-xl p-4 items-center ">
           <View className="w-full">
             <View className="border-t-2 m-4 border-gray-700 w-[40%] self-center"></View>
             <View className="flex flex-row justify-between">
-              <Text className="text-white">
-                Site {sliderTitle.split("_")[1]}
-              </Text>
+              <Text className="text-white">Site {sliderTitle}</Text>
               <View>
                 <Button
                   title="Close"
