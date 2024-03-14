@@ -1,14 +1,56 @@
-import React, { useEffect } from "react";
-import sites from "../sites.json";
-import trees from "../trees.json";
-import Mapbox, { CircleLayer, ShapeSource } from "@rnmapbox/maps";
-import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import Mapbox from "@rnmapbox/maps";
+import axios from "axios";
 
 const Sites = (props) => {
-  const { sliderRef, mapRef, setSliderTitle, camera } = props;
-  const map = mapRef;
+  const {
+    sliderRef,
+    apiURL,
+    setSliderTitle,
+    camera,
+    selectedSite,
+    setSelectedSite,
+    selectedTrees,
+    setSelectedTrees,
+  } = props;
 
-  useEffect(() => {}, []);
+  const [sites, setSites] = useState(null);
+
+  const fetchSites = async () => {
+    try {
+      const data = await axios({
+        method: "get",
+        url: apiURL + "/site/",
+        timeout: 8000,
+      });
+
+      data.data.data.features.map((site, index) => {
+        site.id = data.data.data.features[index]._id;
+      });
+      console.log(data.data.message);
+      setSites(data.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchTreesInSite = async (site) => {
+    try {
+      const data = await axios({
+        method: "get",
+        url: `${apiURL}/site/trees/${site}`,
+        timeout: 8000,
+      });
+      setSelectedTrees(data.data.data);
+      setSelectedSite(data.data.data.features);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSites();
+  }, []);
 
   return (
     <>
@@ -16,7 +58,8 @@ const Sites = (props) => {
         id="sites1"
         shape={sites}
         onPress={(e) => {
-          setSliderTitle(e.features[0].properties["Site Name"]);
+          fetchTreesInSite(e.features[0].id);
+          setSliderTitle(e.features[0].properties.siteID);
           sliderRef.current.show({
             toValue: 125,
             velocity: 500,
@@ -44,46 +87,6 @@ const Sites = (props) => {
       </Mapbox.ShapeSource>
     </>
   );
-
-  // sites.features.map((site, index) => {
-  //   if (Object.values(site.geometry.coordinates) != "") {
-  //     return (
-  //       <Mapbox.PointAnnotation
-  //         id={"site_" + `${site.properties["Primary ID"]}`}
-  //         key={`${site.properties["Primary ID"]}` + `${index}`}
-  //         coordinate={Object.values(site.geometry.coordinates)}
-  //         onSelected={(e) => {
-  //           setSliderTitle(e.id);
-  //           sliderRef.current.show({
-  //             toValue: 125,
-  //             velocity: 1,
-  //           });
-
-  //           setShowTreeLayer(true);
-
-  //           camera.current?.setCamera({
-  //             centerCoordinate: Object.values(site.geometry.coordinates),
-  //             zoomLevel: 17,
-  //             animationDuration: 800,
-  //             animationMode: "flyTo",
-  //           });
-  //         }}
-  //       >
-  //       <View
-  //         style={{
-  //           height: 15,
-  //           width: 15,
-  //           backgroundColor: "blue",
-  //           borderRadius: 50,
-  //           borderColor: "black",
-  //           borderWidth: 2,
-  //         }}
-  //       />
-  //       </Mapbox.PointAnnotation>
-
-  //     );
-  //   }
-  // });
 };
 
 export default Sites;
