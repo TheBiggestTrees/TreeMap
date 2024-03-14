@@ -34,6 +34,20 @@ const App = () => {
   });
   const [selectedSite, setSelectedSite] = useState(null);
 
+  const addNewSite = async () => {
+    const temp = {
+      type: "Feature",
+      geometry: {
+        type: "point",
+        coordinates: [""],
+      },
+      properties: {
+        siteID: "",
+        trees: [""],
+      },
+    };
+  };
+
   return (
     <View style={styles.page}>
       <StatusBar />
