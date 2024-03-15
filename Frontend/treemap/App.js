@@ -14,6 +14,8 @@ import Mapbox from "@rnmapbox/maps";
 import Slider from "./components/Slider";
 import Splash from "./components/Splash";
 import Icons from "@expo/vector-icons/MaterialIcons";
+import axios from "axios";
+import * as Location from 'expo-location';
 
 Mapbox.setAccessToken(
   "pk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2xzb2JiZXI4MGRiODJrb3c5NnlmZnRjYyJ9.Fv2ex2k4_1efbXdhZjMl1Q"
@@ -25,6 +27,8 @@ const App = () => {
   const mapRef = useRef();
   const camera = useRef();
 
+  const [location, setLocation] = useState(null);
+  const [errMsg, setErrMsg] = useState(null);
   const [sliderTitle, setSliderTitle] = useState("");
   const [showSplash, setShowSplash] = useState(true);
   const [selectedTrees, setSelectedTrees] = useState({
@@ -34,7 +38,32 @@ const App = () => {
   });
   const [selectedSite, setSelectedSite] = useState(null);
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrMsg("Permissions denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+
+    })();
+
+    let text = 'Waiting';
+    if (errMsg) {
+      text = errMsg;
+    } else if (location) {
+      text = JSON.stringify(location);
+    }
+
+  }, []);
+
   const addNewSite = async () => {
+
+
+
     const temp = {
       type: "Feature",
       geometry: {
@@ -46,6 +75,13 @@ const App = () => {
         trees: [""],
       },
     };
+    
+    try {
+      const data = await axios.post(`${API_URL}/site/`, temp)
+    } catch (err) {
+      console.log(err)
+    }
+
   };
 
   return (
@@ -88,7 +124,7 @@ const App = () => {
           activeOpacity={0.5}
           underlayColor="#6b7280"
           onPress={() => {
-            Alert.alert("Add site pressed");
+            Alert.alert(text);
           }}
         >
           <Icons name="add-circle" size={40} color="#56ccdb"></Icons>

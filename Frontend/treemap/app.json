@@ -28,11 +28,20 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      ["expo-build-properties", {
-      "android": {
-        "usesCleartextTraffic": true
-      }
-    }],
+      [
+        "expo-location",
+        {
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-build-properties", 
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
       [
         "@rnmapbox/maps",
         {
