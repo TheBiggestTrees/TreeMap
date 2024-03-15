@@ -4,7 +4,7 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const Slider = (props) => {
-  const { sliderRef, sliderTitle, camera, selectedSite } = props;
+  const { sliderRef, sliderTitle, camera, selectedSite, selectedTrees } = props;
 
   return (
     <>
@@ -23,14 +23,15 @@ const Slider = (props) => {
 
               <TouchableHighlight
                 className=" w-10 h-10 flex justify-center items-center rounded-lg"
-                onPress={() => sliderRef.current.hide()}
+                onPress={() => {sliderRef.current.hide()}}
                 underlayColor={"transparent"}
               >
                 <Icons name="close" size={40} color="#374151"></Icons>
               </TouchableHighlight>
             </View>
-            {selectedSite &&
-              selectedSite.map((tree, index) => {
+            
+              {selectedTrees && selectedTrees.map((tree, index) => {
+                console.log(tree)
                 return (
                   <View key={index} className="flex m-4">
                     <Text className="text-white">
@@ -58,7 +59,7 @@ const Slider = (props) => {
                       <Text className="text-[#f57171]">Needs Work</Text>
                     )}
                   </View>
-                );
+                )
               })}
           </View>
         </View>

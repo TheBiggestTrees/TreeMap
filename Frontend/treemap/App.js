@@ -61,26 +61,25 @@ const App = () => {
   }, []);
 
   const addNewSite = async () => {
-
-
-
     const temp = {
       type: "Feature",
       geometry: {
-        type: "point",
-        coordinates: [""],
+        type: "Point",
+        coordinates: [ location.coords.longitude, location.coords.latitude ],
       },
       properties: {
-        siteID: "",
-        trees: [""],
+        siteID: 0,
+        trees: "",
       },
     };
     
-    try {
-      const data = await axios.post(`${API_URL}/site/`, temp)
-    } catch (err) {
+    axios.post(`${API_URL}/site/`, temp)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
       console.log(err)
-    }
+    });
 
   };
 
@@ -124,13 +123,14 @@ const App = () => {
           activeOpacity={0.5}
           underlayColor="#6b7280"
           onPress={() => {
-            Alert.alert(text);
+            addNewSite();
           }}
         >
           <Icons name="add-circle" size={40} color="#56ccdb"></Icons>
         </TouchableHighlight>
 
         <Slider
+          selectedTrees={selectedTrees}
           sliderTitle={sliderTitle}
           sliderRef={sliderRef}
           selectedSite={selectedSite}
