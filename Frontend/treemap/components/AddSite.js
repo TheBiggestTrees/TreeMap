@@ -4,87 +4,59 @@ import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const AddSite = (props) => {
-    const {location, setShowAddSite, setSites, API_URL, setShowCustomMark}  = props
-
-    const addNewSite = async () => {
-        const temp = {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: [ location.coords.longitude, location.coords.latitude ],
-          },
-          properties: {
-            siteID: 0,
-            trees: "",
-          },
-        };
-        
-        axios.post(`${API_URL}/site/`, temp)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        });
-    
-        try {
-          const data = await axios({
-            method: "get",
-            url: API_URL + "/site/",
-            timeout: 8000,
-          });
-    
-          data.data.data.features.map((site, index) => {
-            site.id = data.data.data.features[index]._id;
-          });
-          console.log(data.data.message);
-          setSites(data.data.data);
-        } catch (err) {
-          console.log(err);
-        }
-
-      };
+  const {
+    location,
+    customMark,
+    showCustomMark,
+    setShowAddSite,
+    setSites,
+    API_URL,
+    setShowCustomMark,
+    addNewSite,
+  } = props;
 
   return (
     <View className={"flex h-full w-full bg-[#6b7280] items-center"}>
-     
       <TouchableHighlight
-          className="rounded-lg self-end m-4 w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
+        className="rounded-lg self-end m-4 w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
+        activeOpacity={0.5}
+        underlayColor="#6b7280"
+        onPress={() => {
+          setShowAddSite(false);
+        }}
+      >
+        <Icons name="close" size={40} color="#374151"></Icons>
+      </TouchableHighlight>
+
+      <View className="flex flex-row gap-8">
+        <TouchableHighlight
+          className="bg-[#56ccdb] w-24 h-16 rounded-lg flex justify-center items-center"
           activeOpacity={0.5}
           underlayColor="#6b7280"
           onPress={() => {
+            addNewSite();
             setShowAddSite(false);
           }}
         >
-          <Icons name="close" size={40} color="#374151"></Icons>
+          <Text className="text-white text-center font-bold text-lg">
+            Use My Location
+          </Text>
         </TouchableHighlight>
 
-          <View className="flex flex-row gap-8">
-            <TouchableHighlight
-            className="bg-[#56ccdb] w-24 h-16 rounded-lg flex justify-center items-center"
-            activeOpacity={0.5}
-            underlayColor="#6b7280"
-            onPress={() => {
-                addNewSite();
-                setShowAddSite(false);
-            }}
-            >
-                <Text className="text-white text-center font-bold text-lg">Use My Location</Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-            className="bg-[#56ccdb] w-24 h-16 rounded-lg flex justify-center items-center"
-            activeOpacity={0.5}
-            underlayColor="#6b7280"
-            onPress={() => {
-              setShowCustomMark(true);
-              setShowAddSite(false);
-            }}
-            >
-                <Text className="text-white text-center font-bold text-lg">Pick Point on Map</Text>
-            </TouchableHighlight>
-        </View>
-
+        <TouchableHighlight
+          className="bg-[#56ccdb] w-24 h-16 rounded-lg flex justify-center items-center"
+          activeOpacity={0.5}
+          underlayColor="#6b7280"
+          onPress={() => {
+            setShowCustomMark(true);
+            setShowAddSite(false);
+          }}
+        >
+          <Text className="text-white text-center font-bold text-lg">
+            Pick Point on Map
+          </Text>
+        </TouchableHighlight>
+      </View>
     </View>
   );
 };

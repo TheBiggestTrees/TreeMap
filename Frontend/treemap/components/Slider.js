@@ -17,31 +17,41 @@ const Slider = (props) => {
       >
         <View className="flex bg-gray-500 h-full rounded-xl p-4 items-center ">
           <View className="w-full">
-            <View className="border-t-2 m-4 border-gray-700 w-[40%] self-center"></View>
+            <View className="border-t-2 m-4 mb-8 border-gray-700 w-[40%] self-center"></View>
             <View className="flex flex-row justify-between items-center">
               <Text className="text-white">Site {sliderTitle}</Text>
-              
-              <View className="flex flex-row">
-              <TouchableHighlight
-                className=" w-10 h-10 flex justify-center items-center rounded-lg"
-                onPress={() => {addNewTree()}}
-                underlayColor={"transparent"}
-              >
-                <Icons name="add" size={40} color="#374151"></Icons>
-              </TouchableHighlight>
 
-              <TouchableHighlight
-                className=" w-10 h-10 flex justify-center items-center rounded-lg"
-                onPress={() => {sliderRef.current.hide()}}
-                underlayColor={"transparent"}
-              >
-                <Icons name="close" size={40} color="#374151"></Icons>
-              </TouchableHighlight>
+              <View className="flex flex-row">
+                <View className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg">
+                  <Text className="text-white ml-3">Add Tree</Text>
+                  <TouchableHighlight
+                    className=" w-10 h-10 flex justify-center items-center rounded-lg"
+                    onPress={() => {
+                      addNewTree();
+                    }}
+                    underlayColor={"transparent"}
+                  >
+                    <Icons name="add" size={40} color="#374151"></Icons>
+                  </TouchableHighlight>
+                </View>
+
+                <View className="w-11 h-11 p-1flex justify-center items-center rounded-full ml-4 bg-[#4e545f56]">
+                  <TouchableHighlight
+                    className="w-10 h-10"
+                    onPress={() => {
+                      sliderRef.current.hide();
+                    }}
+                    underlayColor={"transparent"}
+                  >
+                    <Icons name="close" size={40} color="#374151"></Icons>
+                  </TouchableHighlight>
+                </View>
               </View>
             </View>
-            
-              {selectedTrees && selectedTrees.map((tree, index) => {
-                console.log(tree)
+
+            {selectedTrees &&
+              selectedTrees.map((tree, index) => {
+                console.log(tree);
                 return (
                   <View key={index} className="flex m-4">
                     <Text className="text-white">
@@ -69,7 +79,7 @@ const Slider = (props) => {
                       <Text className="text-[#f57171]">Needs Work</Text>
                     )}
                   </View>
-                )
+                );
               })}
           </View>
         </View>

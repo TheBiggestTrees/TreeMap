@@ -10,7 +10,7 @@ const treeSchema = new mongoose.Schema({
   properties: {
     treeID: { type: Number, required: true },
     treeSpecies: { type: String, required: true },
-    siteID: { type: Number, required: true },
+    siteID: { type: String, required: true },
     needsWork: { type: Boolean, required: true },
     datePlanted: { type: String, required: true },
     lastWorkDate: { type: String, required: true },
@@ -27,7 +27,7 @@ const validate = (tree) => {
     properties: {
       treeID: joi.number().required(),
       treeSpecies: joi.string().required(),
-      siteID: joi.number().required(),
+      siteID: joi.string().required(),
       needsWork: joi.boolean().required(),
       datePlanted: joi.string().required(),
       lastWorkDate: joi.string().required(),
