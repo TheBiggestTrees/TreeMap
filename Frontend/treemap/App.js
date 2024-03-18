@@ -9,6 +9,7 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import axios from "axios";
 import * as Location from "expo-location";
 import AddSite from "./components/AddSite";
+import SiteCustPos from "./components/SiteCustPos";
 
 Mapbox.setAccessToken(
   "pk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2xzb2JiZXI4MGRiODJrb3c5NnlmZnRjYyJ9.Fv2ex2k4_1efbXdhZjMl1Q"
@@ -30,6 +31,37 @@ const App = () => {
   const [showAddSite, setShowAddSite] = useState(false);
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
+  const [treeTemp, setTreeTemp] = useState({
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [null],
+    },
+    properties: {
+      treeID: 0,
+      treeSpecies: "Oak",
+      needsWork: false,
+      datePlanted: "Today",
+      lastWorkDate: "N/A",
+      siteID: 0,
+    },
+  });
+
+  const [siteTemp, setSiteTemp] = useState({
+    type: "Feature",
+    geometry: {
+      type: "Point",
+      coordinates: [null],
+    },
+    properties: {
+      treeID: 0,
+      treeSpecies: "Oak",
+      needsWork: false,
+      datePlanted: "Today",
+      lastWorkDate: "N/A",
+      siteID: 0,
+    },
+  });
 
   useEffect(() => {
     (async () => {
@@ -58,10 +90,16 @@ const App = () => {
         },
       };
 
+      setShowCustomMark(false);
+
       axios
         .post(`${API_URL}/site/`, temp)
         .then((res) => {
-          console.log(res);
+          const data = res.data.data;
+          data.id = data._id;
+
+          setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
+          console.log(res.data.message);
         })
         .catch((err) => {
           console.log(err);
@@ -82,54 +120,27 @@ const App = () => {
       axios
         .post(`${API_URL}/site/`, temp)
         .then((res) => {
-          console.log(res.data.data);
+          const data = res.data.data;
+          data.id = data._id;
+
+          setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
+          console.log(res.data.message);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-
-    try {
-      const data = await axios({
-        method: "get",
-        url: API_URL + "/site/",
-      });
-
-      data.data.data.features.map((site, index) => {
-        site.id = data.data.data.features[index]._id;
-      });
-      console.log(data.data.message);
-      setSites(data.data.data);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   const addNewTree = async () => {
-    const temp = {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [null],
-      },
-      properties: {
-        treeID: 0,
-        treeSpecies: "Oak",
-        needsWork: false,
-        datePlanted: "Today",
-        lastWorkDate: "N/A",
-        siteID: 0,
-      },
-    };
-
     axios
-      .post(`${API_URL}/tree/`, temp)
+      .post(`${API_URL}/tree/`, treeTemp)
       .then((res) => {
         console.log(res.data.data);
         console.log(res.data.message);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Failed to Add Tree: ", err);
       });
   };
 
@@ -171,6 +182,7 @@ const App = () => {
             <Mapbox.PointAnnotation
               draggable={true}
               id="customMark"
+              onLayout={(e) => setCustomMark(e.geometry.coordinates)}
               onDrag={(e) => {
                 setCustomMark(e.geometry.coordinates);
               }}
@@ -204,32 +216,11 @@ const App = () => {
           </TouchableHighlight>
         )}
         {showCustomMark && (
-          <>
-            <TouchableHighlight
-              className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280] absolute bottom-[5%] left-[5%]"
-              activeOpacity={0.5}
-              underlayColor="#6b7280"
-              onPress={() => {
-                setShowAddSite(true);
-                setShowCustomMark(false);
-              }}
-            >
-              <Icons name="undo" size={40} color="#56ccdb"></Icons>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280] absolute bottom-[5%] right-[5%]"
-              activeOpacity={0.5}
-              underlayColor="#6b7280"
-              onPress={() => {
-                addNewSite();
-                setShowAddSite(true);
-                setShowCustomMark(false);
-              }}
-            >
-              <Icons name="task-alt" size={40} color="#56ccdb"></Icons>
-            </TouchableHighlight>
-          </>
+          <SiteCustPos
+            setShowAddSite={setShowAddSite}
+            setShowCustomMark={setShowCustomMark}
+            addNewSite={addNewSite}
+          />
         )}
         <Slider
           selectedSite={selectedSite}

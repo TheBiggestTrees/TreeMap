@@ -19,7 +19,7 @@ const Slider = (props) => {
         ref={sliderRef}
         showBackdrop={false}
         onBottomReached={() => {
-          camera.current.zoomTo(15);
+          camera.current.zoomTo(12);
           console.log(selectedSite);
         }}
       >
@@ -43,7 +43,7 @@ const Slider = (props) => {
                   </TouchableHighlight>
                 </View>
 
-                <View className="w-11 h-11 p-1flex justify-center items-center rounded-full ml-4 bg-[#4e545f56]">
+                <View className="w-11 h-11 flex justify-center items-center rounded-full ml-4 bg-[#4e545f56]">
                   <TouchableHighlight
                     className="w-10 h-10"
                     onPress={() => {
@@ -59,7 +59,6 @@ const Slider = (props) => {
 
             {selectedTrees &&
               selectedTrees.map((tree, index) => {
-                console.log(tree);
                 return (
                   <View key={index} className="flex m-4">
                     <Text className="text-white">
