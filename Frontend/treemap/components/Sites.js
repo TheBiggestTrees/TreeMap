@@ -8,13 +8,13 @@ const Sites = (props) => {
     apiURL,
     setSliderTitle,
     camera,
-    selectedSite,
     setSelectedSite,
-    selectedTrees,
     setSelectedTrees,
+    sites,
+    setSites
   } = props;
 
-  const [sites, setSites] = useState(null);
+
 
   const fetchSites = async () => {
     try {
@@ -35,7 +35,7 @@ const Sites = (props) => {
   };
 
   const fetchTreesInSite = async (site) => {
-    console.log(site)
+
     try {
       const data = await axios({
         method: "get",
@@ -59,7 +59,7 @@ const Sites = (props) => {
         id="sites1"
         shape={sites}
         onPress={(e) => {
-          setSelectedTrees(null)
+          setSelectedTrees(null);
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           sliderRef.current.show({
