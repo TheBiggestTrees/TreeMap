@@ -4,7 +4,14 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const Slider = (props) => {
-  const { sliderRef, sliderTitle, camera, addNewTree, selectedTrees } = props;
+  const {
+    sliderRef,
+    sliderTitle,
+    selectedSite,
+    camera,
+    addNewTree,
+    selectedTrees,
+  } = props;
 
   return (
     <>
@@ -13,6 +20,7 @@ const Slider = (props) => {
         showBackdrop={false}
         onBottomReached={() => {
           camera.current.zoomTo(15);
+          console.log(selectedSite);
         }}
       >
         <View className="flex bg-gray-500 h-full rounded-xl p-4 items-center ">

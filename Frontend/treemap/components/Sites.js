@@ -11,10 +11,8 @@ const Sites = (props) => {
     setSelectedSite,
     setSelectedTrees,
     sites,
-    setSites
+    setSites,
   } = props;
-
-
 
   const fetchSites = async () => {
     try {
@@ -35,7 +33,6 @@ const Sites = (props) => {
   };
 
   const fetchTreesInSite = async (site) => {
-
     try {
       const data = await axios({
         method: "get",
@@ -43,7 +40,6 @@ const Sites = (props) => {
         timeout: 8000,
       });
       setSelectedTrees(data.data.data.trees);
-      setSelectedSite(data.data.data.features);
     } catch (err) {
       console.log(err);
     }
@@ -61,6 +57,7 @@ const Sites = (props) => {
         onPress={(e) => {
           setSelectedTrees(null);
           fetchTreesInSite(e.features[0].id);
+          setSelectedSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           sliderRef.current.show({
             toValue: 125,

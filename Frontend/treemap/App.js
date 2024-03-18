@@ -232,6 +232,7 @@ const App = () => {
           </>
         )}
         <Slider
+          selectedSite={selectedSite}
           selectedTrees={selectedTrees}
           sliderTitle={sliderTitle}
           sliderRef={sliderRef}

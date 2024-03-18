@@ -4,16 +4,7 @@ import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const AddSite = (props) => {
-  const {
-    location,
-    customMark,
-    showCustomMark,
-    setShowAddSite,
-    setSites,
-    API_URL,
-    setShowCustomMark,
-    addNewSite,
-  } = props;
+  const { setShowAddSite, setShowCustomMark, addNewSite } = props;
 
   return (
     <View className={"flex h-full w-full bg-[#6b7280] items-center"}>
