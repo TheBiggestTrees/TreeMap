@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from '@env'
-import { StyleSheet, Text, View, StatusBar, TouchableHighlight } from "react-native";
+import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from "@env";
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TouchableHighlight,
+} from "react-native";
 import Sites from "./components/Sites";
 import Trees from "./components/Trees";
 import Mapbox from "@rnmapbox/maps";
 import Slider from "./components/Slider";
 import Splash from "./components/Splash";
-import Icons from "@expo/vector-icons/MaterialIcons";
 import axios from "axios";
 import * as Location from "expo-location";
 import AddSite from "./components/AddSite";
 import SiteCustPos from "./components/SiteCustPos";
+import NavBar from "./components/NavBar";
 
 Mapbox.setAccessToken(REACT_APP_MAPBOX_ACCESS_TOKEN);
 const API_URL = REACT_APP_API_URL;
@@ -20,7 +26,10 @@ const App = () => {
   const mapRef = useRef();
   const camera = useRef();
 
-  const [trees, setTrees] = useState({ type: "FeatureCollection", features: []});
+  const [trees, setTrees] = useState({
+    type: "FeatureCollection",
+    features: [],
+  });
   const [sites, setSites] = useState(null);
   const [location, setLocation] = useState(null);
   const [errMsg, setErrMsg] = useState(null);
@@ -31,7 +40,7 @@ const App = () => {
   const [showAddSite, setShowAddSite] = useState(false);
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
-  
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -60,13 +69,13 @@ const App = () => {
   };
 
   const postTree = async (temp) => {
-    try { 
+    try {
       const res = await axios.post(`${API_URL}/tree/${selectedSite}`, temp);
       const data = res.data.data;
-      setSelectedTrees((prev) => [...prev, data])
+      setSelectedTrees((prev) => [...prev, data]);
       setTrees((prev) => ({ ...prev, features: [...prev.features, data] }));
       console.log(res.data.message);
-    } catch (err) { 
+    } catch (err) {
       console.error(err);
       setErrMsg(err);
     }
@@ -104,7 +113,7 @@ const App = () => {
   };
 
   const addNewTree = () => {
-    let temp
+    let temp;
     temp = {
       type: "Feature",
       geometry: {
@@ -119,8 +128,8 @@ const App = () => {
         lastWorkDate: "N/A",
         siteID: `${selectedSite}`,
       },
-    }
-    
+    };
+
     postTree(temp);
 
     //use treeTemp to add a new tree to the selected site in the database using the API /tree/:siteID
@@ -129,7 +138,6 @@ const App = () => {
     //   .post(`${API_URL}/tree/${selectedSite}`, treeTemp)
     //   .then((res) => {
 
-        
     //     console.log(res.data.data);
     //     console.log(res.data.message);
     //   })
@@ -137,12 +145,11 @@ const App = () => {
     //     console.log("Failed to Add Tree: ", err);
     //     setErrMsg(err);
     //   });
-
   };
 
   return (
     <View style={styles.page}>
-      <StatusBar />
+      <StatusBar backgroundColor={"#6b7280"} />
       <View style={styles.container}>
         {showSplash && <Splash />}
         <Mapbox.MapView
@@ -200,26 +207,12 @@ const App = () => {
             location={location}
           />
         )}
-        {!showAddSite && !showCustomMark && (
-          <TouchableHighlight
-            className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280] absolute top-[5%] right-[5%]"
-            activeOpacity={0.5}
-            underlayColor="#6b7280"
-            onPress={() => {
-              setShowAddSite(true);
-            }}
-          >
-            <Icons name="add-circle" size={40} color="#56ccdb"></Icons>
-          </TouchableHighlight>
-        )}
-        {showCustomMark && (
-          <SiteCustPos
-            setShowAddSite={setShowAddSite}
-            setShowCustomMark={setShowCustomMark}
-            addNewSite={addNewSite}
-          />
-        )}
+        
         <Slider
+        setShowAddSite={setShowAddSite}
+        setShowCustomMark={setShowCustomMark}
+        addNewSite={addNewSite}
+        showCustomMark={showCustomMark}
           setSelectedSite={setSelectedSite}
           selectedSite={selectedSite}
           selectedTrees={selectedTrees}
@@ -228,6 +221,9 @@ const App = () => {
           addNewTree={addNewTree}
           camera={camera}
         />
+
+        {!showCustomMark && !showAddSite && <NavBar showAddSite={showAddSite} setShowAddSite={setShowAddSite} showCustomMark={showCustomMark} />}
+        
       </View>
     </View>
   );

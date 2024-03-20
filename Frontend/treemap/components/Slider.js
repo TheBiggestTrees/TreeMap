@@ -7,31 +7,36 @@ import {
   View,
 } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
-import Icons from "@expo/vector-icons/MaterialIcons";
+import SelectedSite from "./SelectedSite";
+import SiteCustPos from "./SiteCustPos";
 
 const Slider = (props) => {
   const {
     sliderRef,
     sliderTitle,
     setSelectedSite,
+    selectedSite,
     camera,
     addNewTree,
     selectedTrees,
+    setShowAddSite,
+    setShowCustomMark,
+    addNewSite,
+    showCustomMark
   } = props;
 
   const styles = {
     container: {
       flex: 1,
-      zIndex: 1,
       backgroundColor: "black",
       alignItems: "center",
       justifyContent: "center",
     },
     dragHandler: {
       alignSelf: "stretch",
-      height: 80,
+      height: 50,
       alignItems: "center",
-      justifyContent: "center",
+
       backgroundColor: "#6B7280",
       display: "flex",
     },
@@ -41,6 +46,7 @@ const Slider = (props) => {
     <View style={styles.page}>
       <SlidingUpPanel
         ref={sliderRef}
+        draggableRange={{ top: 800, bottom: 120 }}
         onBottomReached={() => {
           setSelectedSite((prev) => {
             prev = null;
@@ -49,67 +55,27 @@ const Slider = (props) => {
         }}
       >
         {(dragHandler) => (
-          <View className="flex bg-gray-500 h-full rounded-xl p-4 items-center ">
+          <View className="flex bg-gray-500 h-full rounded-tr-2xl rounded-tl-2xl px-4 items-center">
             <View style={styles.dragHandler} {...dragHandler}>
-            <View className="border-t-2 m-4 mb-8 border-gray-700 w-[40%] self-center"></View>
-              
-              <View className="flex flex-row w-full justify-between items-center">
-                <Text className="text-white font-bold text-lg">Site {sliderTitle}</Text>
-                {selectedTrees ? <Text className="text-white font-bold text-lg">Trees: {selectedTrees.length}</Text> : <Text className="text-white font-bold text-lg">Trees: 0</Text>}
-                
-                <View className="flex flex-row gap-4 items-center">
-                 
-                 <TouchableHighlight
-                    className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg"
-                    onPress={() => {
-                      addNewTree();
-                    }}
-                    underlayColor={"transparent"}
-                  >
-                    
-                    <View className="flex flex-row justify-center items-center rounded-lg">
-                      <Text className="text-white ml-3">Add Tree</Text>
-                      <Icons name="add" size={40} color="#374151"></Icons>
-                    </View>
-
-                  </TouchableHighlight>
-
-                  <TouchableHighlight
-                    onPress={() => {
-                      sliderRef.current?.hide();
-                    }}
-                    underlayColor={"transparent"}
-                    className="bg-[#4e545f56] rounded-full"
-                  >
-                    <Icons name="close" size={40} color="#374151"></Icons>
-                  </TouchableHighlight>
-                </View>
-
-              </View>
-
+              <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
-            <ScrollView className="w-full my-8">
-              {selectedTrees !== null &&
-                selectedTrees.map((tree, index) => (
-                  <View key={index} className="flex m-4">
-                    <Text className="text-white">
-                      Tree Number: {tree.properties.treeID}
-                    </Text>
-                    <Text className="text-white">
-                      Date Planted: {tree.properties.datePlanted}
-                    </Text>
-                    <Text className="text-white">
-                      Species: {tree.properties.treeSpecies}
-                    </Text>
-                    <Text className="text-white">
-                      Last Work Date: {tree.properties.lastWorkDate}
-                    </Text>
-                    <Text className="text-white">
-                      Coordinates: [{tree.geometry.coordinates[0].toFixed(5)}, {tree.geometry.coordinates[1].toFixed(5)}]
-                    </Text>
-                  </View>
-                ))}
-            </ScrollView>
+
+            {selectedSite && (
+              <SelectedSite
+                sliderRef={sliderRef}
+                sliderTitle={sliderTitle}
+                addNewTree={addNewTree}
+                camera={camera}
+                selectedTrees={selectedTrees}
+              />
+            )}
+
+          {showCustomMark && <SiteCustPos
+            setShowAddSite={setShowAddSite}
+            setShowCustomMark={setShowCustomMark}
+            addNewSite={addNewSite}
+            
+          />}
           </View>
         )}
       </SlidingUpPanel>

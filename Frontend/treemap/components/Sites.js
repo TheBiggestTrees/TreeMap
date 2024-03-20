@@ -59,8 +59,7 @@ const Sites = (props) => {
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           sliderRef.current.show({
-            toValue: 125,
-            velocity: 500,
+            toValue: 200,
           });
 
           camera.current?.setCamera({
