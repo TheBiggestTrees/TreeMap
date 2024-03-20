@@ -2,19 +2,13 @@ import React, { useEffect, useState } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
 
-// const API_URL = "https://aquamarine-kitten-cape.cyclic.app/api/tree/";
-
 const Trees = (props) => {
-  const { apiURL } = props;
-  const [trees, setTrees] = useState(null);
+  const { apiURL, trees, setTrees } = props;
+
 
   const fetchTrees = async () => {
     try {
-      const data = await axios({
-        method: "get",
-        url: apiURL + "/tree/",
-        timeout: 8000,
-      });
+      const data = await axios.get(`${apiURL}/tree/`);
       console.log(data.data.message);
       setTrees(data.data.data);
     } catch (err) {

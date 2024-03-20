@@ -56,7 +56,6 @@ const Sites = (props) => {
         shape={sites}
         onPress={(e) => {
           setSelectedSite(e.features[0].id);
-          setSelectedTrees(null);
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           sliderRef.current.show({

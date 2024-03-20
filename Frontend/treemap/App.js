@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, StatusBar, TouchableHighlight } from "react-native";
+import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from '@env'
+import { StyleSheet, Text, View, StatusBar, TouchableHighlight } from "react-native";
 import Sites from "./components/Sites";
 import Trees from "./components/Trees";
 import Mapbox from "@rnmapbox/maps";
@@ -11,16 +12,15 @@ import * as Location from "expo-location";
 import AddSite from "./components/AddSite";
 import SiteCustPos from "./components/SiteCustPos";
 
-Mapbox.setAccessToken(
-  "pk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2xzb2JiZXI4MGRiODJrb3c5NnlmZnRjYyJ9.Fv2ex2k4_1efbXdhZjMl1Q"
-);
-const API_URL = "https://teal-goose-sock.cyclic.app";
+Mapbox.setAccessToken(REACT_APP_MAPBOX_ACCESS_TOKEN);
+const API_URL = REACT_APP_API_URL;
 
 const App = () => {
   const sliderRef = useRef();
   const mapRef = useRef();
   const camera = useRef();
 
+  const [trees, setTrees] = useState({ type: "FeatureCollection", features: []});
   const [sites, setSites] = useState(null);
   const [location, setLocation] = useState(null);
   const [errMsg, setErrMsg] = useState(null);
@@ -31,43 +31,12 @@ const App = () => {
   const [showAddSite, setShowAddSite] = useState(false);
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
-  const [treeTemp, setTreeTemp] = useState({
-    type: "Feature",
-    geometry: {
-      type: "Point",
-      coordinates: [null],
-    },
-    properties: {
-      treeID: 0,
-      treeSpecies: "Oak",
-      needsWork: false,
-      datePlanted: "Today",
-      lastWorkDate: "N/A",
-      siteID: 0,
-    },
-  });
-
-  const [siteTemp, setSiteTemp] = useState({
-    type: "Feature",
-    geometry: {
-      type: "Point",
-      coordinates: [null],
-    },
-    properties: {
-      treeID: 0,
-      treeSpecies: "Oak",
-      needsWork: false,
-      datePlanted: "Today",
-      lastWorkDate: "N/A",
-      siteID: 0,
-    },
-  });
-
+  
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrMsg("Permissions denied");
+        setErrMsg("Location permissions were denied");
         return;
       }
 
@@ -76,9 +45,37 @@ const App = () => {
     })();
   }, []);
 
+  const postSite = async (temp) => {
+    try {
+      const res = await axios.post(`${API_URL}/site/`, temp);
+      const data = res.data.data;
+      data.id = data._id;
+      setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
+      console.log(res.data.message);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+      setErrMsg(err);
+    }
+  };
+
+  const postTree = async (temp) => {
+    try { 
+      const res = await axios.post(`${API_URL}/tree/${selectedSite}`, temp);
+      const data = res.data.data;
+      setSelectedTrees((prev) => [...prev, data])
+      setTrees((prev) => ({ ...prev, features: [...prev.features, data] }));
+      console.log(res.data.message);
+    } catch (err) { 
+      console.error(err);
+      setErrMsg(err);
+    }
+  };
+
   const addNewSite = async () => {
+    let temp;
     if (customMark && showCustomMark) {
-      const temp = {
+      temp = {
         type: "Feature",
         geometry: {
           type: "Point",
@@ -89,59 +86,58 @@ const App = () => {
           trees: "",
         },
       };
-
       setShowCustomMark(false);
-
-      axios
-        .post(`${API_URL}/site/`, temp)
-        .then((res) => {
-          const data = res.data.data;
-          data.id = data._id;
-
-          setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
-          console.log(res.data.message);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     } else {
-      const temp = {
+      temp = {
         type: "Feature",
         geometry: {
           type: "Point",
           coordinates: [location.coords.longitude, location.coords.latitude],
         },
         properties: {
-          siteID: 0,
+          siteID: "0",
           trees: "",
         },
       };
-
-      axios
-        .post(`${API_URL}/site/`, temp)
-        .then((res) => {
-          const data = res.data.data;
-          data.id = data._id;
-
-          setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
-          console.log(res.data.message);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
+    postSite(temp);
   };
 
-  const addNewTree = async () => {
-    axios
-      .post(`${API_URL}/tree/`, treeTemp)
-      .then((res) => {
-        console.log(res.data.data);
-        console.log(res.data.message);
-      })
-      .catch((err) => {
-        console.log("Failed to Add Tree: ", err);
-      });
+  const addNewTree = () => {
+    let temp
+    temp = {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [location.coords.longitude, location.coords.latitude],
+      },
+      properties: {
+        treeID: 0,
+        treeSpecies: "Oak",
+        needsWork: false,
+        datePlanted: "Today",
+        lastWorkDate: "N/A",
+        siteID: `${selectedSite}`,
+      },
+    }
+    
+    postTree(temp);
+
+    //use treeTemp to add a new tree to the selected site in the database using the API /tree/:siteID
+
+    // axios
+    //   .post(`${API_URL}/tree/${selectedSite}`, treeTemp)
+    //   .then((res) => {
+
+        
+    //     console.log(res.data.data);
+    //     console.log(res.data.message);
+    //   })
+    //   .catch((err) => {
+    //     console.log("Failed to Add Tree: ", err);
+    //     setErrMsg(err);
+    //   });
+
   };
 
   return (
@@ -159,13 +155,13 @@ const App = () => {
           }}
         >
           <Mapbox.Camera
-            zoomLevel={15}
+            zoomLevel={10}
             centerCoordinate={[-95.959888483577, 36.131068862193]}
             animationMode={"none"}
             ref={camera}
           />
 
-          <Trees apiURL={API_URL} />
+          <Trees apiURL={API_URL} trees={trees} setTrees={setTrees} />
           <Sites
             sites={sites}
             setSites={setSites}
@@ -178,6 +174,7 @@ const App = () => {
             setSelectedTrees={setSelectedTrees}
             camera={camera}
           />
+          {/* Custom Position Marker */}
           {showCustomMark && (
             <Mapbox.PointAnnotation
               draggable={true}
@@ -186,7 +183,7 @@ const App = () => {
               onDrag={(e) => {
                 setCustomMark(e.geometry.coordinates);
               }}
-              coordinate={[location.coords.longitude, location.coords.latitude]}
+              coordinate={[-95.959888483577, 36.131068862193]}
             />
           )}
         </Mapbox.MapView>
@@ -223,6 +220,7 @@ const App = () => {
           />
         )}
         <Slider
+          setSelectedSite={setSelectedSite}
           selectedSite={selectedSite}
           selectedTrees={selectedTrees}
           sliderTitle={sliderTitle}
