@@ -6,6 +6,7 @@ const SiteCustPos = (props) => {
 
   return (
     <>
+    <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2"><Text className="font-bold text-white text-xl">Add Site</Text></View>
       <View className="flex flex-row w-full justify-between items-center">
         <TouchableHighlight
           className="rounded-lg bg-[#464a52] h-14 flex justify-center"

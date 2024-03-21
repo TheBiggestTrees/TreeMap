@@ -35,7 +35,7 @@ const AddSite = (props) => {
           onPress={() => {
             setShowCustomMark(true);
             setShowAddSite(false);
-            sliderRef.current.show((toValue = 210));
+            sliderRef.current.show((toValue = 265));
           }}
         >
           <View className="flex flex-row justify-evenly w-40 items-center">
