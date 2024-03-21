@@ -1,54 +1,67 @@
-import axios from "axios";
 import React from "react";
 import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const AddTree = (props) => {
-  const { setShowAddSite, setShowCustomMark, addNewSite } = props;
+  const { setShowAddTree, setShowCustomTree, addNewTree, sliderRef } = props;
 
   return (
-    <View className={"flex h-full w-full bg-[#6b7280] items-center"}>
+    <>
+    <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2"><Text className="font-bold text-white text-xl">Add Tree</Text></View>
+    <View className="flex flex-row w-full justify-between">
       <TouchableHighlight
-        className="rounded-lg self-end m-4 w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
+        className="rounded-lg bg-[#464a52] h-14 flex justify-center "
         activeOpacity={0.5}
         underlayColor="#6b7280"
         onPress={() => {
-          setShowAddSite(false);
+          addNewTree();
+          setShowAddTree(false);
+          sliderRef.current.hide();
         }}
       >
-        <Icons name="close" size={40} color="#374151"></Icons>
+        <View className="flex flex-row justify-evenly w-40 items-center">
+          <Text className="text-white font-bold text-lg">
+            My Location
+          </Text>
+          <Icons name="my-location" size={28} color="#56ccdb"></Icons>
+        </View>
       </TouchableHighlight>
 
-      <View className="flex flex-row gap-8">
-        <TouchableHighlight
-          className="bg-[#56ccdb] w-24 h-16 rounded-lg flex justify-center items-center"
-          activeOpacity={0.5}
-          underlayColor="#6b7280"
-          onPress={() => {
-            addNewSite();
-            setShowAddSite(false);
-          }}
-        >
-          <Text className="text-white text-center font-bold text-lg">
-            Use My Location
+      <TouchableHighlight
+        className="rounded-lg bg-[#464a52] h-14 flex justify-center"
+        activeOpacity={0.5}
+        underlayColor="#6b7280"
+        onPress={() => {
+          setShowCustomTree(true);
+          setShowAddTree(false);
+          sliderRef.current.show((toValue = 265));
+        }}
+      >
+        <View className="flex flex-row justify-evenly w-40 items-center">
+          <Text className="text-white font-bold text-lg">
+            Pick Point
           </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          className="bg-[#56ccdb] w-24 h-16 rounded-lg flex justify-center items-center"
-          activeOpacity={0.5}
-          underlayColor="#6b7280"
-          onPress={() => {
-            setShowCustomMark(true);
-            setShowAddSite(false);
-          }}
-        >
-          <Text className="text-white text-center font-bold text-lg">
-            Pick Point on Map
-          </Text>
-        </TouchableHighlight>
-      </View>
+          <Icons name="pin-drop" size={28} color="#56ccdb"></Icons>
+        </View>
+      </TouchableHighlight>
     </View>
+    <View className="my-4">
+      <TouchableHighlight
+        className="rounded-lg bg-[#464a52] h-14 flex justify-center"
+        activeOpacity={0.5}
+        underlayColor="#6b7280"
+        onPress={() => {
+          setShowAddTree(false);
+          
+        }}
+      >
+        <View className="flex flex-row justify-evenly w-40 items-center">
+          <Icons name="undo" size={28} color="#56ccdb"></Icons>
+          <Text className="text-white font-bold text-lg">Go Back</Text>
+        </View>
+      </TouchableHighlight>
+    </View>
+  </>
   );
 };
 

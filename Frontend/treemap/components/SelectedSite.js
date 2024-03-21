@@ -3,7 +3,7 @@ import { ScrollView, Text, TouchableHighlight, View } from 'react-native';
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const SelectedSite = (props) => {
-    const { sliderRef, sliderTitle, addNewTree, selectedTrees } = props;
+    const { sliderRef, sliderTitle, selectedTrees, setShowAddTree, setSelectedSite, setShowCustomTree } = props;
 
   return (
     <><View className="flex flex-row w-full justify-between items-center">
@@ -15,7 +15,9 @@ const SelectedSite = (props) => {
                  <TouchableHighlight
                     className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg"
                     onPress={() => {
-                      addNewTree();
+                      setShowAddTree(true);
+                      setShowCustomTree(false);
+                      sliderRef.current.show(toValue= 265);
                     }}
                     underlayColor={"transparent"}
                   >

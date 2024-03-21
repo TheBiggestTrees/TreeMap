@@ -10,6 +10,8 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "./SelectedSite";
 import SiteCustPos from "./SiteCustPos";
 import AddSite from "./AddSite";
+import AddTree from "./AddTree";
+import TreeCustPos from "./TreeCustPos";
 
 const Slider = (props) => {
   const {
@@ -29,6 +31,10 @@ const Slider = (props) => {
     setSites,
     API_URL,
     location,
+    setShowAddTree,
+    setShowCustomTree,
+    showCustomTree,
+    showAddTree,
   } = props;
 
   const styles = {
@@ -67,6 +73,15 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
+            {showCustomTree && (
+              <TreeCustPos
+                sliderRef={sliderRef}
+                setShowAddSite={setShowAddTree}
+                setShowCustomMark={setShowCustomTree}
+                addNewSite={addNewTree}
+              />
+            )}
+
             {showAddSite && (
               <AddSite
                 addNewSite={addNewSite}
@@ -81,6 +96,15 @@ const Slider = (props) => {
               />
             )}
 
+            {showAddTree && (
+              <AddTree
+                addNewTree={addNewTree}
+                setShowAddTree={setShowAddTree}
+                setShowCustomTree={setShowCustomTree}
+                sliderRef={sliderRef}
+              />
+            )}
+
             {selectedSite && (
               <SelectedSite
                 sliderRef={sliderRef}
@@ -88,8 +112,15 @@ const Slider = (props) => {
                 addNewTree={addNewTree}
                 camera={camera}
                 selectedTrees={selectedTrees}
+                setShowAddTree={setShowAddTree}
+                setShowCustomMark={setShowCustomMark}
+                setSelectedSite={setSelectedSite}
+                setShowCustomTree={setShowCustomTree}
+                showCustomTree={showCustomTree}
               />
             )}
+
+            
 
             {showCustomMark && (
               <SiteCustPos

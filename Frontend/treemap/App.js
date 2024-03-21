@@ -31,24 +31,25 @@ const App = () => {
   const [selectedTrees, setSelectedTrees] = useState(null);
   const [selectedSite, setSelectedSite] = useState(null);
   const [showAddSite, setShowAddSite] = useState(false);
+  const [showAddTree, setShowAddTree] = useState(false);
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
+  const [showCustomTree, setShowCustomTree] = useState(false);
 
   useEffect(() => {
     (async () => {
+      try {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (!status) {
-        setErrMsg("Location permissions were denied");
-        console.log("Location permissions were denied");
+      if (status !== "granted") {
+        setErrMsg("Location permissions were " + status);
+        console.log("Location permissions were " + status);
         return;
       }
-
-      try {
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
       } catch (error) {
         setErrMsg("Could not get location from device");
-        console.log("Could not get location from device");
+        console.log(error);
       }
     })();
   }, []);
@@ -167,7 +168,7 @@ const App = () => {
 
     let temp;
 
-    if (customMark && showCustomMark) {
+    if (customMark && showCustomTree) {
       temp = {
         type: "Feature",
         geometry: {
@@ -184,7 +185,7 @@ const App = () => {
           siteID: `${selectedSite}`,
         },
       };
-      setShowCustomMark(false);
+      setShowCustomTree(false);
     } else {
       temp = {
         type: "Feature",
@@ -248,7 +249,7 @@ const App = () => {
             setShowAddSite={setShowAddSite}
           />
           {/* Custom Position Marker */}
-          {showCustomMark && (
+          {showCustomMark &&  (
             <Mapbox.PointAnnotation
               draggable={true}
               id="customMark"
@@ -256,7 +257,18 @@ const App = () => {
               onDrag={(e) => {
                 setCustomMark(e.geometry.coordinates);
               }}
-              coordinate={[-95.959888483577, 36.131068862193]}
+              coordinate={location ? [location.coords.longitude, location.coords.latitude] : [-96, 35] }
+            />
+          )}
+           {showCustomTree &&  (
+            <Mapbox.PointAnnotation
+              draggable={true}
+              id="customMark"
+              onLayout={(e) => setCustomMark(e.geometry.coordinates)}
+              onDrag={(e) => {
+                setCustomMark(e.geometry.coordinates);
+              }}
+              coordinate={location ? [location.coords.longitude, location.coords.latitude] : [-96, 35] }
             />
           )}
         </Mapbox.MapView>
@@ -276,6 +288,10 @@ const App = () => {
           selectedTrees={selectedTrees}
           sliderTitle={sliderTitle}
           sliderRef={sliderRef}
+          showAddTree={showAddTree}
+          setShowCustomTree={setShowCustomTree}
+          showCustomTree={showCustomTree}
+          setShowAddTree={setShowAddTree} 
           addNewTree={addNewTree}
           camera={camera}
         />
@@ -292,6 +308,8 @@ const App = () => {
           setShowAddSite={setShowAddSite}
           setSelectedSite={setSelectedSite}
           setShowCustomMark={setShowCustomMark}
+          setShowCustomTree={setShowCustomTree}
+          setShowAddTree={setShowAddTree}
         />
       </View>
     </View>
