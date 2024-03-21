@@ -9,6 +9,7 @@ import {
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "./SelectedSite";
 import SiteCustPos from "./SiteCustPos";
+import AddSite from "./AddSite";
 
 const Slider = (props) => {
   const {
@@ -22,7 +23,12 @@ const Slider = (props) => {
     setShowAddSite,
     setShowCustomMark,
     addNewSite,
-    showCustomMark
+    showCustomMark,
+    customMark,
+    showAddSite,
+    setSites,
+    API_URL,
+    location,
   } = props;
 
   const styles = {
@@ -51,6 +57,7 @@ const Slider = (props) => {
           setSelectedSite((prev) => {
             prev = null;
           });
+          setShowAddSite(false);
           camera.current.zoomTo(12);
         }}
       >
@@ -59,6 +66,20 @@ const Slider = (props) => {
             <View style={styles.dragHandler} {...dragHandler}>
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
+
+            {showAddSite && (
+              <AddSite
+                addNewSite={addNewSite}
+                customMark={customMark}
+                showCustomMark={showCustomMark}
+                setSites={setSites}
+                setShowCustomMark={setShowCustomMark}
+                API_URL={API_URL}
+                setShowAddSite={setShowAddSite}
+                location={location}
+                sliderRef={sliderRef}
+              />
+            )}
 
             {selectedSite && (
               <SelectedSite
@@ -70,12 +91,16 @@ const Slider = (props) => {
               />
             )}
 
-          {showCustomMark && <SiteCustPos
-            setShowAddSite={setShowAddSite}
-            setShowCustomMark={setShowCustomMark}
-            addNewSite={addNewSite}
-            
-          />}
+            {showCustomMark && (
+              <SiteCustPos
+                sliderRef={sliderRef}
+                setShowAddSite={setShowAddSite}
+                setShowCustomMark={setShowCustomMark}
+                addNewSite={addNewSite}
+              />
+            )}
+
+           
           </View>
         )}
       </SlidingUpPanel>

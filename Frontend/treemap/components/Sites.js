@@ -10,6 +10,7 @@ const Sites = (props) => {
     camera,
     setSelectedSite,
     setSelectedTrees,
+    setShowAddSite,
     sites,
     setSites,
   } = props;
@@ -58,6 +59,7 @@ const Sites = (props) => {
           setSelectedSite(e.features[0].id);
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
+          setShowAddSite(false);
           sliderRef.current.show({
             toValue: 200,
           });

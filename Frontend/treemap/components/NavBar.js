@@ -3,11 +3,11 @@ import { TouchableHighlight, View } from 'react-native';
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const NavBar = (props) => {
-    const { showAddSite, setShowAddSite, showCustomMark} = props;
+    const { setSelectedSite, setShowAddSite, setShowCustomMark, sliderRef} = props;
 
   return (
     <View className="flex flex-row items-center justify-evenly w-full h-24 rounded-tr-2xl rounded-tl-2xl absolute bottom-[-3px] bg-[#464a52] ">
-          {!showAddSite && !showCustomMark && (
+          
             <TouchableHighlight
               className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
               activeOpacity={0.5}
@@ -18,22 +18,25 @@ const NavBar = (props) => {
             >
               <Icons name="home" size={40} color="#56ccdb"></Icons>
             </TouchableHighlight>
-          )}
+         
 
-          {!showAddSite && !showCustomMark && (
+          
             <TouchableHighlight
               className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
               activeOpacity={0.5}
               underlayColor="#6b7280"
               onPress={() => {
                 setShowAddSite(true);
+                setSelectedSite(null);
+                setShowCustomMark(false);
+                sliderRef.current.show(toValue= 265);
               }}
             >
               <Icons name="add-circle" size={40} color="#56ccdb"></Icons>
             </TouchableHighlight>
-          )}
+          
 
-          {!showAddSite && !showCustomMark && (
+          
             <TouchableHighlight
               className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
               activeOpacity={0.5}
@@ -44,9 +47,9 @@ const NavBar = (props) => {
             >
               <Icons name="settings" size={40} color="#56ccdb"></Icons>
             </TouchableHighlight>
-          )}
+          
 
-          {!showAddSite && !showCustomMark && (
+          
             <TouchableHighlight
               className="rounded-lg w-[60px] h-[60px] flex items-center justify-center bg-[#6b7280]"
               activeOpacity={0.5}
@@ -57,7 +60,7 @@ const NavBar = (props) => {
             >
               <Icons name="person" size={40} color="#56ccdb"></Icons>
             </TouchableHighlight>
-          )}
+        
         </View>
   )
 }

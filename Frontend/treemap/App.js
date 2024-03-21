@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from "@env";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  TouchableHighlight,
-} from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import Sites from "./components/Sites";
 import Trees from "./components/Trees";
 import Mapbox from "@rnmapbox/maps";
@@ -15,7 +9,6 @@ import Splash from "./components/Splash";
 import axios from "axios";
 import * as Location from "expo-location";
 import AddSite from "./components/AddSite";
-import SiteCustPos from "./components/SiteCustPos";
 import NavBar from "./components/NavBar";
 
 Mapbox.setAccessToken(REACT_APP_MAPBOX_ACCESS_TOKEN);
@@ -131,20 +124,6 @@ const App = () => {
     };
 
     postTree(temp);
-
-    //use treeTemp to add a new tree to the selected site in the database using the API /tree/:siteID
-
-    // axios
-    //   .post(`${API_URL}/tree/${selectedSite}`, treeTemp)
-    //   .then((res) => {
-
-    //     console.log(res.data.data);
-    //     console.log(res.data.message);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Failed to Add Tree: ", err);
-    //     setErrMsg(err);
-    //   });
   };
 
   return (
@@ -180,6 +159,7 @@ const App = () => {
             selectedTrees={selectedTrees}
             setSelectedTrees={setSelectedTrees}
             camera={camera}
+            setShowAddSite={setShowAddSite}
           />
           {/* Custom Position Marker */}
           {showCustomMark && (
@@ -195,24 +175,16 @@ const App = () => {
           )}
         </Mapbox.MapView>
 
-        {showAddSite && (
-          <AddSite
-            addNewSite={addNewSite}
-            customMark={customMark}
-            showCustomMark={showCustomMark}
-            setSites={setSites}
-            setShowCustomMark={setShowCustomMark}
-            API_URL={API_URL}
-            setShowAddSite={setShowAddSite}
-            location={location}
-          />
-        )}
-        
         <Slider
-        setShowAddSite={setShowAddSite}
-        setShowCustomMark={setShowCustomMark}
-        addNewSite={addNewSite}
-        showCustomMark={showCustomMark}
+          customMark={customMark}
+          setSites={setSites}
+          API_URL={API_URL}
+          location={location}
+          showAddSite={showAddSite}
+          setShowAddSite={setShowAddSite}
+          setShowCustomMark={setShowCustomMark}
+          addNewSite={addNewSite}
+          showCustomMark={showCustomMark}
           setSelectedSite={setSelectedSite}
           selectedSite={selectedSite}
           selectedTrees={selectedTrees}
@@ -222,7 +194,13 @@ const App = () => {
           camera={camera}
         />
 
-        {!showCustomMark && !showAddSite && <NavBar showAddSite={showAddSite} setShowAddSite={setShowAddSite} showCustomMark={showCustomMark} />}
+         
+          <NavBar
+            sliderRef={sliderRef}
+            setShowAddSite={setShowAddSite}
+            setSelectedSite={setSelectedSite}
+            setShowCustomMark={setShowCustomMark}
+          />
         
       </View>
     </View>
