@@ -9,7 +9,8 @@ const Sites = (props) => {
     setSliderTitle,
     camera,
     setSelectedSite,
-    setSelectedTrees,
+    setShowCustomMark,
+    fetchTreesInSite,
     setShowAddSite,
     sites,
     setSites,
@@ -33,19 +34,6 @@ const Sites = (props) => {
     }
   };
 
-  const fetchTreesInSite = async (site) => {
-    try {
-      const data = await axios({
-        method: "get",
-        url: `${apiURL}/site/trees/${site}`,
-        timeout: 8000,
-      });
-      setSelectedTrees(data.data.data.trees);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     fetchSites();
   }, []);
@@ -60,13 +48,14 @@ const Sites = (props) => {
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           setShowAddSite(false);
+          setShowCustomMark(false);
           sliderRef.current.show({
             toValue: 200,
           });
 
           camera.current?.setCamera({
             centerCoordinate: e.features[0].geometry.coordinates,
-            zoomLevel: 17,
+            zoomLevel: 15,
             animationDuration: 500,
             animationMode: "flyTo",
           });

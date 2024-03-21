@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";

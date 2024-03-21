@@ -26,7 +26,7 @@ const Trees = (props) => {
       shape={trees}
       buffer={128}
       cluster
-      clusterMaxZoomLevel={15}
+      clusterMaxZoomLevel={17}
     >
       <Mapbox.CircleLayer
         id="Treepoint"

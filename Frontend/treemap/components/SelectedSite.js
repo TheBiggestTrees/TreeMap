@@ -49,10 +49,13 @@ const SelectedSite = (props) => {
                       Tree Number: {tree.properties.treeID}
                     </Text>
                     <Text className="text-white">
-                      Date Planted: {tree.properties.datePlanted}
+                      Date Created: {tree.properties.dateCreated}
                     </Text>
                     <Text className="text-white">
                       Species: {tree.properties.treeSpecies}
+                    </Text>
+                    <Text className="text-white">
+                      Date Planted: {tree.properties.datePlanted}
                     </Text>
                     <Text className="text-white">
                       Last Work Date: {tree.properties.lastWorkDate}

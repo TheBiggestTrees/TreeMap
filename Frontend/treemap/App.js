@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from "@env";
-import { StyleSheet, View, StatusBar } from "react-native";
+import { StyleSheet, View, StatusBar, Text } from "react-native";
 import Sites from "./components/Sites";
 import Trees from "./components/Trees";
 import Mapbox from "@rnmapbox/maps";
@@ -25,7 +25,7 @@ const App = () => {
   });
   const [sites, setSites] = useState(null);
   const [location, setLocation] = useState(null);
-  const [errMsg, setErrMsg] = useState(null);
+  const [errMsg, setErrMsg] = useState("");
   const [sliderTitle, setSliderTitle] = useState("");
   const [showSplash, setShowSplash] = useState(true);
   const [selectedTrees, setSelectedTrees] = useState(null);
@@ -37,15 +37,34 @@ const App = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      if (!status) {
         setErrMsg("Location permissions were denied");
+        console.log("Location permissions were denied");
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      } catch (error) {
+        setErrMsg("Could not get location from device");
+        console.log("Could not get location from device");
+      }
     })();
   }, []);
+
+  const fetchTreesInSite = async (site) => {
+    try {
+      const data = await axios({
+        method: "get",
+        url: `${API_URL}/site/trees/${site}`,
+        timeout: 8000,
+      });
+      setSelectedTrees(data.data.data.trees);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const postSite = async (temp) => {
     try {
@@ -55,6 +74,20 @@ const App = () => {
       setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
       console.log(res.data.message);
       console.log(data);
+      setSelectedSite(data.id);
+      fetchTreesInSite(data.id);
+      setSliderTitle(data.properties.siteID);
+      setShowAddSite(false);
+      sliderRef.current.show({
+        toValue: 200,
+      });
+
+      camera.current?.setCamera({
+        centerCoordinate: data.geometry.coordinates,
+        zoomLevel: 15,
+        animationDuration: 500,
+        animationMode: "flyTo",
+      });
     } catch (err) {
       console.error(err);
       setErrMsg(err);
@@ -75,6 +108,18 @@ const App = () => {
   };
 
   const addNewSite = async () => {
+    const today = new Date();
+    const date = today.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+    const time = today.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const formattedDate = `${date} ${time}`;
+
     let temp;
     if (customMark && showCustomMark) {
       temp = {
@@ -84,7 +129,8 @@ const App = () => {
           coordinates: [...customMark],
         },
         properties: {
-          siteID: 0,
+          siteID: "0",
+          dateCreated: formattedDate,
           trees: "",
         },
       };
@@ -98,6 +144,7 @@ const App = () => {
         },
         properties: {
           siteID: "0",
+          dateCreated: formattedDate,
           trees: "",
         },
       };
@@ -106,22 +153,56 @@ const App = () => {
   };
 
   const addNewTree = () => {
+    const today = new Date();
+    const date = today.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+    const time = today.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const formattedDate = `${date} ${time}`;
+
     let temp;
-    temp = {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [location.coords.longitude, location.coords.latitude],
-      },
-      properties: {
-        treeID: 0,
-        treeSpecies: "Oak",
-        needsWork: false,
-        datePlanted: "Today",
-        lastWorkDate: "N/A",
-        siteID: `${selectedSite}`,
-      },
-    };
+
+    if (customMark && showCustomMark) {
+      temp = {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [...customMark],
+        },
+        properties: {
+          treeID: 0,
+          treeSpecies: "Oak",
+          needsWork: false,
+          dateCreated: formattedDate,
+          datePlanted: "N/A",
+          lastWorkDate: "N/A",
+          siteID: `${selectedSite}`,
+        },
+      };
+      setShowCustomMark(false);
+    } else {
+      temp = {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [location.coords.longitude, location.coords.latitude],
+        },
+        properties: {
+          treeID: 0,
+          treeSpecies: "Oak",
+          needsWork: false,
+          dateCreated: formattedDate,
+          datePlanted: "N/A",
+          lastWorkDate: "N/A",
+          siteID: `${selectedSite}`,
+        },
+      };
+    }
 
     postTree(temp);
   };
@@ -131,6 +212,7 @@ const App = () => {
       <StatusBar backgroundColor={"#6b7280"} />
       <View style={styles.container}>
         {showSplash && <Splash />}
+
         <Mapbox.MapView
           ref={mapRef}
           scaleBarEnabled={false}
@@ -147,8 +229,12 @@ const App = () => {
             ref={camera}
           />
 
+          {/** Add Site */}
+
           <Trees apiURL={API_URL} trees={trees} setTrees={setTrees} />
           <Sites
+            setShowCustomMark={setShowCustomMark}
+            fetchTreesInSite={fetchTreesInSite}
             sites={sites}
             setSites={setSites}
             apiURL={API_URL}
@@ -194,14 +280,19 @@ const App = () => {
           camera={camera}
         />
 
-         
-          <NavBar
-            sliderRef={sliderRef}
-            setShowAddSite={setShowAddSite}
-            setSelectedSite={setSelectedSite}
-            setShowCustomMark={setShowCustomMark}
-          />
-        
+        {errMsg && (
+          <View className="flex w-full absolute right-1 m-auto top-16 items-center justify-center text-center">
+            <View className="bg-red-400 p-4 rounded-3xl">
+              <Text className="text-white font-bold text-md">{errMsg}</Text>
+            </View>
+          </View>
+        )}
+        <NavBar
+          sliderRef={sliderRef}
+          setShowAddSite={setShowAddSite}
+          setSelectedSite={setSelectedSite}
+          setShowCustomMark={setShowCustomMark}
+        />
       </View>
     </View>
   );
