@@ -12,6 +12,7 @@ import SiteCustPos from "./SiteCustPos";
 import AddSite from "./AddSite";
 import AddTree from "./AddTree";
 import TreeCustPos from "./TreeCustPos";
+import SiteList from "./SiteList";
 
 const Slider = (props) => {
   const {
@@ -63,20 +64,14 @@ const Slider = (props) => {
       <SlidingUpPanel
         ref={sliderRef}
         draggableRange={{ top: 800, bottom: 120 }}
-        onBottomReached={() => {
-          // setShowSelectedSite(false);
-          // setShowAddSite(false);
-          // setShowCustomMark(false);
-          // setShowAddTree(false);
-          // setShowCustomTree(false);
-          camera.current.zoomTo(16.5);
-        }}
       >
         {(dragHandler) => (
           <View className="flex bg-gray-500 h-full rounded-tr-2xl rounded-tl-2xl px-4 items-center">
             <View style={styles.dragHandler} {...dragHandler}>
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
+
+            <SiteList />
 
             {showCustomTree && (
               <TreeCustPos
