@@ -179,12 +179,7 @@ const App = () => {
         },
         properties: {
           ...tempTreeForm,
-          treeID: 0,
- 
-          needsWork: false,
           dateCreated: formattedDate,
-          datePlanted: "N/A",
-
           siteID: `${selectedSite}`,
         },
       };
@@ -197,12 +192,8 @@ const App = () => {
           coordinates: [location.coords.longitude, location.coords.latitude],
         },
         properties: {
-          treeID: 0,
-          treeSpecies: "Oak",
-          needsWork: false,
+          ...tempTreeForm,
           dateCreated: formattedDate,
-          datePlanted: "N/A",
-          lastWorkDate: "N/A",
           siteID: `${selectedSite}`,
         },
       };
