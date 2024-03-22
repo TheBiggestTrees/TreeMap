@@ -23,6 +23,7 @@ const App = () => {
     type: "FeatureCollection",
     features: [],
   });
+  const [tempTreeForm, setTempTreeForm] = useState({});
   const [sites, setSites] = useState(null);
   const [location, setLocation] = useState(null);
   const [errMsg, setErrMsg] = useState("");
@@ -177,12 +178,13 @@ const App = () => {
           coordinates: [...customMark],
         },
         properties: {
+          ...tempTreeForm,
           treeID: 0,
-          treeSpecies: "Oak",
+ 
           needsWork: false,
           dateCreated: formattedDate,
           datePlanted: "N/A",
-          lastWorkDate: "N/A",
+
           siteID: `${selectedSite}`,
         },
       };
@@ -285,10 +287,12 @@ const App = () => {
           setShowCustomMark={setShowCustomMark}
           addNewSite={addNewSite}
           showCustomMark={showCustomMark}
+          setTempTreeForm={setTempTreeForm}
           setSelectedSite={setSelectedSite}
           showSelectedSite={showSelectedSite}
           setShowSelectedSite={setShowSelectedSite}
           selectedSite={selectedSite}
+          setSelectedTrees={setSelectedTrees}
           selectedTrees={selectedTrees}
           sliderTitle={sliderTitle}
           sliderRef={sliderRef}

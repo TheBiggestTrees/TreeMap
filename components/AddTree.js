@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const AddTree = (props) => {
-  const { setShowAddTree, setShowCustomTree, addNewTree, setShowSelectedSite, sliderRef } = props;
+  const { setShowAddTree, setTempTreeForm, setShowCustomTree, addNewTree, sliderTitle, setShowSelectedSite, sliderRef } = props;
 
-  const [temp, setTemp] = React.useState({
+  const [temp, setTemp] = useState({
       treeID: 0,
       treeSpecies: "Oak",
       needsWork: false,
@@ -15,10 +15,16 @@ const AddTree = (props) => {
       siteID: '0',
   });
 
+  const changeData = (e, name) => {
+    setTemp(prev => ({...prev, [name]: 
+      e.nativeEvent.text}) );
+      console.log({...temp, [name]: e.nativeEvent.text})
+  }
+
   return (
     <>
       <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2">
-        <Text className="font-bold text-white text-xl">Add Tree</Text>
+        <Text className="font-bold text-white text-xl">Add Tree to Site: {sliderTitle}</Text>
       </View>
       <View className="flex flex-row w-full justify-between">
         <TouchableHighlight
@@ -44,6 +50,7 @@ const AddTree = (props) => {
           onPress={() => {
             setShowCustomTree(true);
             setShowAddTree(false);
+            setTempTreeForm(temp);
             sliderRef.current.show((toValue = 265));
           }}
         >
@@ -57,11 +64,18 @@ const AddTree = (props) => {
       <View className="flex w-full m-4 justify-center">
         <View className="flex flex-row items-center">
           <Text className="text-white text-lg font-bold">Species: </Text>
-          <TextInput className="bg-white w-3/5" onChange={e => {
-            setTemp(prev => ({...prev, treeSpecies: 
-              e.nativeEvent.text}) );
+          <TextInput className="text-white w-3/5" onChange={e => {
+            changeData(e, 'treeSpecies');
             }} value={temp.treeSpecies} ></TextInput>
         </View>
+
+        <View className="flex flex-row items-center">
+          <Text className="text-white text-lg font-bold">Last Worked On: </Text>
+          <TextInput className="text-white w-3/5" onChange={e => {
+            changeData(e, 'lastWorkDate');
+            }} value={temp.lastWorkDate} ></TextInput>
+        </View>
+
       </View>
 
       
@@ -72,6 +86,7 @@ const AddTree = (props) => {
           onPress={() => {
             setShowAddTree(false);
             setShowSelectedSite(true);
+
           }}
         >
           <View className="flex flex-row justify-evenly w-40 items-center">

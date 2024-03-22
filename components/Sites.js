@@ -57,7 +57,7 @@ const Sites = (props) => {
 
           camera.current?.setCamera({
             centerCoordinate: e.features[0].geometry.coordinates,
-            zoomLevel: 15,
+            zoomLevel: 19,
             animationDuration: 500,
             animationMode: "flyTo",
           });
