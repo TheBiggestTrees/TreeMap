@@ -64,7 +64,10 @@ const Slider = (props) => {
             prev = null;
           });
           setShowAddSite(false);
-          camera.current.zoomTo(12);
+          setShowCustomMark(false);
+          setShowAddTree(false);
+          setShowCustomTree(false);
+          camera.current.zoomTo(16.5);
         }}
       >
         {(dragHandler) => (

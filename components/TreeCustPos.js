@@ -35,11 +35,15 @@ const SiteCustPos = (props) => {
         >
           <View className="flex flex-row justify-evenly w-40 items-center">
             <Text className="text-white font-bold text-lg">
-              Place Tree
+              Add Tree
             </Text>
             <Icons name="task-alt" size={40} color="#56ccdb"></Icons>
           </View>
         </TouchableHighlight>
+      </View>
+
+      <View className="flex flex-row w-full">
+          <Text>Hello World</Text>
       </View>
     </>
   );
