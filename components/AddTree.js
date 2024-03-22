@@ -3,7 +3,7 @@ import { Text, TextInput, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const AddTree = (props) => {
-  const { setShowAddTree, setShowCustomTree, addNewTree, sliderRef } = props;
+  const { setShowAddTree, setShowCustomTree, addNewTree, setShowSelectedSite, sliderRef } = props;
 
   const [temp, setTemp] = React.useState({
       treeID: 0,
@@ -71,6 +71,7 @@ const AddTree = (props) => {
           underlayColor="#6b7280"
           onPress={() => {
             setShowAddTree(false);
+            setShowSelectedSite(true);
           }}
         >
           <View className="flex flex-row justify-evenly w-40 items-center">

@@ -13,6 +13,7 @@ const Sites = (props) => {
     fetchTreesInSite,
     setShowAddSite,
     sites,
+    setShowSelectedSite,
     setSites,
   } = props;
 
@@ -45,6 +46,7 @@ const Sites = (props) => {
         shape={sites}
         onPress={(e) => {
           setSelectedSite(e.features[0].id);
+          setShowSelectedSite(true);
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           setShowAddSite(false);

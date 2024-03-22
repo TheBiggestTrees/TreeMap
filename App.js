@@ -35,7 +35,7 @@ const App = () => {
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
   const [showCustomTree, setShowCustomTree] = useState(false);
-
+  const [showSelectedSite, setShowSelectedSite] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -235,6 +235,7 @@ const App = () => {
 
           <Trees apiURL={API_URL} trees={trees} setTrees={setTrees} />
           <Sites
+            setShowSelectedSite={setShowSelectedSite}
             setShowCustomMark={setShowCustomMark}
             fetchTreesInSite={fetchTreesInSite}
             sites={sites}
@@ -285,6 +286,8 @@ const App = () => {
           addNewSite={addNewSite}
           showCustomMark={showCustomMark}
           setSelectedSite={setSelectedSite}
+          showSelectedSite={showSelectedSite}
+          setShowSelectedSite={setShowSelectedSite}
           selectedSite={selectedSite}
           selectedTrees={selectedTrees}
           sliderTitle={sliderTitle}
@@ -306,8 +309,8 @@ const App = () => {
         )}
         <NavBar
           sliderRef={sliderRef}
+          setShowSelectedSite={setShowSelectedSite}
           setShowAddSite={setShowAddSite}
-          setSelectedSite={setSelectedSite}
           setShowCustomMark={setShowCustomMark}
           setShowCustomTree={setShowCustomTree}
           setShowAddTree={setShowAddTree}

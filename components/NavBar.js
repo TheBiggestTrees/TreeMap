@@ -3,7 +3,7 @@ import { TouchableHighlight, View } from 'react-native';
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const NavBar = (props) => {
-    const { setSelectedSite, setShowAddSite, setShowCustomMark, sliderRef, setShowCustomTree, setShowAddTree} = props;
+    const { setShowSelectedSite, setShowAddSite, setShowCustomMark, sliderRef, setShowCustomTree, setShowAddTree} = props;
 
   return (
     <View className="flex flex-row items-center justify-evenly w-full h-24 rounded-tr-2xl rounded-tl-2xl absolute bottom-[-3px] bg-[#464a52] ">
@@ -28,7 +28,7 @@ const NavBar = (props) => {
               onPress={() => {
                 setShowAddSite(true);
                 setShowAddTree(false);
-                setSelectedSite(null);
+                setShowSelectedSite(false);
                 setShowCustomMark(false);
                 setShowCustomTree(false);
                 sliderRef.current.show(toValue= 265);

@@ -18,6 +18,8 @@ const Slider = (props) => {
     sliderRef,
     sliderTitle,
     setSelectedSite,
+    showSelectedSite,
+    setShowSelectedSite,
     selectedSite,
     camera,
     addNewTree,
@@ -60,9 +62,7 @@ const Slider = (props) => {
         ref={sliderRef}
         draggableRange={{ top: 800, bottom: 120 }}
         onBottomReached={() => {
-          setSelectedSite((prev) => {
-            prev = null;
-          });
+          setShowSelectedSite(false);
           setShowAddSite(false);
           setShowCustomMark(false);
           setShowAddTree(false);
@@ -105,10 +105,11 @@ const Slider = (props) => {
                 setShowAddTree={setShowAddTree}
                 setShowCustomTree={setShowCustomTree}
                 sliderRef={sliderRef}
+                setShowSelectedSite={setShowSelectedSite}
               />
             )}
 
-            {selectedSite && (
+            {showSelectedSite && (
               <SelectedSite
                 sliderRef={sliderRef}
                 sliderTitle={sliderTitle}
@@ -117,7 +118,7 @@ const Slider = (props) => {
                 selectedTrees={selectedTrees}
                 setShowAddTree={setShowAddTree}
                 setShowCustomMark={setShowCustomMark}
-                setSelectedSite={setSelectedSite}
+                setShowSelectedSite={setShowSelectedSite}
                 setShowCustomTree={setShowCustomTree}
                 showCustomTree={showCustomTree}
               />
