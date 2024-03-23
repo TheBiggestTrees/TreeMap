@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from "@env";
 import { StyleSheet, View, StatusBar, Text } from "react-native";
-import Sites from "./components/Sites";
-import Trees from "./components/Trees";
+import Sites from "./components/Site/Sites";
+import Trees from "./components/Tree/Trees";
 import Mapbox from "@rnmapbox/maps";
 import Slider from "./components/Layout/Slider";
 import Splash from "./components/Splash";
 import axios from "axios";
 import * as Location from "expo-location";
-import AddSite from "./components/AddSite";
+import AddSite from "./components/Add/AddSite";
 import NavBar from "./components/Layout/NavBar";
 
 Mapbox.setAccessToken(REACT_APP_MAPBOX_ACCESS_TOKEN);

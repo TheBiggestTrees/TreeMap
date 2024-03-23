@@ -7,12 +7,12 @@ import {
   View,
 } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
-import SelectedSite from "../SelectedSite";
-import SiteCustPos from "../SiteCustPos";
-import AddSite from "../AddSite";
-import AddTree from "../AddTree";
-import TreeCustPos from "../TreeCustPos";
-import SiteList from "../SiteList";
+import SelectedSite from "../Site/SelectedSite";
+import SiteCustPos from "../Site/SiteCustPos";
+import AddSite from "../Add/AddSite";
+import AddTree from "../Add/AddTree";
+import TreeCustPos from "../Tree/TreeCustPos";
+import SiteList from "../Site/SiteList";
 
 const Slider = (props) => {
   const {
