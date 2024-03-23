@@ -8,7 +8,7 @@ import Slider from "./components/Layout/Slider";
 import Splash from "./components/Splash";
 import axios from "axios";
 import * as Location from "expo-location";
-import AddSite from "./components/Add/AddSite";
+import AddSite from "./components/Add/Site";
 import NavBar from "./components/Layout/NavBar";
 
 Mapbox.setAccessToken(REACT_APP_MAPBOX_ACCESS_TOKEN);

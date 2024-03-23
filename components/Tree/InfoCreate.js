@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TouchableHighlight, View } from 'react-native';
 
-const TreeMaker = () => {
+const InfoCreate = () => {
   return (
     <>
         <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2"><Text className="font-bold text-white text-xl">Tree Info</Text></View>
@@ -27,4 +27,4 @@ const TreeMaker = () => {
   )
 }
 
-export default TreeMaker
+export default InfoCreate
