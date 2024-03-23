@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ScrollView,
@@ -44,6 +44,9 @@ const Slider = (props) => {
     trees
   } = props;
 
+  const [showList, setShowList] = useState(false);
+  const [showSiteList, setShowSiteList] = useState(true);
+
   const styles = {
     container: {
       flex: 1,
@@ -73,14 +76,16 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
-            {!showAddSite && !showSelectedSite ? <SiteList sites={sites} trees={trees}/> : null}
+            {!showCustomTree && !showAddSite && !showAddTree && !showSelectedSite && !showCustomMark ? <SiteList sites={sites} trees={trees} setShowList={setShowList} showList={showList} setShowSiteList={setShowSiteList} showSiteList={showSiteList} /> : null}
 
             {showCustomTree && (
               <TreeCustPos
-                sliderRef={sliderRef}
+                showList={showList}
+                setShowList={setShowList}
                 setShowAddSite={setShowAddTree}
                 setShowCustomMark={setShowCustomTree}
                 addNewSite={addNewTree}
+                sliderRef={sliderRef}
               />
             )}
 
