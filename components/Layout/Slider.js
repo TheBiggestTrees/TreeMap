@@ -73,7 +73,7 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
-            <SiteList sites={sites} trees={trees}/>
+            {!showAddSite && !showSelectedSite ? <SiteList sites={sites} trees={trees}/> : null}
 
             {showCustomTree && (
               <TreeCustPos
