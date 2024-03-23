@@ -7,12 +7,12 @@ import {
   View,
 } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
-import SelectedSite from "./SelectedSite";
-import SiteCustPos from "./SiteCustPos";
-import AddSite from "./AddSite";
-import AddTree from "./AddTree";
-import TreeCustPos from "./TreeCustPos";
-import SiteList from "./SiteList";
+import SelectedSite from "../SelectedSite";
+import SiteCustPos from "../SiteCustPos";
+import AddSite from "../AddSite";
+import AddTree from "../AddTree";
+import TreeCustPos from "../TreeCustPos";
+import SiteList from "../SiteList";
 
 const Slider = (props) => {
   const {
@@ -40,6 +40,8 @@ const Slider = (props) => {
     setShowCustomTree,
     showCustomTree,
     showAddTree,
+    sites,
+    trees
   } = props;
 
   const styles = {
@@ -71,7 +73,7 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
-            <SiteList />
+            <SiteList sites={sites} trees={trees}/>
 
             {showCustomTree && (
               <TreeCustPos
