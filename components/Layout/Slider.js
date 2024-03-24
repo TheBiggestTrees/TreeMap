@@ -15,8 +15,9 @@ import TreeCustPos from "../Tree/CustPos";
 import SiteList from "../Site/List";
 import ScreenContext from "../../context/screenContext";
 
-const Slider = () => {
+const Slider = (props) => {
 
+  const { addNewSite } = props;
 
   const [showSiteList, setShowSiteList] = useState(true);
 
@@ -28,7 +29,6 @@ const Slider = () => {
     setSelectedTrees,
     setShowAddSite,
     setShowCustomMark,
-    addNewSite,
     showCustomMark,
     customMark,
     showAddSite,
@@ -79,7 +79,7 @@ const Slider = () => {
 
             {currentScreen === "siteList" && (<SiteList/>)}
 
-            {currentScreen === "TreeCustPos" && (<TreeCustPos/>)}
+            {currentScreen === "TreeCustPos" && (<TreeCustPos addNewTree={addNewTree} />)}
 
             {currentScreen === "AddSite" && (
               <AddSite
@@ -123,14 +123,8 @@ const Slider = () => {
               />
             )}
 
-            {currentScreen === "SiteCustPos" && (
-              <SiteCustPos
-                sliderRef={sliderRef}
-                setShowAddSite={setShowAddSite}
-                setShowCustomMark={setShowCustomMark}
-                addNewSite={addNewSite}
-              />
-            )}
+            {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite}/>)}
+            
           </View>
         )}
       </SlidingUpPanel>
