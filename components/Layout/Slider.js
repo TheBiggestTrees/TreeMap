@@ -44,12 +44,12 @@ const Slider = (props) => {
             </View>
 
             {currentScreen === "siteList" && (<SiteList />)}
+            {/* {currentScreen === "TreeList" && <TreeList />} */}
             {currentScreen === "SelectedSite" && (<SelectedSite />)}
             {currentScreen === "AddSite" && (<AddSite addNewSite={addNewSite} />)}
             {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite} />)}
             {currentScreen === "TreeCustPos" && (<TreeCustPos addNewTree={addNewTree} />)}
             {currentScreen === "AddTree" && (<AddTree addNewTree={addNewTree} />)}
-
           </View>
         )}
       </SlidingUpPanel>
