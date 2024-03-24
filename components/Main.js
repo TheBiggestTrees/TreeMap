@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from "@env";
 import { StyleSheet, View, StatusBar, Text } from "react-native";
 import Sites from "../components/Site/Sites";
@@ -8,7 +8,6 @@ import Slider from "../components/Layout/Slider";
 import Splash from "../components/Splash";
 import axios from "axios";
 import * as Location from "expo-location";
-import AddSite from "../components/Add/Site";
 import NavBar from "../components/Layout/NavBar";
 import ScreenContext from "../context/screenContext";
 
@@ -24,32 +23,22 @@ const Main = () => {
     sliderRef,
     mapRef,
     camera,
-    trees,
     setTrees,
     tempTreeForm,
     setTempTreeForm,
-    sites,
     setSites,
-    sliderTitle,
     setSliderTitle,
     showSplash,
     setShowSplash,
-    selectedTrees,
     setSelectedTrees,
     selectedSite,
     setSelectedSite,
-    showAddSite,
-    setShowAddSite,
-    showAddTree,
-    setShowAddTree,
     customMark,
     setCustomMark,
     showCustomMark,
     setShowCustomMark,
     showCustomTree,
     setShowCustomTree,
-    showSelectedSite,
-    setShowSelectedSite,
     setCurrentScreen
   } = useContext(ScreenContext);
 
@@ -96,6 +85,7 @@ const Main = () => {
       fetchTreesInSite(data.id);
       setSliderTitle(data.properties.siteID);
       setCurrentScreen("SelectedSite");
+      setCustomMark(data.geometry.coordinates);
       sliderRef.current.show({
         toValue: 200,
       });
@@ -263,31 +253,14 @@ const Main = () => {
             ref={camera}
           />
 
-          {/** Add Site */}
+          <Trees apiURL={API_URL} />
+          <Sites fetchTreesInSite={fetchTreesInSite} apiURL={API_URL} />
 
-          <Trees apiURL={API_URL} trees={trees} setTrees={setTrees} />
-          <Sites
-            setShowSelectedSite={setShowSelectedSite}
-            setShowCustomMark={setShowCustomMark}
-            fetchTreesInSite={fetchTreesInSite}
-            sites={sites}
-            setSites={setSites}
-            apiURL={API_URL}
-            sliderRef={sliderRef}
-            setSliderTitle={setSliderTitle}
-            selectedSite={selectedSite}
-            setSelectedSite={setSelectedSite}
-            selectedTrees={selectedTrees}
-            setSelectedTrees={setSelectedTrees}
-            camera={camera}
-            setShowAddSite={setShowAddSite}
-          />
-          {/* Custom Position Marker */}
+          {/* Custom Site Position Marker */}
           {showCustomMark && (
             <Mapbox.PointAnnotation
               draggable={true}
               id="customMark"
-              onLayout={(e) => setCustomMark(e.geometry.coordinates)}
               onDrag={(e) => {
                 setCustomMark(e.geometry.coordinates);
               }}
@@ -298,51 +271,22 @@ const Main = () => {
               }
             />
           )}
+
+          {/* Custom Tree Position Marker */}
           {showCustomTree && (
             <Mapbox.PointAnnotation
               draggable={true}
               id="customMark"
-              onLayout={(e) => setCustomMark(e.geometry.coordinates)}
               onDrag={(e) => {
                 setCustomMark(e.geometry.coordinates);
               }}
-              coordinate={
-                location
-                  ? [location.coords.longitude, location.coords.latitude]
-                  : [-96, 35]
-              }
+              coordinate={ customMark }
             />
           )}
+
         </Mapbox.MapView>
 
-        <Slider
-          customMark={customMark}
-          setSites={setSites}
-          API_URL={API_URL}
-          location={location}
-          showAddSite={showAddSite}
-          setShowAddSite={setShowAddSite}
-          setShowCustomMark={setShowCustomMark}
-          addNewSite={addNewSite}
-          showCustomMark={showCustomMark}
-          setTempTreeForm={setTempTreeForm}
-          setSelectedSite={setSelectedSite}
-          showSelectedSite={showSelectedSite}
-          setShowSelectedSite={setShowSelectedSite}
-          selectedSite={selectedSite}
-          setSelectedTrees={setSelectedTrees}
-          selectedTrees={selectedTrees}
-          sliderTitle={sliderTitle}
-          sliderRef={sliderRef}
-          showAddTree={showAddTree}
-          setShowCustomTree={setShowCustomTree}
-          showCustomTree={showCustomTree}
-          setShowAddTree={setShowAddTree}
-          addNewTree={addNewTree}
-          camera={camera}
-          sites={sites}
-          trees={trees}
-        />
+        <Slider addNewSite={addNewSite} addNewTree={addNewTree} />
 
         {errMsg && (
           <View className="flex w-full absolute right-1 m-auto top-16 items-center justify-center text-center">
@@ -351,14 +295,9 @@ const Main = () => {
             </View>
           </View>
         )}
-        <NavBar
-          sliderRef={sliderRef}
-          setShowSelectedSite={setShowSelectedSite}
-          setShowAddSite={setShowAddSite}
-          setShowCustomMark={setShowCustomMark}
-          setShowCustomTree={setShowCustomTree}
-          setShowAddTree={setShowAddTree}
-        />
+
+        <NavBar />
+
       </View>
     </View>
   );

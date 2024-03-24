@@ -13,6 +13,7 @@ const Sites = (props) => {
     setCurrentScreen,
     sites,
     setSites,
+    setCustomMark
   } = useContext(ScreenContext);
 
   const {apiURL, fetchTreesInSite} = props;
@@ -50,6 +51,7 @@ const Sites = (props) => {
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
           setShowCustomMark(false);
+          setCustomMark(e.features[0].geometry.coordinates);
           sliderRef.current.show({
             toValue: 200,
           });

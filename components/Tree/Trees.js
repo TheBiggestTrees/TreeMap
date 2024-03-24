@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
+import ScreenContext from "../../context/screenContext";
 
 const Trees = (props) => {
-  const { apiURL, trees, setTrees } = props;
+  const { apiURL } = props;
+  const { trees, setTrees } = useContext(ScreenContext);
 
 
   const fetchTrees = async () => {

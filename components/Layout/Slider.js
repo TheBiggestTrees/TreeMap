@@ -1,11 +1,5 @@
-import React, { useContext, useState } from "react";
-import {
-  Button,
-  ScrollView,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import React, { useContext } from "react";
+import { View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "../Site/Selected";
 import SiteCustPos from "../Site/CustPos";
