@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   ScrollView,
   Text,
   TextInput,
   TouchableHighlight,
+  Animated,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -40,9 +41,10 @@ const SiteList = () => {
 
       if (list === undefined) {
         setSiteList([{ properties: { siteID: "No Site Found" } }]);
+        animateElement()
         return;
       }
-
+      animateElement()
       setSiteList([list]);
       console.log(list);
     } else if (roller === 1) {
@@ -52,16 +54,42 @@ const SiteList = () => {
 
       if (list === undefined) {
         setSiteList([{ properties: { treeID: "No Tree Found" } }]);
+        animateElement()
         return;
       }
-
+      animateElement()
       setSiteList([list]);
       console.log(list);
     }
   };
 
   const handleDrop = () => {
-    setShowList(!showList);
+
+    animateElement()
+  };
+
+
+  const opacityAnimation = useRef(new Animated.Value(0)).current;
+
+
+  const opacityStyle = { opacity: opacityAnimation };
+
+  const animateElement = () => {
+
+    if (opacityAnimation._value === 0) {
+        setShowList(true)
+        Animated.timing(opacityAnimation, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true
+        }).start()
+    } else if (opacityAnimation._value === 1) {
+        Animated.timing(opacityAnimation, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: true
+        }).start(() => setShowList(false));
+    }
   };
 
   return (
@@ -120,7 +148,7 @@ const SiteList = () => {
 
       {showList && roller === 0 && (
         <>
-          <View className="absolute top-28 px-2 drop-shadow-2xl w-2/3">
+          <Animated.View className="absolute top-28 px-2 drop-shadow-2xl w-2/3" style={opacityStyle}>
             <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
               {search !== ""
                 ? siteList.map((site, index) => (
@@ -144,13 +172,13 @@ const SiteList = () => {
                     </View>
                   ))}
             </ScrollView>
-          </View>
+          </Animated.View>
         </>
       )}
 
 {showList && roller === 1 ? (
         <>
-          <View className="absolute top-28 px-2 drop-shadow-2xl w-2/3">
+          <Animated.View className="absolute top-28 px-2 drop-shadow-2xl w-2/3" style={opacityStyle}>
             <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
               {search !== ""
                 ? siteList.map((site, index) => {
@@ -177,7 +205,7 @@ const SiteList = () => {
                     </View>
                   )})}
             </ScrollView>
-          </View>
+          </Animated.View>
         </>
       ): null}
 
