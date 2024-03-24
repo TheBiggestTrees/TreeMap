@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TouchableHighlight, View } from 'react-native';
 import Icons from "@expo/vector-icons/MaterialIcons";
+import ScreenContext from '../../context/screenContext';
 
-const NavBar = (props) => {
-    const { setShowSelectedSite, setShowAddSite, setShowCustomMark, sliderRef, setShowCustomTree, setShowAddTree} = props;
+const NavBar = () => {
+
+    const { setCurrentScreen, setShowCustomMark, setShowCustomTree, sliderRef } = useContext(ScreenContext);
 
   return (
     <View className="flex flex-row items-center justify-evenly w-full h-24 rounded-tr-2xl rounded-tl-2xl absolute bottom-[-3px] bg-[#464a52] ">
@@ -13,7 +15,9 @@ const NavBar = (props) => {
               activeOpacity={0.5}
               underlayColor="#6b7280"
               onPress={() => {
-                setShowAddSite(true);
+                setCurrentScreen("Home");
+                setShowCustomMark(false);
+                setShowCustomTree(false);
               }}
             >
               <Icons name="home" size={40} color="#56ccdb"></Icons>
@@ -26,9 +30,7 @@ const NavBar = (props) => {
               activeOpacity={0.5}
               underlayColor="#6b7280"
               onPress={() => {
-                setShowAddSite(true);
-                setShowAddTree(false);
-                setShowSelectedSite(false);
+                setCurrentScreen("AddSite");
                 setShowCustomMark(false);
                 setShowCustomTree(false);
                 sliderRef.current.show(toValue= 265);
@@ -44,7 +46,9 @@ const NavBar = (props) => {
               activeOpacity={0.5}
               underlayColor="#6b7280"
               onPress={() => {
-                setShowAddSite(true);
+                setCurrentScreen("Settings");
+                setShowCustomMark(false);
+                setShowCustomTree(false);
               }}
             >
               <Icons name="settings" size={40} color="#56ccdb"></Icons>
@@ -57,7 +61,9 @@ const NavBar = (props) => {
               activeOpacity={0.5}
               underlayColor="#6b7280"
               onPress={() => {
-                setShowAddSite(true);
+                setCurrentScreen("Account");
+                setShowCustomMark(false);
+                setShowCustomTree(false);
               }}
             >
               <Icons name="person" size={40} color="#56ccdb"></Icons>

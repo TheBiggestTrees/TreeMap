@@ -1,8 +1,10 @@
 import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
+import { useContext } from "react";
+import ScreenContext from "../../context/screenContext";
 
-const SiteCustPos = (props) => {
-  const { setShowAddSite, setShowCustomMark, addNewSite, sliderRef } = props;
+const SiteCustPos = () => {
+  const { setCurrentScreen, setShowCustomMark, addNewSite, sliderRef } = useContext(ScreenContext);
 
   return (
     <>
@@ -13,7 +15,7 @@ const SiteCustPos = (props) => {
           activeOpacity={0.5}
           underlayColor="#6b7280"
           onPress={() => {
-            setShowAddSite(true);
+            setCurrentScreen("AddSite");
             setShowCustomMark(false);
             sliderRef.current.show(toValue= 265);
           }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   ScrollView,
@@ -13,16 +13,15 @@ import AddSite from "../Add/Site";
 import AddTree from "../Add/Tree";
 import TreeCustPos from "../Tree/CustPos";
 import SiteList from "../Site/List";
+import ScreenContext from "../../context/screenContext";
 
-const Slider = (props) => {
+const Slider = () => {
+
+
+  const [showSiteList, setShowSiteList] = useState(true);
+
   const {
     sliderRef,
-    sliderTitle,
-    setTempTreeForm,
-    setSelectedSite,
-    showSelectedSite,
-    setShowSelectedSite,
-    selectedSite,
     camera,
     addNewTree,
     selectedTrees,
@@ -41,11 +40,13 @@ const Slider = (props) => {
     showCustomTree,
     showAddTree,
     sites,
-    trees
-  } = props;
-
-  const [showList, setShowList] = useState(false);
-  const [showSiteList, setShowSiteList] = useState(true);
+    trees,
+    sliderTitle,
+    setTempTreeForm,
+    showSelectedSite,
+    currentScreen,
+    setCurrentScreen,
+  } = useContext(ScreenContext);
 
   const styles = {
     container: {
@@ -76,20 +77,11 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
-            {!showCustomTree && !showAddSite && !showAddTree && !showSelectedSite && !showCustomMark ? <SiteList sites={sites} trees={trees} setShowList={setShowList} showList={showList} setShowSiteList={setShowSiteList} showSiteList={showSiteList} /> : null}
+            {currentScreen === "siteList" && (<SiteList/>)}
 
-            {showCustomTree && (
-              <TreeCustPos
-                showList={showList}
-                setShowList={setShowList}
-                setShowAddSite={setShowAddTree}
-                setShowCustomMark={setShowCustomTree}
-                addNewSite={addNewTree}
-                sliderRef={sliderRef}
-              />
-            )}
+            {currentScreen === "TreeCustPos" && (<TreeCustPos/>)}
 
-            {showAddSite && (
+            {currentScreen === "AddSite" && (
               <AddSite
                 addNewSite={addNewSite}
                 customMark={customMark}
@@ -103,7 +95,7 @@ const Slider = (props) => {
               />
             )}
 
-            {showAddTree && (
+            {currentScreen === "AddTree" && (
               <AddTree
                 addNewTree={addNewTree}
                 setShowAddTree={setShowAddTree}
@@ -115,7 +107,7 @@ const Slider = (props) => {
               />
             )}
 
-            {showSelectedSite && (
+            {currentScreen === "SelectedSite" && (
               <SelectedSite
                 sliderRef={sliderRef}
                 sliderTitle={sliderTitle}
@@ -131,9 +123,7 @@ const Slider = (props) => {
               />
             )}
 
-            
-
-            {showCustomMark && (
+            {currentScreen === "SiteCustPos" && (
               <SiteCustPos
                 sliderRef={sliderRef}
                 setShowAddSite={setShowAddSite}
@@ -141,8 +131,6 @@ const Slider = (props) => {
                 addNewSite={addNewSite}
               />
             )}
-
-           
           </View>
         )}
       </SlidingUpPanel>

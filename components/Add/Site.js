@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
+import ScreenContext from "../../context/screenContext";
 
-const AddSite = (props) => {
-  const { setShowAddSite, setShowCustomMark, addNewSite, sliderRef } = props;
+const AddSite = () => {
+  const { setCurrentScreen, setShowCustomMark, addNewSite, sliderRef } = useContext(ScreenContext);
 
   return (
     <>
@@ -15,7 +16,7 @@ const AddSite = (props) => {
           underlayColor="#6b7280"
           onPress={() => {
             addNewSite();
-            setShowAddSite(false);
+            setCurrentScreen("selectedSite");
             sliderRef.current.hide();
           }}
         >
@@ -33,7 +34,7 @@ const AddSite = (props) => {
           underlayColor="#6b7280"
           onPress={() => {
             setShowCustomMark(true);
-            setShowAddSite(false);
+            setCurrentScreen("TreeCustPos");  
             sliderRef.current.show((toValue = 265));
           }}
         >
@@ -51,8 +52,8 @@ const AddSite = (props) => {
           activeOpacity={0.5}
           underlayColor="#6b7280"
           onPress={() => {
-            setShowAddSite(false);
-            sliderRef.current.hide();
+            setCurrentScreen("siteList");
+            sliderRef.current.show({ toValue: 265});
           }}
         >
           <View className="flex flex-row justify-evenly w-40 items-center">

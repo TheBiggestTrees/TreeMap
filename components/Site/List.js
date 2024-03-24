@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { ScrollView, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Icons from "@expo/vector-icons/MaterialIcons";
+import ScreenContext from '../../context/screenContext';
 
-const SiteList = (props) => {
-    const { sites, trees, setShowList, showList, setShowSiteList, showSiteList } = props;
+const SiteList = () => {
+
+    const { sites, showList, setShowList } = useContext(ScreenContext);
 
     const [search, setSearch] = useState('');
     const [siteList, setSiteList] = useState(null);
@@ -12,7 +14,7 @@ const SiteList = (props) => {
         setShowList(true);
         setSearch(e.nativeEvent.text);
         const list = sites.features.find(site => +site.properties.siteID == e.nativeEvent.text);
-        if (list == undefined) { 
+        if (list === undefined) { 
             setSiteList([{properties: {siteID: "No Site Found"}}])
             return;
         }
