@@ -17,36 +17,8 @@ import ScreenContext from "../../context/screenContext";
 
 const Slider = (props) => {
 
-  const { addNewSite } = props;
-
-  const [showSiteList, setShowSiteList] = useState(true);
-
-  const {
-    sliderRef,
-    camera,
-    addNewTree,
-    selectedTrees,
-    setSelectedTrees,
-    setShowAddSite,
-    setShowCustomMark,
-    showCustomMark,
-    customMark,
-    showAddSite,
-    setSites,
-    API_URL,
-    location,
-    setShowAddTree,
-    setShowCustomTree,
-    showCustomTree,
-    showAddTree,
-    sites,
-    trees,
-    sliderTitle,
-    setTempTreeForm,
-    showSelectedSite,
-    currentScreen,
-    setCurrentScreen,
-  } = useContext(ScreenContext);
+  const { addNewSite, addNewTree } = props;
+  const { sliderRef, currentScreen } = useContext(ScreenContext);
 
   const styles = {
     container: {
@@ -77,21 +49,12 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
-            {currentScreen === "siteList" && (<SiteList/>)}
+            {currentScreen === "siteList" && (<SiteList />)}
+            {currentScreen === "SelectedSite" && (<SelectedSite />)}
+            {currentScreen === "AddSite" && (<AddSite addNewSite={addNewSite} />)}
+            {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite} />)}
             {currentScreen === "TreeCustPos" && (<TreeCustPos addNewTree={addNewTree} />)}
-            {currentScreen === "AddSite" && (<AddSite addNewSite={addNewSite}/>)}
-            {currentScreen === "AddTree" && (
-              <AddTree
-                addNewTree={addNewTree}
-                setShowAddTree={setShowAddTree}
-                setShowCustomTree={setShowCustomTree}
-                sliderRef={sliderRef}
-                sliderTitle={sliderTitle}
-                setTempTreeForm={setTempTreeForm}
-              />
-            )}
-            {currentScreen === "SelectedSite" && (<SelectedSite/>)}
-            {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite}/>)}
+            {currentScreen === "AddTree" && (<AddTree addNewTree={addNewTree} />)}
 
           </View>
         )}

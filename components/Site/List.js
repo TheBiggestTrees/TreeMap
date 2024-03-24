@@ -55,12 +55,12 @@ const SiteList = () => {
                                 <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
                                     {search !== "" ? siteList.map((site, index) => (
                                     <View key={index} className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center">
-                                        <Text className="font-bold pl-1 py-2 text-lg text-white">{site.properties.siteID}</Text>
+                                        <Text className="font-bold pl-1 py-2 text-lg text-white">{site.properties.siteID.toString().padStart(4, '0')}</Text>
                                     </View>
                                     )
                                     ) : sites.features.map((site, index) => (
                                     <View key={index} className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center">
-                                        <Text className="font-bold pl-1 py-2 text-lg text-white">{site.properties.siteID}</Text>
+                                        <Text className="font-bold pl-1 py-2 text-lg text-white">{site.properties.siteID.toString().padStart(4, '0')}</Text>
                                     </View>
                                     )
                                     )}
@@ -69,15 +69,6 @@ const SiteList = () => {
                         </>
                     )}
 
-        {search !== "" ? (
-                        <>
-                            <View className="absolute top-28 px-2 drop-shadow-2xl w-2/3">
-                                <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
-                                    {}
-                                </ScrollView>
-                            </View>
-                        </>
-                    ) : null }
     </>
   )
 }

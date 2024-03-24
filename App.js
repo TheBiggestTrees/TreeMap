@@ -12,7 +12,28 @@ const App = () => {
     type: "FeatureCollection",
     features: [],
   });
-  const [tempTreeForm, setTempTreeForm] = useState({});
+  const [tempTreeForm, setTempTreeForm] = useState({
+    treeID: 0,
+    treeSpecies: "Oak",
+    treeFamily: "Fagaceae",
+    status: "Alive",
+    condition: "Good",
+    leafCondition: "Good",
+    comment: "N/A",
+    lastModifiedDate: "N/A",
+    lastModifiedBy: "N/A",
+    lastWorkDate: "N/A",
+    lastWorkedBy: "N/A",
+    needsWork: false,
+    needsWorkComment: "N/A",
+    dbh: 0,
+    dateCreated: 'N/A',
+    createdBy: 'N/A',
+    plantedBy: "N/A",
+    datePlanted: "N/A",
+    photos: ["N/A"],
+    siteID: '0',
+  });
   const [sites, setSites] = useState(null);
   const [location, setLocation] = useState(null);
   const [errMsg, setErrMsg] = useState("");

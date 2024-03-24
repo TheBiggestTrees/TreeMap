@@ -17,7 +17,7 @@ const SiteCustPos = (props) => {
           activeOpacity={0.5}
           underlayColor="#6b7280"
           onPress={() => {
-            setCurrentScreen("AddSite");
+            setCurrentScreen("AddTree");
             setShowCustomMark(false);
             sliderRef.current.show(toValue= 265);
           }}
