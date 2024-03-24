@@ -41,12 +41,9 @@ const App = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [selectedTrees, setSelectedTrees] = useState(null);
   const [selectedSite, setSelectedSite] = useState(null);
-  const [showAddSite, setShowAddSite] = useState(false);
-  const [showAddTree, setShowAddTree] = useState(false);
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
   const [showCustomTree, setShowCustomTree] = useState(false);
-  const [showSelectedSite, setShowSelectedSite] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("siteList");
   const [showList, setShowList] = useState(false);
 
@@ -73,18 +70,12 @@ const App = () => {
       setSelectedTrees,
       selectedSite,
       setSelectedSite,
-      showAddSite,
-      setShowAddSite,
-      showAddTree,
-      setShowAddTree,
       customMark,
       setCustomMark,
       showCustomMark,
       setShowCustomMark,
       showCustomTree,
       setShowCustomTree,
-      showSelectedSite,
-      setShowSelectedSite,
       currentScreen,
       setCurrentScreen,
       showList,
