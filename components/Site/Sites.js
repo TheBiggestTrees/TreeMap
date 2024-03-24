@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
+import ScreenContext from "../../context/screenContext";
 
 const Sites = (props) => {
   const {
     sliderRef,
-    apiURL,
     setSliderTitle,
     camera,
     setSelectedSite,
     setShowCustomMark,
-    fetchTreesInSite,
-    setShowAddSite,
+    setCurrentScreen,
     sites,
-    setShowSelectedSite,
     setSites,
-  } = props;
+  } = useContext(ScreenContext);
+
+  const {apiURL, fetchTreesInSite} = props;
 
   const fetchSites = async () => {
     try {
@@ -46,10 +46,9 @@ const Sites = (props) => {
         shape={sites}
         onPress={(e) => {
           setSelectedSite(e.features[0].id);
-          setShowSelectedSite(true);
+          setCurrentScreen("SelectedSite");
           fetchTreesInSite(e.features[0].id);
           setSliderTitle(e.features[0].properties.siteID);
-          setShowAddSite(false);
           setShowCustomMark(false);
           sliderRef.current.show({
             toValue: 200,

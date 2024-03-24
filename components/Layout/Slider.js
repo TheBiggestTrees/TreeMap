@@ -117,14 +117,13 @@ const Slider = (props) => {
                 setSelectedTrees={setSelectedTrees}
                 setShowAddTree={setShowAddTree}
                 setShowCustomMark={setShowCustomMark}
-                setShowSelectedSite={setShowSelectedSite}
                 setShowCustomTree={setShowCustomTree}
                 showCustomTree={showCustomTree}
               />
             )}
 
             {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite}/>)}
-            
+
           </View>
         )}
       </SlidingUpPanel>
