@@ -22,7 +22,8 @@
     "react-native": "0.73.4",
     "react-native-dotenv": "^3.4.11",
     "react-native-wheel-scrollview-picker": "^2.0.4",
-    "rn-sliding-up-panel": "^2.4.6"
+    "rn-sliding-up-panel": "^2.4.6",
+    "roll-picker-native": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
