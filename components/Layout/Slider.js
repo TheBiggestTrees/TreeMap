@@ -78,50 +78,19 @@ const Slider = (props) => {
             </View>
 
             {currentScreen === "siteList" && (<SiteList/>)}
-
             {currentScreen === "TreeCustPos" && (<TreeCustPos addNewTree={addNewTree} />)}
-
-            {currentScreen === "AddSite" && (
-              <AddSite
-                addNewSite={addNewSite}
-                customMark={customMark}
-                showCustomMark={showCustomMark}
-                setSites={setSites}
-                setShowCustomMark={setShowCustomMark}
-                API_URL={API_URL}
-                setShowAddSite={setShowAddSite}
-                location={location}
-                sliderRef={sliderRef}
-              />
-            )}
-
+            {currentScreen === "AddSite" && (<AddSite addNewSite={addNewSite}/>)}
             {currentScreen === "AddTree" && (
               <AddTree
                 addNewTree={addNewTree}
                 setShowAddTree={setShowAddTree}
                 setShowCustomTree={setShowCustomTree}
                 sliderRef={sliderRef}
-                setShowSelectedSite={setShowSelectedSite}
                 sliderTitle={sliderTitle}
                 setTempTreeForm={setTempTreeForm}
               />
             )}
-
-            {currentScreen === "SelectedSite" && (
-              <SelectedSite
-                sliderRef={sliderRef}
-                sliderTitle={sliderTitle}
-                addNewTree={addNewTree}
-                camera={camera}
-                selectedTrees={selectedTrees}
-                setSelectedTrees={setSelectedTrees}
-                setShowAddTree={setShowAddTree}
-                setShowCustomMark={setShowCustomMark}
-                setShowCustomTree={setShowCustomTree}
-                showCustomTree={showCustomTree}
-              />
-            )}
-
+            {currentScreen === "SelectedSite" && (<SelectedSite/>)}
             {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite}/>)}
 
           </View>

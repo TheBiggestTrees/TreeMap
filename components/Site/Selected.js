@@ -3,7 +3,7 @@ import { ScrollView, Text, TouchableHighlight, View } from 'react-native';
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from '../../context/screenContext';
 
-const SelectedSite = (props) => {
+const SelectedSite = () => {
     const { sliderRef, sliderTitle, selectedTrees, setSelectedTrees, setShowCustomTree, setCurrentScreen } = useContext(ScreenContext);
 
   return (
