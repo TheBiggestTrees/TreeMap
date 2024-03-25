@@ -10,7 +10,6 @@ import SiteList from "../Site/List";
 import ScreenContext from "../../context/screenContext";
 
 const Slider = (props) => {
-
   const { addNewSite, addNewTree } = props;
   const { sliderRef, currentScreen } = useContext(ScreenContext);
 
@@ -43,13 +42,21 @@ const Slider = (props) => {
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
 
-            {currentScreen === "siteList" && (<SiteList />)}
+            {currentScreen === "siteList" && (
+              <>
+                <SiteList />
+              </>
+            )}
             {/* {currentScreen === "TreeList" && <TreeList />} */}
-            {currentScreen === "SelectedSite" && (<SelectedSite />)}
-            {currentScreen === "AddSite" && (<AddSite addNewSite={addNewSite} />)}
-            {currentScreen === "SiteCustPos" && (<SiteCustPos addNewSite={addNewSite} />)}
-            {currentScreen === "TreeCustPos" && (<TreeCustPos addNewTree={addNewTree} />)}
-            {currentScreen === "AddTree" && (<AddTree addNewTree={addNewTree} />)}
+            {currentScreen === "SelectedSite" && <SelectedSite />}
+            {currentScreen === "AddSite" && <AddSite addNewSite={addNewSite} />}
+            {currentScreen === "SiteCustPos" && (
+              <SiteCustPos addNewSite={addNewSite} />
+            )}
+            {currentScreen === "TreeCustPos" && (
+              <TreeCustPos addNewTree={addNewTree} />
+            )}
+            {currentScreen === "AddTree" && <AddTree addNewTree={addNewTree} />}
           </View>
         )}
       </SlidingUpPanel>
