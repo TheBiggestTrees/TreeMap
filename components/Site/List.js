@@ -21,7 +21,7 @@ const SiteList = () => {
     setSelectedSite,
     setCurrentScreen,
     setSliderTitle,
-    selectedTrees,
+    setCustomMark,
     setSelectedTrees
   } = useContext(ScreenContext);
 
@@ -112,6 +112,7 @@ const SiteList = () => {
     setSelectedTrees(treeList);
     setSelectedSite(siteID);
     setCurrentScreen("SelectedSite");
+    setCustomMark(siteNum.geometry.coordinates);
     setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
     setShowList(false);
   }
@@ -181,7 +182,7 @@ const SiteList = () => {
               return (
                 <TouchableHighlight
                   key={index}
-                  className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center"
+                  className="flex flex-row px-4 py-0 mx-4 border-t-2 border-gray-500 justify-between items-center"
                   onPress={() => { handlePress(tree.properties.siteID) }}
                 >
                   <Text className="font-bold pl-1 py-2 text-lg text-white">
