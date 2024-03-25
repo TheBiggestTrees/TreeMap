@@ -32,10 +32,10 @@ const SelectedSite = () => {
 
                   <TouchableHighlight
                     onPress={() => {
-                      sliderRef.current?.hide();
                       setCurrentScreen("siteList");
                       setShowCustomTree(false);
                       setSelectedTrees(null);
+                      sliderRef.current.show();
                     }}
                     underlayColor={"transparent"}
                     className="bg-[#4e545f56] rounded-full"
