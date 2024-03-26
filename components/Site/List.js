@@ -183,7 +183,7 @@ const SiteList = () => {
         </View>
 
         <View className="flex w-full h-[78%] p-2 mt-4 bg-slate-400 rounded-2xl">
-          <Text className="font-bold text-white text-lg px-4">Trees</Text>
+          <Text className="font-bold text-white text-lg px-4">Trees: {trees && trees.features.length}</Text>
           <ScrollView className="">
             {/* map through trees and creates a touchable highlight that shows each tree and when touched displays the associated site in SelectedSite */}
 
