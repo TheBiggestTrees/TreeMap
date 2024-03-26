@@ -8,7 +8,7 @@ const SelectedSite = () => {
 
   return (
     <><View className="flex flex-row w-full justify-between items-center">
-                <Text className="text-white font-bold text-lg">Site {sliderTitle}</Text>
+                <Text className="text-white font-bold text-lg">Site {sliderTitle.toString().padStart(4, "0")}</Text>
                 {selectedTrees ? <Text className="text-white font-bold text-lg">Trees: {selectedTrees.length}</Text> : <Text className="text-white font-bold text-lg">Trees: 0</Text>}
                 
                 <View className="flex flex-row gap-4 items-center">
