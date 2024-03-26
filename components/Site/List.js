@@ -32,20 +32,22 @@ const SiteList = () => {
   const [selectedSiteId, setSelectedSiteId] = useState(null);
 
   const handleChange = (e) => {
-    {showList === true ? null : animateElement()}
+    {
+      showList === true ? null : animateElement();
+    }
     setShowList(true);
     setSearch(e.nativeEvent.text);
 
-      const list = sites.features.find(
-        (site) => +site.properties.siteID == e.nativeEvent.text
-      );
+    const list = sites.features.find(
+      (site) => +site.properties.siteID == e.nativeEvent.text
+    );
 
-      if (list === undefined) {
-        setSiteList([{ properties: { siteID: "No Site Found" } }]);
-        return;
-      }
-      setSiteList([list]);
-      console.log(list);
+    if (list === undefined) {
+      setSiteList([{ properties: { siteID: "No Site Found" } }]);
+      return;
+    }
+    setSiteList([list]);
+    console.log(list);
   };
 
   const handleDrop = () => {
@@ -89,7 +91,7 @@ const SiteList = () => {
     setShowList(false);
   };
 
-  const handleSitePress = (siteID) => { 
+  const handleSitePress = (siteID) => {
     if (selectedSiteId === siteID) {
       setShowTree(!showTree);
       setSelectedSiteId(siteID);
@@ -97,7 +99,7 @@ const SiteList = () => {
       setShowTree(true);
       setSelectedSiteId(siteID);
     }
-  }
+  };
 
   return (
     <>
@@ -129,50 +131,57 @@ const SiteList = () => {
         </View>
 
         <View className="flex w-full h-[78%] p-2 mt-4 bg-slate-400 rounded-2xl">
-          <Text className="font-bold text-white text-lg px-4">Trees: {trees && trees.features.length}</Text>
+          <Text className="font-bold text-white text-lg px-4">
+            Trees: {trees && trees.features.length}
+          </Text>
           <ScrollView className="">
             {/* map through trees and creates a touchable highlight that shows each tree and when touched displays the associated site in SelectedSite */}
 
-            {sites && sites.features.map((site) => {
-              return (
-                <React.Fragment key={site.id}>
-                  <TouchableHighlight
-                    className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
-                    onPress={() => {
-                      handleSitePress(site.id);
-                      
-                    }}
-                    activeOpacity={0.6}
-                    underlayColor={"#4e545f56"}
-                  >
-                    <Text className="font-bold pl-1 py-2 text-lg text-white">
-                      Site: {site.properties.siteID.toString().padStart(4, "0")}
-                    </Text>
-                  </TouchableHighlight>
-                 {showTree && selectedSiteId === site.id && trees.features.map((tree) => {
-        if (tree.properties.siteID === site.id) {
-          return (
-                        <React.Fragment key={tree._id}>
-                        <TouchableHighlight
-                          className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
-                          onPress={() => {
-                            handlePress(tree.properties.siteID);
-                          }}
-                          activeOpacity={0.6}
-                          underlayColor={"#4e545f56"}
-                        >
-                          <Text className="font-bold pl-1 py-2 text-lg text-white">
-                            Tree: {tree.properties.treeID.toString().padStart(4, "0")}
-                          </Text>
-                        </TouchableHighlight>
-                      </React.Fragment>
-                      );
-                    }
-                  })}
-                </React.Fragment>
-              );
-            })}
-
+            {sites &&
+              sites.features.map((site) => {
+                return (
+                  <React.Fragment key={site.id}>
+                    <TouchableHighlight
+                      className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
+                      onPress={() => {
+                        handleSitePress(site.id);
+                      }}
+                      activeOpacity={0.6}
+                      underlayColor={"#4e545f56"}
+                    >
+                      <Text className="font-bold pl-1 py-2 text-lg text-white">
+                        Site:{" "}
+                        {site.properties.siteID.toString().padStart(4, "0")}
+                      </Text>
+                    </TouchableHighlight>
+                    {showTree &&
+                      selectedSiteId === site.id &&
+                      trees.features.map((tree) => {
+                        if (tree.properties.siteID === site.id) {
+                          return (
+                            <React.Fragment key={tree._id}>
+                              <TouchableHighlight
+                                className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
+                                onPress={() => {
+                                  handlePress(tree.properties.siteID);
+                                }}
+                                activeOpacity={0.6}
+                                underlayColor={"#4e545f56"}
+                              >
+                                <Text className="font-bold pl-1 py-2 text-lg text-white">
+                                  Tree:{" "}
+                                  {tree.properties.treeID
+                                    .toString()
+                                    .padStart(4, "0")}
+                                </Text>
+                              </TouchableHighlight>
+                            </React.Fragment>
+                          );
+                        }
+                      })}
+                  </React.Fragment>
+                );
+              })}
           </ScrollView>
         </View>
       </View>

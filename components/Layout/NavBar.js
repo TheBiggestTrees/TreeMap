@@ -15,9 +15,10 @@ const NavBar = () => {
               activeOpacity={0.5}
               underlayColor="#6b7280"
               onPress={() => {
-                setCurrentScreen("Home");
+                setCurrentScreen("siteList");
                 setShowCustomMark(false);
                 setShowCustomTree(false);
+                sliderRef.current.show();
               }}
             >
               <Icons name="home" size={40} color="#56ccdb"></Icons>
