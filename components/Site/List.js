@@ -108,6 +108,25 @@ const SiteList = () => {
     }
   };
 
+  const handleSiteLongPress = (siteID) => {
+    const siteNum = sites.features.find((site) => site.id === siteID);
+    const treeList = trees.features.filter(
+      (tree) => tree.properties.siteID === siteID
+    );
+    camera.current?.setCamera({
+      centerCoordinate: siteNum.geometry.coordinates,
+      zoomLevel: 17,
+      animationDuration: 500,
+      animationMode: "flyTo",
+    });
+    sliderRef.current.show({ toValue: 200 });
+    setSelectedSite(siteID);
+    setSelectedTrees(treeList);
+    setCurrentScreen("SelectedSite");
+    setCustomMark(siteNum.geometry.coordinates);
+    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
+  };
+
   return (
     <>
       <View className="flex flex-col w-full items-center">
@@ -152,6 +171,10 @@ const SiteList = () => {
                       className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
                       onPress={() => {
                         handleSitePress(site.id);
+                      }}
+                      onLongPress={() => {
+                        
+                        handleSiteLongPress(site.id);
                       }}
                       activeOpacity={0.6}
                       underlayColor={"#4e545f56"}
