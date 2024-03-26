@@ -173,16 +173,20 @@ const SiteList = () => {
                         handleSitePress(site.id);
                       }}
                       onLongPress={() => {
-                        
                         handleSiteLongPress(site.id);
                       }}
                       activeOpacity={0.6}
                       underlayColor={"#4e545f56"}
                     >
-                      <Text className="font-bold pl-1 py-2 text-lg text-white">
-                        Site:{" "}
-                        {site.properties.siteID.toString().padStart(4, "0")}
-                      </Text>
+                      <View className="flex flex-row w-full justify-between items-center">
+                        <Text className="font-bold pl-1 py-2 text-lg text-white">
+                          Site:{" "}
+                          {site.properties.siteID.toString().padStart(4, "0")}
+                        </Text>
+                        { showTree && selectedSiteId === site.id && <Icons name={"remove"} size={40} color="#4e545f56"></Icons> }
+                        { !showTree && selectedSiteId === site.id && <Icons name={"expand-more"} size={40} color="#4e545f56"></Icons> }
+                        { selectedSiteId !== site.id && <Icons name="expand-more" size={40} color="#4e545f56"></Icons> }
+                      </View>
                     </TouchableHighlight>
                     {showTree &&
                       selectedSiteId === site.id &&
