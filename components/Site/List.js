@@ -165,21 +165,6 @@ const SiteList = () => {
               );
             })}
 
-
-            {/* {trees.features.map((tree, index) => {
-              const increment = index + 1;
-              return (
-                <TouchableHighlight
-                  key={index}
-                  className="flex flex-row px-4 py-0 mx-4 border-t-2 border-gray-500 justify-between items-center"
-                  onPress={() => { handlePress(tree.properties.siteID) }}
-                >
-                  <Text className="font-bold pl-1 py-2 text-lg text-white">
-                    {increment.toString().padStart(4, "0")}
-                  </Text>
-                </TouchableHighlight>
-              );
-            })} */}
           </ScrollView>
         </View>
       </View>
