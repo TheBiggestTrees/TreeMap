@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -22,7 +22,7 @@ const SiteList = () => {
     setCurrentScreen,
     setSliderTitle,
     setCustomMark,
-    setSelectedTrees
+    setSelectedTrees,
   } = useContext(ScreenContext);
 
   const holder = ["Search Site", "Search Tree"];
@@ -99,10 +99,7 @@ const SiteList = () => {
   };
 
   const handlePress = (siteID) => {
-
-    const siteNum = sites.features.find(
-      (site) => site.id === siteID
-    );
+    const siteNum = sites.features.find((site) => site.id === siteID);
 
     const treeList = trees.features.filter(
       (tree) => tree.properties.siteID === siteID
@@ -115,7 +112,22 @@ const SiteList = () => {
     setCustomMark(siteNum.geometry.coordinates);
     setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
     setShowList(false);
-  }
+  };
+
+  const handleSitePress = (siteID) => {
+    const siteNum = sites.features.find((site) => site.id === siteID);
+
+    const treeList = trees.features.filter(
+      (tree) => tree.properties.siteID === siteID
+    );
+
+    setSelectedTrees(treeList);
+    setSelectedSite(siteID);
+    setCurrentScreen("SelectedSite");
+    setCustomMark(siteNum.geometry.coordinates);
+    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
+    setShowList(false);
+  };
 
   return (
     <>
@@ -170,14 +182,52 @@ const SiteList = () => {
           </View>
         </View>
 
-        <View className="flex flex-row w-full h-[80%] p-2">
-          <ScrollView className="bg-slate-400 rounded-2xl">
-            <View className="m-8">
-              <Text className="font-bold text-white text-lg px-2">Trees</Text>
-              <View className="w-full bg-gray-700 h-1 rounded-full"></View>
-            </View>
+        <View className="flex w-full h-[78%] p-2 mt-4 bg-slate-400 rounded-2xl">
+          <Text className="font-bold text-white text-lg px-4">Trees</Text>
+          <ScrollView className="">
             {/* map through trees and creates a touchable highlight that shows each tree and when touched displays the associated site in SelectedSite */}
-            {trees.features.map((tree, index) => {
+
+            {sites && sites.features.map((site) => {
+              return (
+                <React.Fragment key={site.id}>
+                  <TouchableHighlight
+                    className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 border-gray-600 justify-between items-center"
+                    onPress={() => {
+                      handleSitePress(site.id);
+                    }}
+                    activeOpacity={0.6}
+                    underlayColor={"#4e545f56"}
+                  >
+                    <Text className="font-bold pl-1 py-2 text-lg text-white">
+                      Site: {site.properties.siteID.toString().padStart(4, "0")}
+                    </Text>
+                  </TouchableHighlight>
+                  {trees && trees.features.map((tree) => {
+                    if (tree.properties.siteID === site.id) {
+                      return (
+                        <React.Fragment key={tree._id}>
+                          <TouchableHighlight
+                            className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 justify-between items-center"
+                            onPress={() => {
+                              handlePress(tree.properties.siteID);
+                            }}
+                            activeOpacity={0.6}
+                            underlayColor={"#4e545f56"}
+                          >
+                            <Text className="font-bold pl-1 py-2 text-lg text-white">
+                              Tree: {tree.properties.treeID.toString().padStart(4, "0")}
+                            </Text>
+                          </TouchableHighlight>
+                        </React.Fragment>
+                      );
+                    }
+                    return null;
+                  })}
+                </React.Fragment>
+              );
+            })}
+
+            {/* {trees.features.map((tree, index) => {
               const increment = index + 1;
               return (
                 <TouchableHighlight
@@ -190,7 +240,7 @@ const SiteList = () => {
                   </Text>
                 </TouchableHighlight>
               );
-            })}
+            })} */}
           </ScrollView>
         </View>
       </View>
