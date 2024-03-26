@@ -32,6 +32,7 @@ const SiteList = () => {
   const [selectedSiteId, setSelectedSiteId] = useState(null);
 
   const handleChange = (e) => {
+    {showList === true ? null : animateElement()}
     setShowList(true);
     setSearch(e.nativeEvent.text);
 
@@ -41,10 +42,8 @@ const SiteList = () => {
 
       if (list === undefined) {
         setSiteList([{ properties: { siteID: "No Site Found" } }]);
-        animateElement();
         return;
       }
-      animateElement();
       setSiteList([list]);
       console.log(list);
   };
@@ -90,6 +89,16 @@ const SiteList = () => {
     setShowList(false);
   };
 
+  const handleSitePress = (siteID) => { 
+    if (selectedSiteId === siteID) {
+      setShowTree(!showTree);
+      setSelectedSiteId(siteID);
+    } else {
+      setShowTree(true);
+      setSelectedSiteId(siteID);
+    }
+  }
+
   return (
     <>
       <View className="flex flex-col w-full items-center">
@@ -130,9 +139,8 @@ const SiteList = () => {
                   <TouchableHighlight
                     className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
                     onPress={() => {
-                      // handleSitePress(site.id);
-                      setSelectedSiteId(site.id);
-                      setShowTree(!showTree);
+                      handleSitePress(site.id);
+                      
                     }}
                     activeOpacity={0.6}
                     underlayColor={"#4e545f56"}
@@ -146,7 +154,7 @@ const SiteList = () => {
           return (
                         <React.Fragment key={tree._id}>
                         <TouchableHighlight
-                          className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#d4dbe0ad] justify-between items-center"
+                          className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
                           onPress={() => {
                             handlePress(tree.properties.siteID);
                           }}
