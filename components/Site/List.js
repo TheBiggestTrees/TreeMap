@@ -14,6 +14,8 @@ import RollPickerNative from "roll-picker-native";
 
 const SiteList = () => {
   const {
+    camera,
+    sliderRef,
     sites,
     trees,
     showList,
@@ -75,14 +77,20 @@ const SiteList = () => {
     }
   };
 
-  const handlePress = (siteID) => {
+  const handlePress = (siteID, coords) => {
     const siteNum = sites.features.find((site) => site.id === siteID);
 
     const treeList = trees.features.filter(
       (tree) => tree.properties.siteID === siteID
     );
 
-    console.log(siteNum);
+    camera.current?.setCamera({
+      centerCoordinate: coords,
+      zoomLevel: 19,
+      animationDuration: 500,
+      animationMode: "flyTo",
+    });
+    sliderRef.current.show({ toValue: 200 });
     setSelectedTrees(treeList);
     setSelectedSite(siteID);
     setCurrentScreen("SelectedSite");
@@ -163,7 +171,7 @@ const SiteList = () => {
                               <TouchableHighlight
                                 className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
                                 onPress={() => {
-                                  handlePress(tree.properties.siteID);
+                                  handlePress(tree.properties.siteID, tree.geometry.coordinates);
                                 }}
                                 activeOpacity={0.6}
                                 underlayColor={"#4e545f56"}
