@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
-import RollPickerNative from "roll-picker-native";
 
 const SiteList = () => {
   const {
