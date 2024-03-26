@@ -158,8 +158,9 @@ const SiteList = () => {
 
         <View className="flex w-full h-[78%] p-2 mt-4 bg-slate-400 rounded-2xl">
           <Text className="font-bold text-white text-lg px-4">
-            Sites: { sites && sites.features.length } Trees: {trees && trees.features.length}
-          </Text> 
+            Sites: {sites && sites.features.length} Trees:{" "}
+            {trees && trees.features.length}
+          </Text>
           <ScrollView className="">
             {/* map through trees and creates a touchable highlight that shows each tree and when touched displays the associated site in SelectedSite */}
 
@@ -183,9 +184,27 @@ const SiteList = () => {
                           Site:{" "}
                           {site.properties.siteID.toString().padStart(4, "0")}
                         </Text>
-                        { showTree && selectedSiteId === site.id && <Icons name={"remove"} size={40} color="#4e545f56"></Icons> }
-                        { !showTree && selectedSiteId === site.id && <Icons name={"expand-more"} size={40} color="#4e545f56"></Icons> }
-                        { selectedSiteId !== site.id && <Icons name="expand-more" size={40} color="#4e545f56"></Icons> }
+                        {showTree && selectedSiteId === site.id && (
+                          <Icons
+                            name={"remove"}
+                            size={40}
+                            color="#4e545f56"
+                          ></Icons>
+                        )}
+                        {!showTree && selectedSiteId === site.id && (
+                          <Icons
+                            name={"expand-more"}
+                            size={40}
+                            color="#4e545f56"
+                          ></Icons>
+                        )}
+                        {selectedSiteId !== site.id && (
+                          <Icons
+                            name="expand-more"
+                            size={40}
+                            color="#4e545f56"
+                          ></Icons>
+                        )}
                       </View>
                     </TouchableHighlight>
                     {showTree &&
@@ -197,7 +216,10 @@ const SiteList = () => {
                               <TouchableHighlight
                                 className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
                                 onPress={() => {
-                                  handlePress(tree.properties.siteID, tree.geometry.coordinates);
+                                  handlePress(
+                                    tree.properties.siteID,
+                                    tree.geometry.coordinates
+                                  );
                                 }}
                                 activeOpacity={0.6}
                                 underlayColor={"#4e545f56"}
