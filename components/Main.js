@@ -11,8 +11,8 @@ import * as Location from "expo-location";
 import NavBar from "../components/Layout/NavBar";
 import ScreenContext from "../context/screenContext";
 
-Mapbox.setAccessToken(REACT_APP_MAPBOX_ACCESS_TOKEN);
-const API_URL = REACT_APP_API_URL;
+Mapbox.setAccessToken(process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN);
+const API_URL = process.env.REACT_APP_API_URL || REACT_APP_API_URL;
 
 const Main = () => {
   const {
