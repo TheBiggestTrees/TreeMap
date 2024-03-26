@@ -25,26 +25,16 @@ const SiteList = () => {
     setSelectedTrees,
   } = useContext(ScreenContext);
 
-  const holder = ["Search Site", "Search Tree"];
+  const holder = ["Search Site"];
   const [search, setSearch] = useState("");
   const [siteList, setSiteList] = useState(null);
-  const [roller, setRoller] = useState(0);
+  const [showTree, setShowTree] = useState(false);
+  const [selectedSiteId, setSelectedSiteId] = useState(null);
 
-  const handleRoll = (index) => {
-    console.log(index);
-    setRoller(index);
-    setSearch("");
-    if (index === 0) setSiteList([...sites.features]);
-    else if (index === 1) {
-      setSiteList([...trees.features]);
-      console.log([...trees.features]);
-    }
-  };
-
-  const handleChange = (e, roller) => {
+  const handleChange = (e) => {
     setShowList(true);
     setSearch(e.nativeEvent.text);
-    if (roller === 0) {
+
       const list = sites.features.find(
         (site) => +site.properties.siteID == e.nativeEvent.text
       );
@@ -57,20 +47,6 @@ const SiteList = () => {
       animateElement();
       setSiteList([list]);
       console.log(list);
-    } else if (roller === 1) {
-      const list = trees.features.find(
-        (tree) => +tree.properties.treeID == e.nativeEvent.text
-      );
-
-      if (list === undefined) {
-        setSiteList([{ properties: { treeID: "No Tree Found" } }]);
-        animateElement();
-        return;
-      }
-      animateElement();
-      setSiteList([list]);
-      console.log(list);
-    }
   };
 
   const handleDrop = () => {
@@ -114,62 +90,23 @@ const SiteList = () => {
     setShowList(false);
   };
 
-  const handleSitePress = (siteID) => {
-    const siteNum = sites.features.find((site) => site.id === siteID);
-
-    const treeList = trees.features.filter(
-      (tree) => tree.properties.siteID === siteID
-    );
-
-    setSelectedTrees(treeList);
-    setSelectedSite(siteID);
-    setCurrentScreen("SelectedSite");
-    setCustomMark(siteNum.geometry.coordinates);
-    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
-    setShowList(false);
-  };
-
   return (
     <>
       <View className="flex flex-col w-full items-center">
         <View className="flex flex-row items-center bg-slate-400 shadow-lg w-full p-4 rounded-full">
           <View className="flex grow">
-            <RollPickerNative
-              items={["Site", "Tree"]}
-              index={roller}
-              onIndexChange={(index) => handleRoll(index)}
-              selectHeight={50}
-              containerHeight={40}
-              removeLine={true}
-              selectStyle={{
-                backgroundColor: "transparent",
-                borderColor: "transparent",
-              }}
-              selectTextStyle={{
-                color: "white",
-                fontSize: 20,
-                fontWeight: "bold",
-              }}
-              containerStyle={{
-                backgroundColor: "transparent",
-              }}
-              textStyle={{
-                color: "white",
-                fontSize: 20,
-                fontWeight: "bold",
-              }}
-            />
+            <Text className="text-white font-bold text-lg">Site</Text>
           </View>
           <View className="bg-[#4e545f56] w-1 rounded-full h-8 mx-2"></View>
           <View className="flex flex-row items-center">
             <TextInput
               className="text-white font-bold h-10 text-lg grow"
               onChange={(e) => {
-                handleChange(e, roller);
+                handleChange(e);
               }}
               value={search}
               placeholderTextColor={"#ffffff"}
-              placeholder={holder[roller]}
+              placeholder={holder[0]}
             />
             <TouchableOpacity
               onPress={() => {
@@ -191,9 +128,11 @@ const SiteList = () => {
               return (
                 <React.Fragment key={site.id}>
                   <TouchableHighlight
-                    className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 border-gray-600 justify-between items-center"
+                    className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
                     onPress={() => {
-                      handleSitePress(site.id);
+                      // handleSitePress(site.id);
+                      setSelectedSiteId(site.id);
+                      setShowTree(!showTree);
                     }}
                     activeOpacity={0.6}
                     underlayColor={"#4e545f56"}
@@ -202,30 +141,30 @@ const SiteList = () => {
                       Site: {site.properties.siteID.toString().padStart(4, "0")}
                     </Text>
                   </TouchableHighlight>
-                  {trees && trees.features.map((tree) => {
-                    if (tree.properties.siteID === site.id) {
-                      return (
+                 {showTree && selectedSiteId === site.id && trees.features.map((tree) => {
+        if (tree.properties.siteID === site.id) {
+          return (
                         <React.Fragment key={tree._id}>
-                          <TouchableHighlight
-                            className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 justify-between items-center"
-                            onPress={() => {
-                              handlePress(tree.properties.siteID);
-                            }}
-                            activeOpacity={0.6}
-                            underlayColor={"#4e545f56"}
-                          >
-                            <Text className="font-bold pl-1 py-2 text-lg text-white">
-                              Tree: {tree.properties.treeID.toString().padStart(4, "0")}
-                            </Text>
-                          </TouchableHighlight>
-                        </React.Fragment>
+                        <TouchableHighlight
+                          className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#d4dbe0ad] justify-between items-center"
+                          onPress={() => {
+                            handlePress(tree.properties.siteID);
+                          }}
+                          activeOpacity={0.6}
+                          underlayColor={"#4e545f56"}
+                        >
+                          <Text className="font-bold pl-1 py-2 text-lg text-white">
+                            Tree: {tree.properties.treeID.toString().padStart(4, "0")}
+                          </Text>
+                        </TouchableHighlight>
+                      </React.Fragment>
                       );
                     }
-                    return null;
                   })}
                 </React.Fragment>
               );
             })}
+
 
             {/* {trees.features.map((tree, index) => {
               const increment = index + 1;
@@ -245,7 +184,7 @@ const SiteList = () => {
         </View>
       </View>
 
-      {showList && roller === 0 && (
+      {showList && (
         <>
           <Animated.View
             className="absolute top-28 px-2 drop-shadow-2xl w-2/3 z-auto"
@@ -277,44 +216,6 @@ const SiteList = () => {
           </Animated.View>
         </>
       )}
-
-      {showList && roller === 1 ? (
-        <>
-          <Animated.View
-            className="absolute top-28 px-2 drop-shadow-2xl w-2/3 z-auto"
-            style={opacityStyle}
-          >
-            <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
-              {search !== ""
-                ? siteList.map((site, index) => {
-                    return (
-                      <View
-                        key={index}
-                        className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center"
-                      >
-                        <Text className="font-bold pl-1 py-2 text-lg text-white">
-                          {site.properties.treeID.toString().padStart(4, "0")}
-                        </Text>
-                      </View>
-                    );
-                  })
-                : trees.features.map((site, index) => {
-                    const increment = index + 1;
-                    return (
-                      <View
-                        key={index}
-                        className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center"
-                      >
-                        <Text className="font-bold pl-1 py-2 text-lg text-white">
-                          {increment.toString().padStart(4, "0")}
-                        </Text>
-                      </View>
-                    );
-                  })}
-            </ScrollView>
-          </Animated.View>
-        </>
-      ) : null}
     </>
   );
 };
