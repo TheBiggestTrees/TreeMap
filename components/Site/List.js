@@ -251,24 +251,30 @@ const SiteList = () => {
             <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
               {search !== ""
                 ? siteList.map((site, index) => (
-                    <View
+                    <TouchableHighlight
                       key={index}
-                      className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center"
+                      onPress={() => {handleSiteLongPress(site.id)}}
+                      activeOpacity={0.6}
+                      underlayColor={"#818996"}
+                      className="flex flex-row rounded-lg w-full border-t-2 border-gray-600 justify-between items-center"
                     >
                       <Text className="font-bold pl-1 py-2 text-lg text-white">
                         {site.properties.siteID.toString().padStart(4, "0")}
                       </Text>
-                    </View>
+                    </TouchableHighlight>
                   ))
                 : sites.features.map((site, index) => (
-                    <View
+                    <TouchableHighlight
                       key={index}
-                      className="flex flex-row w-full border-t-2 border-gray-600 justify-between items-center"
+                      onPress={() => {handleSiteLongPress(site.id)}}
+                      activeOpacity={0.6}
+                      underlayColor={"#818996"}
+                      className="flex flex-row rounded-lg w-full border-t-2 border-gray-600 justify-between items-center"
                     >
                       <Text className="font-bold pl-1 py-2 text-lg text-white">
                         {site.properties.siteID.toString().padStart(4, "0")}
                       </Text>
-                    </View>
+                    </TouchableHighlight>
                   ))}
             </ScrollView>
           </Animated.View>
