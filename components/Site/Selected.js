@@ -15,75 +15,32 @@ const SelectedSite = () => {
 
   return (
     <>
-      <View className="flex flex-row w-full justify-between items-center">
-        <Text className="text-white font-bold text-lg">
-          Site {sliderTitle.toString().padStart(4, "0")}
-        </Text>
-        {selectedTrees ? (
-          <Text className="text-white font-bold text-lg">
-            Trees: {selectedTrees.length}
-          </Text>
-        ) : (
-          <Text className="text-white font-bold text-lg">Trees: 0</Text>
-        )}
+      <View>
+        <ScrollView>
+          {selectedTrees && selectedTrees.map((tree, index) => (
+            <TouchableHighlight
+              key={index}
+              onPress={() => {
+                setCurrentScreen("SelectedTree");
+                setSelectedTrees(tree);
+                setShowCustomTree(false);
+                sliderRef.current.show({
+                  toValue: 200,
+                });
+              }}
+            >
+              <View>
+                <Text className="font-bold text-lg text-white">{tree.properties.treeID.toString().padStart(4, "0")}</Text>
+                <Text className="font-bold text-lg text-white">{tree.properties.treeSpecies}</Text>
+                <Text className="font-bold text-lg text-white">{tree.properties.treeFamily}</Text>
+                <Text className="font-bold text-lg text-white">{tree.properties.dateCreated}</Text>
+                {tree.properties.needsWork && <Text className="font-bold text-lg text-red">Needs Work</Text>}
 
-        <View className="flex flex-row gap-4 items-center">
-          <TouchableHighlight
-            className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg"
-            onPress={() => {
-              setCurrentScreen("AddTree");
-              setShowCustomTree(false);
-              sliderRef.current.show();
-            }}
-            underlayColor={"transparent"}
-          >
-            <View className="flex flex-row justify-center items-center rounded-lg">
-              <Text className="text-white ml-3">Add Tree</Text>
-              <Icons name="add" size={40} color="#374151"></Icons>
-            </View>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            onPress={() => {
-              setCurrentScreen("siteList");
-              setShowCustomTree(false);
-              setSelectedTrees(null);
-              sliderRef.current.show();
-            }}
-            underlayColor={"transparent"}
-            className="bg-[#4e545f56] rounded-full"
-          >
-            <Icons name="close" size={40} color="#374151"></Icons>
-          </TouchableHighlight>
-        </View>
-      </View>
-
-      <ScrollView className="w-full mb-24 mt-8">
-        {selectedTrees &&
-          selectedTrees.map((tree, index) => (
-            <View key={index} className="flex m-4">
-              <Text className="text-white">
-                Tree Number: {tree.properties.treeID}
-              </Text>
-              <Text className="text-white">
-                Date Created: {tree.properties.dateCreated}
-              </Text>
-              <Text className="text-white">
-                Species: {tree.properties.treeSpecies}
-              </Text>
-              <Text className="text-white">
-                Date Planted: {tree.properties.datePlanted}
-              </Text>
-              <Text className="text-white">
-                Last Work Date: {tree.properties.lastWorkDate}
-              </Text>
-              <Text className="text-white">
-                Coordinates: [{tree.geometry.coordinates[0].toFixed(5)},{" "}
-                {tree.geometry.coordinates[1].toFixed(5)}]
-              </Text>
-            </View>
+              </View>
+            </TouchableHighlight>
           ))}
-      </ScrollView>
+        </ScrollView>
+      </View>
     </>
   );
 };
