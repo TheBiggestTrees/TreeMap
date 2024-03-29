@@ -1,10 +1,10 @@
 import Main from "./components/Main";
 import Login from "./components/Users/Login";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import ScreenContext from "./context/screenContext";
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
 const App = () => {
-
   const sliderRef = useRef();
   const mapRef = useRef();
   const camera = useRef();
@@ -28,12 +28,12 @@ const App = () => {
     needsWork: false,
     needsWorkComment: "N/A",
     dbh: 0,
-    dateCreated: 'N/A',
-    createdBy: 'N/A',
+    dateCreated: "N/A",
+    createdBy: "N/A",
     plantedBy: "N/A",
     datePlanted: "N/A",
     photos: ["N/A"],
-    siteID: '0',
+    siteID: "0",
   });
   const [sites, setSites] = useState(null);
   const [location, setLocation] = useState(null);
@@ -47,46 +47,50 @@ const App = () => {
   const [showCustomTree, setShowCustomTree] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("siteList");
   const [showList, setShowList] = useState(false);
+  const { authState } = useAuth();
 
   return (
-    <ScreenContext.Provider value={{
-      sliderRef,
-      mapRef,
-      camera,
-      trees,
-      setTrees,
-      tempTreeForm,
-      setTempTreeForm,
-      sites,
-      setSites,
-      location,
-      setLocation,
-      errMsg,
-      setErrMsg,
-      sliderTitle,
-      setSliderTitle,
-      showSplash,
-      setShowSplash,
-      selectedTrees,
-      setSelectedTrees,
-      selectedSite,
-      setSelectedSite,
-      customMark,
-      setCustomMark,
-      showCustomMark,
-      setShowCustomMark,
-      showCustomTree,
-      setShowCustomTree,
-      currentScreen,
-      setCurrentScreen,
-      showList,
-      setShowList,
-    }}>
-      <Login />
-      {/* <Main /> */}
-    </ScreenContext.Provider>
+    <AuthProvider>
+      <ScreenContext.Provider
+        value={{
+          sliderRef,
+          mapRef,
+          camera,
+          trees,
+          setTrees,
+          tempTreeForm,
+          setTempTreeForm,
+          sites,
+          setSites,
+          location,
+          setLocation,
+          errMsg,
+          setErrMsg,
+          sliderTitle,
+          setSliderTitle,
+          showSplash,
+          setShowSplash,
+          selectedTrees,
+          setSelectedTrees,
+          selectedSite,
+          setSelectedSite,
+          customMark,
+          setCustomMark,
+          showCustomMark,
+          setShowCustomMark,
+          showCustomTree,
+          setShowCustomTree,
+          currentScreen,
+          setCurrentScreen,
+          showList,
+          setShowList,
+        }}
+      >
+        { authState?.authenticated ? <Main /> : <Login />}
+        {/* <Main /> */}
+      </ScreenContext.Provider>
+    </AuthProvider>
   );
 };
 
 export default App;
-
