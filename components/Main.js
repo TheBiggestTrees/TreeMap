@@ -89,7 +89,7 @@ const Main = () => {
       console.log(data);
       setSelectedSite(data.id);
       fetchTreesInSite(data.id);
-      setSliderTitle(data.properties.siteID);
+      setSliderTitle(data.properties.siteID.toString().padStart(4, "0"));
       setCurrentScreen("SelectedSite");
       setCustomMark(data.geometry.coordinates);
       sliderRef.current.show({
