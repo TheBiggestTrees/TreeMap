@@ -15,7 +15,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -36,7 +39,7 @@
         }
       ],
       [
-        "expo-build-properties", 
+        "expo-build-properties",
         {
           "android": {
             "usesCleartextTraffic": true
@@ -48,7 +51,8 @@
         {
           "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2x0N3dndnk0MDYxeDJpbzRxM3NqMTh2OSJ9.3o_QTMyOWf2hV7ixJFrZww"
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "extra": {
       "eas": {
