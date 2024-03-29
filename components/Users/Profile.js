@@ -3,7 +3,7 @@ import { Text, Touchable, TouchableHighlight, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
-import {REACT_APP_API_URL} from "@env";
+import { REACT_APP_API_URL } from "@env";
 
 const Profile = () => {
   const { onLogout, userID } = useAuth();
@@ -21,9 +21,8 @@ const Profile = () => {
       setUser((prev) => ({
         ...res.data.data,
       }));
-      
     } catch (err) {
-      console.log({err});
+      console.log({ err });
     }
   };
 
@@ -32,27 +31,34 @@ const Profile = () => {
   }, []);
 
   return (
-    <View className="flex w-full h-full bg-gray-500">
-      {user && <View>
-        <Text className="text-white font-bold text-lg">Profile</Text>
-        <Text className="text-white font-bold text-lg">{user.username}</Text>
-        <Text className="text-white font-bold text-lg">
-          {user.firstName} {user.lastName}
-        </Text>
-        <Text className="text-white font-bold text-lg">{user.email}</Text>
-    
-      </View>}
-      <TouchableHighlight
-        className="w-32 bg-[#4e545f56] rounded-lg self-center h-10 flex items-center justify-center mt-2"
-        activeOpacity={0.8}
-        underlayColor="#b80d13"
-        onPress={() => {
-          onLogout();
-        }}
-      >
-        <Text className="font-bold text-lg text-white">Log Out</Text>
-      </TouchableHighlight>
-    </View>
+    <>
+      {user ? (
+        <View className="flex w-full h-full bg-gray-500">
+          <View>
+            <Text className="text-white font-bold text-lg">Profile</Text>
+            <Text className="text-white font-bold text-lg">
+              {user.username}
+            </Text>
+            <Text className="text-white font-bold text-lg">
+              {user.firstName} {user.lastName}
+            </Text>
+            <Text className="text-white font-bold text-lg">{user.email}</Text>
+          </View>
+          <TouchableHighlight
+            className="w-32 bg-[#4e545f56] rounded-lg self-center h-10 flex items-center justify-center mt-2"
+            activeOpacity={0.8}
+            underlayColor="#b80d13"
+            onPress={() => {
+              onLogout();
+            }}
+          >
+            <Text className="font-bold text-lg text-white">Log Out</Text>
+          </TouchableHighlight>
+        </View>
+      ) : (
+        <Text className="text-lg text-white font-bold">Loading...</Text>
+      )}
+    </>
   );
 };
 

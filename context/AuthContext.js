@@ -49,30 +49,40 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    let response;
     try {
       if (email.includes("@")) {
-        response = await axios.post(
+        const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/login`,
           { email, password }
         );
+
+        setAuthState({
+          xauthtoken: response.data.data,
+          authenticated: true,
+        });
+        setUserID(response.data.userID);
+        axios.defaults.headers.common["x-auth-token"] = response.data.data;
+        await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
+        await SecureStore.setItemAsync("userID", response.data.userID);
+        return response;
         
       } else {
-        response = await axios.post(
+        const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/login`,
           { username: email, password }
         );
 
+        setAuthState({
+          xauthtoken: response.data.data,
+          authenticated: true,
+        });
+        setUserID(response.data.userID);
+        axios.defaults.headers.common["x-auth-token"] = response.data.data;
+        await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
+        await SecureStore.setItemAsync("userID", response.data.userID);
+        return response;
       }
-      setAuthState({
-        xauthtoken: response.data.data,
-        authenticated: true,
-      });
-      setUserID(response.data.userID);
-      axios.defaults.headers.common["x-auth-token"] = response.data.data;
-      await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
-      await SecureStore.setItemAsync("userID", response.data.userID);
-      return response;
+ 
     } catch (error) {
       console.error(error);
     }
