@@ -8,17 +8,20 @@ const Trees = (props) => {
   const { trees, setTrees } = useContext(ScreenContext);
 
 
-  const fetchTrees = async () => {
-    try {
-      const data = await axios.get(`${apiURL}/tree/`);
-      console.log(data.data.message);
-      setTrees(data.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
 
   useEffect(() => {
+
+    const fetchTrees = async () => {
+      try {
+        const data = await axios.get(`${apiURL}/tree/`);
+        console.log(data.data.message);
+        setTrees(data.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     fetchTrees();
   }, []);
 

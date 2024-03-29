@@ -18,25 +18,25 @@ const Sites = (props) => {
 
   const {apiURL, fetchTreesInSite} = props;
 
-  const fetchSites = async () => {
-    try {
-      const data = await axios({
-        method: "get",
-        url: apiURL + "/site/",
-        timeout: 8000,
-      });
-
-      data.data.data.features.map((site, index) => {
-        site.id = data.data.data.features[index]._id;
-      });
-      console.log(data.data.message);
-      setSites(data.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  
   useEffect(() => {
+    const fetchSites = async () => {
+      try {
+        const data = await axios({
+          method: "get",
+          url: apiURL + "/site/",
+          timeout: 8000,
+        });
+  
+        data.data.data.features.map((site, index) => {
+          site.id = data.data.data.features[index]._id;
+        });
+        console.log(data.data.message);
+        setSites(data.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     fetchSites();
   }, []);
 

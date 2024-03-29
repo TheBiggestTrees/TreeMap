@@ -2,7 +2,7 @@ import Main from "./components/Main";
 import Login from "./components/Users/Login";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import ScreenContext from "./context/screenContext";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const App = () => {
   const sliderRef = useRef();
@@ -47,7 +47,7 @@ const App = () => {
   const [showCustomTree, setShowCustomTree] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("siteList");
   const [showList, setShowList] = useState(false);
-  const { authState } = useAuth();
+  const [user, setUser] = useState(null);
 
   return (
     <AuthProvider>
@@ -84,10 +84,11 @@ const App = () => {
           setCurrentScreen,
           showList,
           setShowList,
+          user,
+          setUser
         }}
       >
-        { authState?.authenticated ? <Main /> : <Login />}
-        {/* <Main /> */}
+        <Main />
       </ScreenContext.Provider>
     </AuthProvider>
   );

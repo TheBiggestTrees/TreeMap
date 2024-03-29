@@ -10,6 +10,8 @@ import axios from "axios";
 import * as Location from "expo-location";
 import NavBar from "../components/Layout/NavBar";
 import ScreenContext from "../context/screenContext";
+import Login from "./Users/Login";
+import { useAuth } from "../context/AuthContext";
 
 Mapbox.setAccessToken(process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN);
 const API_URL = process.env.REACT_APP_API_URL || REACT_APP_API_URL;
@@ -39,8 +41,12 @@ const Main = () => {
     setShowCustomMark,
     showCustomTree,
     setShowCustomTree,
-    setCurrentScreen
+    setCurrentScreen,
   } = useContext(ScreenContext);
+
+  const { authenticated } = useAuth();
+
+
 
   useEffect(() => {
     (async () => {
@@ -234,7 +240,8 @@ const Main = () => {
   return (
     <View style={styles.page}>
       <StatusBar backgroundColor={"#6b7280"} />
-      <View style={styles.container}>
+      {authenticated ? (
+        <View style={styles.container}>
         {showSplash && <Splash />}
 
         <Mapbox.MapView
@@ -299,6 +306,9 @@ const Main = () => {
         <NavBar />
 
       </View>
+      ) : (
+        <Login />
+      )}
     </View>
   );
 };
