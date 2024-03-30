@@ -99,19 +99,20 @@ const ViewTree = () => {
         </TouchableHighlight>
       </View>
 
-      <View className="h-[67.5%] rounded-lg">
+      <View className="h-[67.5%] w-80 rounded-lg">
         <ScrollView className="gap-y-2">
           {/* If tree needs work display the work needed below buttons */}
         
             <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
-              <View className="w-80">
+              <View className="">
                 <Text className="px-5 py-2 text-white font-bold text-lg">
                   Work Needed
                 </Text>
-                <View className="bg-gray-500 w-82 h-1 rounded-full"></View>
+                <View className="bg-gray-500 h-1 rounded-full"></View>
               </View>
               <View className="py-2">
-                {comment.map((comment, index) => (
+                {comment.length < 1 ? <Text className="font-bold text-white text-lg my-4">No work needed</Text> : comment.map((comment, index) => {
+                  return (
                   <View
                     key={index}
                     className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
@@ -127,18 +128,24 @@ const ViewTree = () => {
                       <Icons name="delete" size={30} color="#FF0000"></Icons>
                     </TouchableOpacity>
                   </View>
-                ))}
+                )})}
                 <View className="flex flex-row">
                   <TextInput
                     onChange={(e) => {
                       setAddComment(e.nativeEvent.text);
                     }}
                     value={addComment}
+                    placeholder="Add Comment"
+                    placeholderTextColor={"#ffffff78"}
                     className="bg-[#ffffff31] text-white text-lg font-bold p-2 rounded-xl grow"
                   />
                   <TouchableOpacity
                     onPress={() => {
-                      handleAddComment();
+                      if (addComment !== "") {
+                        handleAddComment();
+                        setErrMsg("");
+                      }
+                      else {setErrMsg("Please enter a comment.")};
                     }}
                   >
                     <Icons name="add" size={40} color="#808080"></Icons>
