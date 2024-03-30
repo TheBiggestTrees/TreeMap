@@ -48,6 +48,7 @@ const App = () => {
   const [currentScreen, setCurrentScreen] = useState("siteList");
   const [showList, setShowList] = useState(false);
   const [user, setUser] = useState(null);
+  const [workingTree, setWorkingTree] = useState(null);
 
   return (
     <AuthProvider>
@@ -85,7 +86,9 @@ const App = () => {
           showList,
           setShowList,
           user,
-          setUser
+          setUser,
+          workingTree,
+          setWorkingTree,
         }}
       >
         <Main />

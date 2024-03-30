@@ -9,6 +9,7 @@ import TreeCustPos from "../Tree/CustPos";
 import SiteList from "../Site/List";
 import ScreenContext from "../../context/screenContext";
 import Profile from "../Users/Profile";
+import ViewTree from "../Tree/Edit/ViewTree";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
@@ -59,6 +60,7 @@ const Slider = (props) => {
             )}
             {currentScreen === "AddTree" && <AddTree addNewTree={addNewTree} />}
             {currentScreen === "Profile" && <Profile />}
+            {currentScreen === "ViewTree" && <ViewTree />}
           </View>
         )}
       </SlidingUpPanel>

@@ -11,6 +11,7 @@ const SelectedSite = () => {
     setSelectedTrees,
     setShowCustomTree,
     setCurrentScreen,
+    setWorkingTree
   } = useContext(ScreenContext);
 
   return (
@@ -54,12 +55,10 @@ const SelectedSite = () => {
             <TouchableHighlight
               key={index}
               onPress={() => {
-                setCurrentScreen("SelectedTree");
-                setSelectedTrees(tree);
+                setCurrentScreen("ViewTree");
                 setShowCustomTree(false);
-                sliderRef.current.show({
-                  toValue: 200,
-                });
+                setWorkingTree(tree);
+                sliderRef.current.show();
               }}
               activeOpacity={0.6}
               underlayColor="#d4dbe044"
