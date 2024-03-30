@@ -35,6 +35,8 @@ export const AuthProvider = ({ children }) => {
     loadToken();
   }, []);
 
+  const [err, setErr] = useState("");
+
   const register = async (regData) => {
     try {
       const response = await axios.post(
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
       console.log(response.data);
       
     } catch (error) {
-      console.error(error);
+      setErr(error.response.data.message);
     }
   };
 
@@ -106,6 +108,8 @@ export const AuthProvider = ({ children }) => {
     userID: userID,
     xauthtoken: authState.xauthtoken,
     authenticated: authState.authenticated,
+    err,
+    setErr,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

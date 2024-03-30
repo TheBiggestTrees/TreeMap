@@ -9,7 +9,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 
 const Register = (props) => {
-  const { onRegister } = useAuth();
+  const { onRegister, err, setErr } = useAuth();
   const { setScreen } = props;
 
   const [username, setUsername] = useState("");
@@ -21,12 +21,12 @@ const Register = (props) => {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-    const [passMsg, setPassMsg] = useState("");
+  const [passMsg, setPassMsg] = useState("");
 
   const checkPassword = (a, b) => {
     if (a === b) {
       setPassMsg("");
+      setErr("");
       return true;
     } else {
       setPassMsg("Passwords do not match");
@@ -35,7 +35,7 @@ const Register = (props) => {
   };
 
   const register = async () => {
-    try {
+    if (passMsg !== "Passwords do not match") {
       onRegister({
         username,
         firstName,
@@ -45,10 +45,25 @@ const Register = (props) => {
         month,
         day,
         year,
+      }).then((res) => {
+        if (
+          err ||
+          (username.length > 0 &&
+            firstName.length > 0 &&
+            lastName.length > 0 &&
+            email.length > 0 &&
+            password.length > 0 &&
+            confirmPassword.length > 0 &&
+            month.length > 0 &&
+            day.length > 0 &&
+            year.length > 0)
+        ) {
+          setScreen("login");
+          setErr("");
+        }
       });
-    } catch (error) {
-      console.error(error);
-      setErrMsg(error.message);
+    } else {
+      setErr("Passwords do not match");
     }
   };
 
@@ -131,7 +146,9 @@ const Register = (props) => {
             secureTextEntry={true}
             placeholder="Password"
           />
-          {passMsg && <Text className="text-[#d15d5d] font-bold">{passMsg}</Text>}
+          {passMsg && (
+            <Text className="text-[#d15d5d] font-bold">{passMsg}</Text>
+          )}
           <TextInput
             className="bg-white mx-2 my-2 rounded-lg h-8 p-2 w-[70%]"
             onChange={(e) => {
@@ -163,8 +180,19 @@ const Register = (props) => {
           />
         </View>
       </ScrollView>
-      {errMsg && <Text className="text-[#d15d5d] font-bold">{errMsg}</Text>}
+      {err && <Text className="text-[#d15d5d] font-bold">{err}</Text>}
       <View className="flex flex-row gap-2 py-3 items-center justify-center">
+        <TouchableHighlight
+          className="bg-[#4e545f56] rounded-lg self-center h-11 w-32 flex items-center justify-center mt-2"
+          activeOpacity={0.8}
+          underlayColor="transparent"
+          onPress={() => {
+            setScreen("login");
+          }}
+        >
+          <Text className="font-bold text-lg text-white">Login</Text>
+        </TouchableHighlight>
+
         <TouchableHighlight
           className="bg-[#4e545f56] rounded-lg self-center h-11 w-32 flex items-center justify-center mt-2"
           activeOpacity={0.8}
@@ -175,16 +203,6 @@ const Register = (props) => {
           }}
         >
           <Text className="font-bold text-lg text-white">Register</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          className="bg-[#4e545f56] rounded-lg self-center h-11 w-32 flex items-center justify-center mt-2"
-          activeOpacity={0.8}
-          underlayColor="transparent"
-          onPress={() => {
-            setScreen("login");
-          }}
-        >
-          <Text className="font-bold text-lg text-white">Login</Text>
         </TouchableHighlight>
       </View>
     </View>
