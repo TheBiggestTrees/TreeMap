@@ -9,12 +9,52 @@ import {
 } from "react-native";
 import ScreenContext from "../../../context/screenContext";
 import Icons from "@expo/vector-icons/MaterialIcons";
+import axios from "axios";
 
 const ViewTree = () => {
-  const { workingTree, sliderTitle } = useContext(ScreenContext);
+  const { workingTree, sliderTitle, setErrMsg } = useContext(ScreenContext);
 
-  const [comment, setComment] = useState(workingTree.properties.needsWorkComment);
- 
+
+
+  const [comment, setComment] = useState(
+    workingTree.properties.needsWorkComment
+  );
+  const [addComment, setAddComment] = useState("");
+
+  const handleDelete = (index) => {
+    let temp = [...comment];
+    temp.splice(index, 1);
+    setComment(temp);
+    console.log(temp);
+    try {
+        workingTree.properties.needsWorkComment = temp;
+        console.log(workingTree)
+        axios.put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {properties: {...workingTree.properties}}).then((res) => {
+          setErrMsg(res.message)
+        });
+      } catch (err) {
+        console.log(err);
+        setErrMsg("Error adding!");
+      }
+  };
+
+  const handleAddComment = () => {
+    let temp = [...comment];
+    temp.push(addComment);
+    setComment(temp);
+    setAddComment("");
+    try {
+      workingTree.properties.needsWorkComment = temp;
+      console.log(workingTree)
+      axios.put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {properties: {...workingTree.properties}}).then((res) => {
+        setErrMsg(res.message)
+      });
+    } catch (err) {
+      console.log(err);
+      setErrMsg("Error adding!");
+    }
+  };
+
   return (
     <View className="flex items-center gap-4">
       {/* Title bar */}
@@ -62,7 +102,7 @@ const ViewTree = () => {
       <View className="h-[67.5%] rounded-lg">
         <ScrollView className="gap-y-2">
           {/* If tree needs work display the work needed below buttons */}
-          { comment && (
+        
             <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
               <View className="w-80">
                 <Text className="px-5 py-2 text-white font-bold text-lg">
@@ -71,27 +111,42 @@ const ViewTree = () => {
                 <View className="bg-gray-500 w-82 h-1 rounded-full"></View>
               </View>
               <View className="py-2">
-                { comment.map((comment, index) => (
-                    <View
+                {comment.map((comment, index) => (
+                  <View
                     key={index}
                     className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
                   >
                     <Text className="text-white font-bold text-lg">
                       {comment}
                     </Text>
-                    <TouchableOpacity>
-                      <Icons
-                        name="delete"
-                        size={30}
-                        color="#FF0000"
-                      ></Icons>
+                    <TouchableOpacity
+                      onPress={() => {
+                        handleDelete(index);
+                      }}
+                    >
+                      <Icons name="delete" size={30} color="#FF0000"></Icons>
                     </TouchableOpacity>
                   </View>
                 ))}
-                
+                <View className="flex flex-row">
+                  <TextInput
+                    onChange={(e) => {
+                      setAddComment(e.nativeEvent.text);
+                    }}
+                    value={addComment}
+                    className="bg-[#ffffff31] text-white text-lg font-bold p-2 rounded-xl grow"
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleAddComment();
+                    }}
+                  >
+                    <Icons name="add" size={40} color="#808080"></Icons>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          )}
+
           {/* Tree information */}
           <View className="flex items-center bg-slate-400 shadow-lg px-10 py-4 rounded-xl">
             <Text className="text-white font-bold text-lg">

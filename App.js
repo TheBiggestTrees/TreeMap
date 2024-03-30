@@ -26,7 +26,7 @@ const App = () => {
     lastWorkDate: "N/A",
     lastWorkedBy: "N/A",
     needsWork: false,
-    needsWorkComment: "N/A",
+    needsWorkComment: ["N/A"],
     dbh: 0,
     dateCreated: "N/A",
     createdBy: "N/A",
