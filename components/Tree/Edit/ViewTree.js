@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -13,6 +13,8 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 const ViewTree = () => {
   const { workingTree, sliderTitle } = useContext(ScreenContext);
 
+  const [comment, setComment] = useState(workingTree.properties.needsWorkComment);
+ 
   return (
     <View className="flex items-center gap-4">
       {/* Title bar */}
@@ -60,7 +62,7 @@ const ViewTree = () => {
       <View className="h-[67.5%] rounded-lg">
         <ScrollView className="gap-y-2">
           {/* If tree needs work display the work needed below buttons */}
-          {workingTree.properties.needsWork && (
+          { comment && (
             <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
               <View className="w-80">
                 <Text className="px-5 py-2 text-white font-bold text-lg">
@@ -69,9 +71,24 @@ const ViewTree = () => {
                 <View className="bg-gray-500 w-82 h-1 rounded-full"></View>
               </View>
               <View className="py-2">
-                <Text className="text-white font-bold text-lg">
-                  {workingTree.properties.needsWorkComment}
-                </Text>
+                { comment.map((comment, index) => (
+                    <View
+                    key={index}
+                    className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
+                  >
+                    <Text className="text-white font-bold text-lg">
+                      {comment}
+                    </Text>
+                    <TouchableOpacity>
+                      <Icons
+                        name="delete"
+                        size={30}
+                        color="#FF0000"
+                      ></Icons>
+                    </TouchableOpacity>
+                  </View>
+                ))}
+                
               </View>
             </View>
           )}
