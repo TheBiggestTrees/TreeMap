@@ -146,16 +146,16 @@ const Main = () => {
 
   const addNewSite = async () => {
     const today = new Date();
-    const date = today.toLocaleDateString("en-US", {
+    const formattedDate = today.toLocaleDateString("en-US", {
+      timeZone: "America/Chicago",
+      hour12: true,
       month: "2-digit",
       day: "2-digit",
       year: "numeric",
-    });
-    const time = today.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
+      second: "2-digit",
     });
-    const formattedDate = `${date} ${time}`;
 
     let temp;
     if (customMark && showCustomMark) {
@@ -191,17 +191,17 @@ const Main = () => {
 
   const addNewTree = () => {
     const today = new Date();
-    const date = today.toLocaleDateString("en-US", {
+    const formattedDate = today.toLocaleDateString("en-US", {
+      timeZone: "America/Chicago",
+      hour12: true,
       month: "2-digit",
       day: "2-digit",
       year: "numeric",
-    });
-    const time = today.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
+      second: "2-digit",
     });
-    const formattedDate = `${date} ${time}`;
-
+    
     let temp;
 
     if (customMark && showCustomTree) {
