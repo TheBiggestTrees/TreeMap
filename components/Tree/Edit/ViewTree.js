@@ -18,6 +18,11 @@ const ViewTree = () => {
     setErrMsg,
     setCurrentScreen,
     setShowCustomTree,
+    setSelectedTrees,
+    setTrees,
+    trees,
+    selectedTrees,
+    setWorkingTree
   } = useContext(ScreenContext);
 
   const [comment, setComment] = useState(
@@ -29,16 +34,25 @@ const ViewTree = () => {
     let temp = [...comment];
     temp.splice(index, 1);
     setComment(temp);
-
     try {
+      const workingIndex = trees.features.findIndex(tree => tree._id === workingTree._id);
+      const index = selectedTrees.findIndex(tree => tree._id === workingTree._id);
       workingTree.properties.needsWorkComment = temp;
-      console.log(workingTree);
+      
       axios
         .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
           properties: { ...workingTree.properties },
         })
         .then((res) => {
-          console.log(res);
+          setSelectedTrees(prev => {
+            prev[index] = res.data.data;
+            return prev;
+          });
+          setTrees(prev => {
+            prev.features[workingIndex] = res.data.data;
+            return prev;
+          });
+          setWorkingTree(res.data.data);
         });
     } catch (err) {
       console.log(err);
@@ -49,23 +63,29 @@ const ViewTree = () => {
   const handleAddComment = () => {
     let temp = [...comment];
     temp.push(addComment);
-    if (workingTree.properties.needsWorkComment.length > 0) {
-      workingTree.properties.needsWork = true;
-    } else if (workingTree.properties.needsWorkComment.length < 1) {
-      workingTree.properties.needsWork = false;
-    }
     setComment(temp);
     setAddComment("");
     try {
+      const workingIndex = trees.features.findIndex(tree => tree._id === workingTree._id);
+      const index = selectedTrees.findIndex(tree => tree._id === workingTree._id);
       workingTree.properties.needsWorkComment = temp;
-      console.log(workingTree);
+      
       axios
         .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
           properties: { ...workingTree.properties },
         })
         .then((res) => {
-          setErrMsg(res.message);
+          setSelectedTrees(prev => {
+            prev[index] = res.data.data;
+            return prev;
+          });
+          setTrees(prev => {
+            prev.features[workingIndex] = res.data.data;
+            return prev;
+          });
+          setWorkingTree(res.data.data);
         });
+
     } catch (err) {
       console.log(err);
       setErrMsg("Error adding!");
@@ -217,6 +237,12 @@ const ViewTree = () => {
             </Text>
             <Text className="text-white font-bold text-lg">
               Last Worked By: {workingTree.properties.lastWorkedBy}
+            </Text>
+            <Text className="text-white font-bold text-lg">
+              Last Modified By: {workingTree.properties.lastModifiedBy}
+            </Text>
+            <Text className="text-white font-bold text-lg">
+              Date Modified: {workingTree.properties.lastModifiedDate}
             </Text>
             <Text className="text-white font-bold text-lg">
               Date Created: {workingTree.properties.dateCreated}
