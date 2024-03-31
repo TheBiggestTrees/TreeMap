@@ -12,9 +12,13 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import axios from "axios";
 
 const ViewTree = () => {
-  const { workingTree, sliderTitle, setErrMsg } = useContext(ScreenContext);
-
-
+  const {
+    workingTree,
+    sliderTitle,
+    setErrMsg,
+    setCurrentScreen,
+    setShowCustomTree,
+  } = useContext(ScreenContext);
 
   const [comment, setComment] = useState(
     workingTree.properties.needsWorkComment
@@ -25,30 +29,43 @@ const ViewTree = () => {
     let temp = [...comment];
     temp.splice(index, 1);
     setComment(temp);
-    console.log(temp);
+
     try {
-        workingTree.properties.needsWorkComment = temp;
-        console.log(workingTree)
-        axios.put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {properties: {...workingTree.properties}}).then((res) => {
-          setErrMsg(res.message)
+      workingTree.properties.needsWorkComment = temp;
+      console.log(workingTree);
+      axios
+        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+          properties: { ...workingTree.properties },
+        })
+        .then((res) => {
+          console.log(res);
         });
-      } catch (err) {
-        console.log(err);
-        setErrMsg("Error adding!");
-      }
+    } catch (err) {
+      console.log(err);
+      setErrMsg("Error adding!");
+    }
   };
 
   const handleAddComment = () => {
     let temp = [...comment];
     temp.push(addComment);
+    if (workingTree.properties.needsWorkComment.length > 0) {
+      workingTree.properties.needsWork = true;
+    } else if (workingTree.properties.needsWorkComment.length < 1) {
+      workingTree.properties.needsWork = false;
+    }
     setComment(temp);
     setAddComment("");
     try {
       workingTree.properties.needsWorkComment = temp;
-      console.log(workingTree)
-      axios.put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {properties: {...workingTree.properties}}).then((res) => {
-        setErrMsg(res.message)
-      });
+      console.log(workingTree);
+      axios
+        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+          properties: { ...workingTree.properties },
+        })
+        .then((res) => {
+          setErrMsg(res.message);
+        });
     } catch (err) {
       console.log(err);
       setErrMsg("Error adding!");
@@ -58,7 +75,18 @@ const ViewTree = () => {
   return (
     <View className="flex items-center gap-4">
       {/* Title bar */}
-      <View className="flex flex-row items-center bg-slate-400 shadow-lg py-4 rounded-full">
+      <View className="flex flex-row bg-slate-400 shadow-lg py-4 rounded-full items-center">
+        <TouchableHighlight
+          className="flex items-center justify-center absolute left-2 top-2 w-14 h-14 rounded-full"
+          onPress={() => {
+            setCurrentScreen("SelectedSite");
+            setShowCustomTree(false);
+          }}
+          activeOpacity={0.2}
+          underlayColor="#4e545f22"
+        >
+          <Icons name="arrow-back-ios-new" size={40} color="#808080" />
+        </TouchableHighlight>
         <View className="h-10 w-full flex flex-row justify-evenly">
           <View className="flex items-center justify-center">
             <Text className="font-bold text-lg text-white">
@@ -102,57 +130,70 @@ const ViewTree = () => {
       <View className="h-[67.5%] w-80 rounded-lg">
         <ScrollView className="gap-y-2">
           {/* If tree needs work display the work needed below buttons */}
-        
-            <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
-              <View className="">
-                <Text className="px-5 py-2 text-white font-bold text-lg">
-                  Work Needed
-                </Text>
-                <View className="bg-gray-500 h-1 rounded-full"></View>
-              </View>
-              <View className="py-2">
-                {comment.length < 1 ? <Text className="font-bold text-white text-lg my-4">No work needed</Text> : comment.map((comment, index) => {
+
+          <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
+            <View className="">
+              <Text className="px-5 py-2 text-white font-bold text-lg">
+                Work Needed
+              </Text>
+              <View className="bg-gray-500 h-1 rounded-full"></View>
+            </View>
+            <View className="py-2">
+              {comment.length < 1 ? (
+                <>
+                  <Text className="font-bold text-white text-lg mt-4 self-center">
+                    No work needed
+                  </Text>
+                  <Text className="font-bold text-white text-lg mb-4 self-center">
+                    Add a task...
+                  </Text>
+                </>
+              ) : (
+                comment.map((comment, index) => {
                   return (
-                  <View
-                    key={index}
-                    className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
-                  >
-                    <Text className="text-white font-bold text-lg">
-                      {comment}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        handleDelete(index);
-                      }}
+                    <View
+                      key={index}
+                      className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
                     >
-                      <Icons name="delete" size={30} color="#FF0000"></Icons>
-                    </TouchableOpacity>
-                  </View>
-                )})}
-                <View className="flex flex-row">
-                  <TextInput
-                    onChange={(e) => {
-                      setAddComment(e.nativeEvent.text);
-                    }}
-                    value={addComment}
-                    placeholder="Add Comment"
-                    placeholderTextColor={"#ffffff78"}
-                    className="bg-[#ffffff31] text-white text-lg font-bold p-2 rounded-xl grow"
-                  />
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (addComment !== "") {
-                        handleAddComment();
-                        setErrMsg("");
-                      }
-                      else {setErrMsg("Please enter a comment.")};
-                    }}
-                  >
-                    <Icons name="add" size={40} color="#808080"></Icons>
-                  </TouchableOpacity>
-                </View>
+                      <Text className="text-white font-bold text-lg">
+                        {comment}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleDelete(index);
+                        }}
+                      >
+                        <Icons name="delete" size={30} color="#FF0000"></Icons>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })
+              )}
+              <View className="flex flex-row">
+                <TextInput
+                  onChange={(e) => {
+                    setAddComment(e.nativeEvent.text);
+                  }}
+                  value={addComment}
+                  placeholder="Add Comment"
+                  placeholderTextColor={"#ffffff78"}
+                  className="bg-[#ffffff31] text-white text-lg font-bold p-2 rounded-xl grow"
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    if (addComment !== "") {
+                      handleAddComment();
+                      setErrMsg("");
+                    } else {
+                      setErrMsg("Please enter a comment.");
+                    }
+                  }}
+                >
+                  <Icons name="add" size={40} color="#808080"></Icons>
+                </TouchableOpacity>
               </View>
             </View>
+          </View>
 
           {/* Tree information */}
           <View className="flex items-center bg-slate-400 shadow-lg px-10 py-4 rounded-xl">
