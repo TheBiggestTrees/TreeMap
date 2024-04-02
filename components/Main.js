@@ -13,7 +13,9 @@ import ScreenContext from "../context/screenContext";
 import Login from "./Users/Login";
 import { useAuth } from "../context/AuthContext";
 
-Mapbox.setAccessToken(process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN);
+Mapbox.setAccessToken(
+  process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
+);
 const API_URL = process.env.REACT_APP_API_URL || REACT_APP_API_URL;
 
 const Main = () => {
@@ -42,11 +44,11 @@ const Main = () => {
     showCustomTree,
     setShowCustomTree,
     setCurrentScreen,
-    trees
+    trees,
   } = useContext(ScreenContext);
 
   const { authenticated } = useAuth();
-  
+
   useEffect(() => {
     (async () => {
       try {
@@ -70,7 +72,7 @@ const Main = () => {
       const treeList = trees.features.filter(
         (tree) => tree.properties.siteID === site
       );
-      console.log("TreeList: ", treeList);  
+      console.log("TreeList: ", treeList);
       setSelectedTrees(treeList);
     } catch (err) {
       console.log(err);
@@ -127,12 +129,12 @@ const Main = () => {
         needsWork: false,
         needsWorkComment: ["N/A"],
         dbh: 0,
-        dateCreated: 'N/A',
-        createdBy: 'N/A',
+        dateCreated: "N/A",
+        createdBy: "N/A",
         plantedBy: "N/A",
         datePlanted: "N/A",
         photos: ["N/A"],
-        siteID: '0',
+        siteID: "0",
       });
       console.log(res.data.message);
     } catch (err) {
@@ -198,7 +200,7 @@ const Main = () => {
       minute: "2-digit",
       second: "2-digit",
     });
-    
+
     let temp;
 
     if (customMark && showCustomTree) {
@@ -231,7 +233,6 @@ const Main = () => {
     }
 
     postTree(temp);
-   
   };
 
   return (
@@ -239,70 +240,68 @@ const Main = () => {
       <StatusBar backgroundColor={"#6b7280"} />
       {authenticated ? (
         <View style={styles.container}>
-        {showSplash && <Splash />}
+          {showSplash && <Splash />}
 
-        <Mapbox.MapView
-          ref={mapRef}
-          scaleBarEnabled={false}
-          styleURL="mapbox://styles/tiirnako/clsoeendf04ev01nlbuki52pf"
-          style={styles.map}
-          onLayout={() => {
-            setShowSplash(false);
-          }}
-        >
-          <Mapbox.Camera
-            zoomLevel={10}
-            centerCoordinate={[-95.959888483577, 36.131068862193]}
-            animationMode={"none"}
-            ref={camera}
-          />
-
-          <Trees apiURL={API_URL} />
-          <Sites fetchTreesInSite={fetchTreesInSite} apiURL={API_URL} />
-
-          {/* Custom Site Position Marker */}
-          {showCustomMark && (
-            <Mapbox.PointAnnotation
-              draggable={true}
-              id="customMark"
-              onDrag={(e) => {
-                setCustomMark(e.geometry.coordinates);
-              }}
-              coordinate={
-                location
-                  ? [location.coords.longitude, location.coords.latitude]
-                  : [-96, 35]
-              }
+          <Mapbox.MapView
+            ref={mapRef}
+            scaleBarEnabled={false}
+            styleURL="mapbox://styles/tiirnako/clsoeendf04ev01nlbuki52pf"
+            style={styles.map}
+            onLayout={() => {
+              setShowSplash(false);
+            }}
+          >
+            <Mapbox.Camera
+              zoomLevel={10}
+              centerCoordinate={[-95.959888483577, 36.131068862193]}
+              animationMode={"none"}
+              ref={camera}
             />
-          )}
 
-          {/* Custom Tree Position Marker */}
-          {showCustomTree && (
-            <Mapbox.PointAnnotation
-              draggable={true}
-              id="customMark"
-              onDrag={(e) => {
-                setCustomMark(e.geometry.coordinates);
-              }}
-              coordinate={ customMark }
-            />
-          )}
+            <Trees apiURL={API_URL} />
+            <Sites fetchTreesInSite={fetchTreesInSite} apiURL={API_URL} />
 
-        </Mapbox.MapView>
+            {/* Custom Site Position Marker */}
+            {showCustomMark && (
+              <Mapbox.PointAnnotation
+                draggable={true}
+                id="customMark"
+                onDrag={(e) => {
+                  setCustomMark(e.geometry.coordinates);
+                }}
+                coordinate={
+                  location
+                    ? [location.coords.longitude, location.coords.latitude]
+                    : [-96, 35]
+                }
+              />
+            )}
 
-        <Slider addNewSite={addNewSite} addNewTree={addNewTree} />
+            {/* Custom Tree Position Marker */}
+            {showCustomTree && (
+              <Mapbox.PointAnnotation
+                draggable={true}
+                id="customMark"
+                onDrag={(e) => {
+                  setCustomMark(e.geometry.coordinates);
+                }}
+                coordinate={customMark}
+              />
+            )}
+          </Mapbox.MapView>
 
-        {errMsg && (
-          <View className="flex w-full absolute right-1 m-auto top-16 items-center justify-center text-center">
-            <View className="bg-red-400 p-4 rounded-3xl">
-              <Text className="text-white font-bold text-md">{errMsg}</Text>
+          <Slider addNewSite={addNewSite} addNewTree={addNewTree} />
+
+          {errMsg && (
+            <View className="flex w-full absolute right-1 m-auto top-16 items-center justify-center text-center">
+              <View className="bg-red-400 p-4 rounded-3xl">
+                <Text className="text-white font-bold text-md">{errMsg}</Text>
+              </View>
             </View>
-          </View>
-        )}
+          )}
 
-        <NavBar />
-
-      </View>
+          <NavBar />
+        </View>
       ) : (
         <Login />
       )}
