@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
+  Image,
   ScrollView,
   Text,
   TextInput,
@@ -10,6 +11,7 @@ import {
 import ScreenContext from "../../../context/screenContext";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import axios from "axios";
+import PhotosPanel from "./PhotosPanel";
 
 const ViewTree = () => {
   const {
@@ -154,6 +156,7 @@ const ViewTree = () => {
         </TouchableHighlight>
       </View>
 
+      {/* Work Needed? To-do list */}
       <View className="h-[67.5%] w-80 rounded-lg">
         <ScrollView className="gap-y-2">
           <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
@@ -219,6 +222,9 @@ const ViewTree = () => {
               </View>
             </View>
           </View>
+
+          {/* Photos */}
+          <PhotosPanel />
 
           {/* Tree information */}
           <View className="flex items-center bg-slate-400 shadow-lg px-10 py-4 rounded-xl">
