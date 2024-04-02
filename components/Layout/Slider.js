@@ -10,6 +10,8 @@ import SiteList from "../Site/List";
 import ScreenContext from "../../context/screenContext";
 import Profile from "../Users/Profile";
 import ViewTree from "../Tree/Edit/ViewTree";
+import InspectMain from "../Tree/Edit/Inspect/InspectMain";
+import WorkMain from "../Tree/Edit/Work/WorkMain";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
@@ -43,13 +45,11 @@ const Slider = (props) => {
             <View style={styles.dragHandler} {...dragHandler}>
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
-
             {currentScreen === "siteList" && (
               <>
                 <SiteList />
               </>
             )}
-            {/* {currentScreen === "TreeList" && <TreeList />} */}
             {currentScreen === "SelectedSite" && <SelectedSite />}
             {currentScreen === "AddSite" && <AddSite addNewSite={addNewSite} />}
             {currentScreen === "SiteCustPos" && (
@@ -60,7 +60,14 @@ const Slider = (props) => {
             )}
             {currentScreen === "AddTree" && <AddTree addNewTree={addNewTree} />}
             {currentScreen === "Profile" && <Profile />}
+            {/* View Tree is parent of Inspect and Work */}
             {currentScreen === "ViewTree" && <ViewTree />}
+
+            {/* Inspect Parent */}
+            {currentScreen === "InspectMain" && <InspectMain />}
+
+            {/* Work Parent */}
+            {currentScreen === "WorkMain" && <WorkMain />}
           </View>
         )}
       </SlidingUpPanel>

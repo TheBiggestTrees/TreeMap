@@ -22,7 +22,7 @@ const ViewTree = () => {
     setTrees,
     trees,
     selectedTrees,
-    setWorkingTree
+    setWorkingTree,
   } = useContext(ScreenContext);
 
   const [comment, setComment] = useState(
@@ -35,20 +35,24 @@ const ViewTree = () => {
     temp.splice(index, 1);
     setComment(temp);
     try {
-      const workingIndex = trees.features.findIndex(tree => tree._id === workingTree._id);
-      const index = selectedTrees.findIndex(tree => tree._id === workingTree._id);
+      const workingIndex = trees.features.findIndex(
+        (tree) => tree._id === workingTree._id
+      );
+      const index = selectedTrees.findIndex(
+        (tree) => tree._id === workingTree._id
+      );
       workingTree.properties.needsWorkComment = temp;
-      
+
       axios
         .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
           properties: { ...workingTree.properties },
         })
         .then((res) => {
-          setSelectedTrees(prev => {
+          setSelectedTrees((prev) => {
             prev[index] = res.data.data;
             return prev;
           });
-          setTrees(prev => {
+          setTrees((prev) => {
             prev.features[workingIndex] = res.data.data;
             return prev;
           });
@@ -66,26 +70,29 @@ const ViewTree = () => {
     setComment(temp);
     setAddComment("");
     try {
-      const workingIndex = trees.features.findIndex(tree => tree._id === workingTree._id);
-      const index = selectedTrees.findIndex(tree => tree._id === workingTree._id);
+      const workingIndex = trees.features.findIndex(
+        (tree) => tree._id === workingTree._id
+      );
+      const index = selectedTrees.findIndex(
+        (tree) => tree._id === workingTree._id
+      );
       workingTree.properties.needsWorkComment = temp;
-      
+
       axios
         .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
           properties: { ...workingTree.properties },
         })
         .then((res) => {
-          setSelectedTrees(prev => {
+          setSelectedTrees((prev) => {
             prev[index] = res.data.data;
             return prev;
           });
-          setTrees(prev => {
+          setTrees((prev) => {
             prev.features[workingIndex] = res.data.data;
             return prev;
           });
           setWorkingTree(res.data.data);
         });
-
     } catch (err) {
       console.log(err);
       setErrMsg("Error adding!");
@@ -128,7 +135,7 @@ const ViewTree = () => {
         <TouchableHighlight
           className="flex items-center w-36 h-14 justify-center bg-slate-600 shadow-lg rounded-xl border-b-2 border-b-gray-500"
           onPress={() => {
-            console.log("Inspect");
+            setCurrentScreen("InspectMain");
           }}
           activeOpacity={0.5}
           underlayColor="#6b7280"
@@ -138,7 +145,7 @@ const ViewTree = () => {
         <TouchableHighlight
           className="flex items-center w-36 h-14 justify-center bg-slate-600 shadow-lg rounded-xl border-b-2 border-b-gray-500"
           onPress={() => {
-            console.log("Work");
+            setCurrentScreen("WorkMain");
           }}
           activeOpacity={0.5}
           underlayColor="#6b7280"
@@ -149,8 +156,6 @@ const ViewTree = () => {
 
       <View className="h-[67.5%] w-80 rounded-lg">
         <ScrollView className="gap-y-2">
-          {/* If tree needs work display the work needed below buttons */}
-
           <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
             <View className="">
               <Text className="px-5 py-2 text-white font-bold text-lg">
