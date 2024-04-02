@@ -114,6 +114,22 @@ const NeedsWorkItem = () => {
                 key={index}
                 className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
               >
+                <Icons
+                  style={{
+                    position: "absolute",
+                    left: 15,
+                    zIndex: 1,
+                  }}
+                  name="check"
+                  size={40}
+                  color="#3bbf46"
+                ></Icons>
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log("cross out");
+                  }}
+                  className="bg-gray-700 w-7 h-7 rounded-lg "
+                ></TouchableOpacity>
                 <Text className="text-white font-bold text-lg">{comment}</Text>
                 <TouchableOpacity
                   onPress={() => {
