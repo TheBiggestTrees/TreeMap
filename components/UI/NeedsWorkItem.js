@@ -19,6 +19,43 @@ const NeedsWorkItem = () => {
     workingTree.properties.needsWorkComment
   );
   const [addComment, setAddComment] = useState("");
+  const [checked, setChecked] = useState(
+    workingTree.properties.needsWorkComment.completed
+  );
+
+  const updateChecked = (index) => {
+    let temp = [...comment];
+    temp[index].completed = !temp[index].completed;
+    setComment(temp);
+    try {
+      const workingIndex = trees.features.findIndex(
+        (tree) => tree._id === workingTree._id
+      );
+      const index = selectedTrees.findIndex(
+        (tree) => tree._id === workingTree._id
+      );
+      workingTree.properties.needsWorkComment = temp;
+
+      axios
+        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+          properties: { ...workingTree.properties },
+        })
+        .then((res) => {
+          setSelectedTrees((prev) => {
+            prev[index] = res.data.data;
+            return prev;
+          });
+          setTrees((prev) => {
+            prev.features[workingIndex] = res.data.data;
+            return prev;
+          });
+          setWorkingTree(res.data.data);
+        });
+    } catch (err) {
+      console.log(err);
+      setErrMsg("Error adding!");
+    }
+  };
 
   const handleDelete = (index) => {
     let temp = [...comment];
@@ -56,7 +93,7 @@ const NeedsWorkItem = () => {
 
   const handleAddComment = () => {
     let temp = [...comment];
-    temp.push(addComment);
+    temp.push({ comment: addComment, completed: checked });
     setComment(temp);
     setAddComment("");
     try {
@@ -99,14 +136,14 @@ const NeedsWorkItem = () => {
       </View>
       <View className="py-2">
         {comment.length < 1 ? (
-          <>
+          <View>
             <Text className="font-bold text-white text-lg mt-4 self-center">
               No work needed
             </Text>
             <Text className="font-bold text-white text-lg mb-4 self-center">
-              Add a task...
+              Add a comment...
             </Text>
-          </>
+          </View>
         ) : (
           comment.map((comment, index) => {
             return (
@@ -114,23 +151,38 @@ const NeedsWorkItem = () => {
                 key={index}
                 className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
               >
-                <Icons
-                  style={{
-                    position: "absolute",
-                    left: 15,
-                    zIndex: 1,
-                  }}
-                  name="check"
-                  size={40}
-                  color="#3bbf46"
-                ></Icons>
                 <TouchableOpacity
                   onPress={() => {
-                    console.log("cross out");
+                    updateChecked(index);
                   }}
                   className="bg-gray-700 w-7 h-7 rounded-lg "
-                ></TouchableOpacity>
-                <Text className="text-white font-bold text-lg">{comment}</Text>
+                >
+                  {comment.completed && (
+                    <Icons
+                      style={{
+                        position: "absolute",
+                        top: -7,
+                        right: 3,
+                      }}
+                      name="check"
+                      size={40}
+                      color="#3bbf46"
+                    ></Icons>
+                  )}
+                </TouchableOpacity>
+                {comment.completed ? (
+                  <View className="flex items-center">
+                    <Text className="text-gray-500 font-bold text-lg my-[-14]">
+                      {comment.comment}
+                    </Text>
+                    <View className="bg-red-600 h-1 rounded-full w-24"></View>
+                  </View>
+                ) : (
+                  <Text className="text-white font-bold text-lg">
+                    {comment.comment}
+                  </Text>
+                )}
+
                 <TouchableOpacity
                   onPress={() => {
                     handleDelete(index);
