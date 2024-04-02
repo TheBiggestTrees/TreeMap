@@ -42,12 +42,11 @@ const Main = () => {
     showCustomTree,
     setShowCustomTree,
     setCurrentScreen,
+    trees
   } = useContext(ScreenContext);
 
   const { authenticated } = useAuth();
-
-
-
+  
   useEffect(() => {
     (async () => {
       try {
@@ -68,12 +67,11 @@ const Main = () => {
 
   const fetchTreesInSite = async (site) => {
     try {
-      const data = await axios({
-        method: "get",
-        url: `${API_URL}/site/trees/${site}`,
-        timeout: 8000,
-      });
-      setSelectedTrees(data.data.data.trees);
+      const treeList = trees.features.filter(
+        (tree) => tree.properties.siteID === site
+      );
+      console.log("TreeList: ", treeList);  
+      setSelectedTrees(treeList);
     } catch (err) {
       console.log(err);
     }
@@ -86,7 +84,6 @@ const Main = () => {
       data.id = data._id;
       setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
       console.log(res.data.message);
-      console.log(data);
       setSelectedSite(data.id);
       fetchTreesInSite(data.id);
       setSliderTitle(data.properties.siteID.toString().padStart(4, "0"));
@@ -128,7 +125,7 @@ const Main = () => {
         lastWorkDate: "N/A",
         lastWorkedBy: "N/A",
         needsWork: false,
-        needsWorkComment: "N/A",
+        needsWorkComment: ["N/A"],
         dbh: 0,
         dateCreated: 'N/A',
         createdBy: 'N/A',

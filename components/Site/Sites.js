@@ -47,11 +47,12 @@ const Sites = (props) => {
         shape={sites}
         onPress={(e) => {
           setSelectedSite(e.features[0].id);
-          setCurrentScreen("SelectedSite");
           fetchTreesInSite(e.features[0].id);
-          setSliderTitle(e.features[0].properties.siteID);
-          setShowCustomMark(false);
+          setSliderTitle(e.features[0].properties.siteID.toString().padStart(4, "0"));
           setCustomMark(e.features[0].geometry.coordinates);
+          setShowCustomMark(false);
+          setCurrentScreen("SelectedSite");
+          
           sliderRef.current.show({
             toValue: 200,
           });

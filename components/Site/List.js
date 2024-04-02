@@ -119,12 +119,12 @@ const SiteList = () => {
       animationDuration: 500,
       animationMode: "flyTo",
     });
-    sliderRef.current.show({ toValue: 200 });
+    sliderRef.current.show();
+    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
     setSelectedSite(siteID);
     setSelectedTrees(treeList);
-    setCurrentScreen("SelectedSite");
     setCustomMark(siteNum.geometry.coordinates);
-    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
+    setCurrentScreen("SelectedSite");
   };
 
   return (

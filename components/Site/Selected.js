@@ -39,7 +39,7 @@ const SelectedSite = () => {
               onPress={() => {
                 setCurrentScreen("siteList");
                 setShowCustomTree(false);
-                setSelectedTrees(null);
+
                 sliderRef.current.show();
               }}
               underlayColor={"transparent"}
