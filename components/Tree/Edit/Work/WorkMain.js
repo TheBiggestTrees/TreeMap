@@ -1,12 +1,8 @@
 import React from "react";
-import { Text, View } from "react-native";
+import NeedsWorkItem from "../../../UI/NeedsWorkItem";
 
 const WorkMain = () => {
-  return (
-    <View>
-      <Text>WorkMain</Text>
-    </View>
-  );
+  return <NeedsWorkItem />;
 };
 
 export default WorkMain;
