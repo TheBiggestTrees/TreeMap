@@ -114,28 +114,7 @@ const Main = () => {
       setSelectedTrees((prev) => [...prev, data]);
       setTrees((prev) => ({ ...prev, features: [...prev.features, data] }));
       setCurrentScreen("SelectedSite");
-      setTempTreeForm({
-        treeID: 0,
-        treeSpecies: "Oak",
-        treeFamily: "Fagaceae",
-        status: "Alive",
-        condition: "Good",
-        leafCondition: "Good",
-        comment: "N/A",
-        lastModifiedDate: "N/A",
-        lastModifiedBy: "N/A",
-        lastWorkDate: "N/A",
-        lastWorkedBy: "N/A",
-        needsWork: false,
-        needsWorkComment: ["N/A"],
-        dbh: 0,
-        dateCreated: "N/A",
-        createdBy: "N/A",
-        plantedBy: "N/A",
-        datePlanted: "N/A",
-        photos: ["N/A"],
-        siteID: "0",
-      });
+
       console.log(res.data.message);
     } catch (err) {
       console.error(err);
