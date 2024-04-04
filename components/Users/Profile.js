@@ -12,7 +12,6 @@ const Profile = () => {
 
   const fetchUser = async () => {
     const user = userID;
-    console.log(`${API_URL}/users/${user}`);
     try {
       const res = await axios.get(`${API_URL}/users/${user}`);
 

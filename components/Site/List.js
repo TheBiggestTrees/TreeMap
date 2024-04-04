@@ -24,6 +24,8 @@ const SiteList = () => {
     setSliderTitle,
     setCustomMark,
     setSelectedTrees,
+    setWorkingTree,
+    setShowCustomTree,
   } = useContext(ScreenContext);
 
   const holder = ["Search Site"];
@@ -76,7 +78,7 @@ const SiteList = () => {
     }
   };
 
-  const handlePress = (siteID, coords) => {
+  const handlePress = (tree, siteID, coords) => {
     const siteNum = sites.features.find((site) => site.id === siteID);
 
     const treeList = trees.features.filter(
@@ -89,12 +91,14 @@ const SiteList = () => {
       animationDuration: 500,
       animationMode: "flyTo",
     });
-    sliderRef.current.show({ toValue: 200 });
+    sliderRef.current.show();
     setSelectedTrees(treeList);
     setSelectedSite(siteID);
-    setCurrentScreen("SelectedSite");
+    setCurrentScreen("ViewTree");
     setCustomMark(siteNum.geometry.coordinates);
     setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
+    setShowCustomTree(false);
+    setWorkingTree(tree);
     setShowList(false);
   };
 
@@ -217,6 +221,7 @@ const SiteList = () => {
                                 className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
                                 onPress={() => {
                                   handlePress(
+                                    tree,
                                     tree.properties.siteID,
                                     tree.geometry.coordinates
                                   );
@@ -253,7 +258,9 @@ const SiteList = () => {
                 ? siteList.map((site, index) => (
                     <TouchableHighlight
                       key={index}
-                      onPress={() => {handleSiteLongPress(site.id)}}
+                      onPress={() => {
+                        handleSiteLongPress(site.id);
+                      }}
                       activeOpacity={0.6}
                       underlayColor={"#818996"}
                       className="flex flex-row rounded-lg w-full border-t-2 border-gray-600 justify-between items-center"
@@ -266,7 +273,9 @@ const SiteList = () => {
                 : sites.features.map((site, index) => (
                     <TouchableHighlight
                       key={index}
-                      onPress={() => {handleSiteLongPress(site.id)}}
+                      onPress={() => {
+                        handleSiteLongPress(site.id);
+                      }}
                       activeOpacity={0.6}
                       underlayColor={"#818996"}
                       className="flex flex-row rounded-lg w-full border-t-2 border-gray-600 justify-between items-center"
