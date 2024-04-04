@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import Main from "./components/Main";
 import Login from "./components/Users/Login";
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -49,6 +50,7 @@ const App = () => {
   const [showList, setShowList] = useState(false);
   const [user, setUser] = useState(null);
   const [workingTree, setWorkingTree] = useState(null);
+  const { width, height } = Dimensions.get("window");
 
   return (
     <AuthProvider>
@@ -89,6 +91,8 @@ const App = () => {
           setUser,
           workingTree,
           setWorkingTree,
+          width,
+          height,
         }}
       >
         <Main />

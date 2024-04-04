@@ -7,6 +7,7 @@ import {
   Animated,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
@@ -26,6 +27,7 @@ const SiteList = () => {
     setSelectedTrees,
     setWorkingTree,
     setShowCustomTree,
+    height,
   } = useContext(ScreenContext);
 
   const holder = ["Search Site"];
@@ -33,6 +35,10 @@ const SiteList = () => {
   const [siteList, setSiteList] = useState(null);
   const [showTree, setShowTree] = useState(false);
   const [selectedSiteId, setSelectedSiteId] = useState(null);
+
+  //get dimensions of slider
+
+  const sliderHeight = height - height / 8;
 
   const handleChange = (e) => {
     {
@@ -133,7 +139,7 @@ const SiteList = () => {
 
   return (
     <>
-      <View className="flex flex-col w-full items-center">
+      <View className="flex flex-col w-full h-full pb-44 items-center">
         <View className="flex flex-row items-center bg-slate-400 shadow-lg w-full p-4 rounded-full">
           <View className="flex grow">
             <Text className="text-white font-bold text-lg">Site</Text>
@@ -160,7 +166,7 @@ const SiteList = () => {
           </View>
         </View>
 
-        <View className="flex w-full h-[78%] p-2 mt-4 bg-slate-400 rounded-2xl">
+        <View className="flex w-full p-2 mt-4 bg-slate-400 rounded-2xl">
           <Text className="font-bold text-white text-lg px-4">
             Sites: {sites && sites.features.length} Trees:{" "}
             {trees && trees.features.length}

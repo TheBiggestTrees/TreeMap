@@ -12,13 +12,12 @@ import Profile from "../Users/Profile";
 import ViewTree from "../Tree/Edit/ViewTree";
 import InspectMain from "../Tree/Edit/Inspect/InspectMain";
 import WorkMain from "../Tree/Edit/Work/WorkMain";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
-  const { sliderRef, currentScreen } = useContext(ScreenContext);
+  const { sliderRef, currentScreen, height, width } = useContext(ScreenContext);
 
-  const { width, height } = Dimensions.get("window");
+  const sliderHeight = height - height / 8;
 
   const styles = {
     container: {
@@ -47,7 +46,7 @@ const Slider = (props) => {
         }}
       >
         {(dragHandler) => (
-          <View className="flex bg-gray-500 h-full rounded-tr-2xl rounded-tl-2xl px-4 items-center">
+          <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl px-4 items-center">
             <View style={styles.dragHandler} {...dragHandler}>
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
