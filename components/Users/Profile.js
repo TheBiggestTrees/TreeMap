@@ -16,8 +16,6 @@ const Profile = () => {
     try {
       const res = await axios.get(`${API_URL}/users/${user}`);
 
-      console.log(res.data.data);
-
       setUser((prev) => ({
         ...res.data.data,
       }));

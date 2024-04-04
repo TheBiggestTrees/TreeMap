@@ -3,7 +3,6 @@ import {
   StatusBar,
   Text,
   TextInput,
-  Touchable,
   TouchableHighlight,
   View,
 } from "react-native";
@@ -25,7 +24,7 @@ const Login = () => {
 
 const LoginPage = (props) => {
   const { setScreen } = props;
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

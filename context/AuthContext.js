@@ -15,8 +15,6 @@ export const AuthProvider = ({ children }) => {
     authenticated: false,
   });
   const [userID, setUserID] = useState("");
-  
-
 
   useEffect(() => {
     const loadToken = async () => {
@@ -28,7 +26,6 @@ export const AuthProvider = ({ children }) => {
       const id = await SecureStore.getItemAsync("userID");
       if (id) {
         setUserID(id);
-        console.log({id})
       }
     };
 
@@ -44,7 +41,6 @@ export const AuthProvider = ({ children }) => {
         regData
       );
       console.log(response.data);
-      
     } catch (error) {
       setErr(error.response.data.message);
     }
@@ -67,7 +63,6 @@ export const AuthProvider = ({ children }) => {
         await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
         await SecureStore.setItemAsync("userID", response.data.userID);
         return response;
-        
       } else {
         const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/login`,
@@ -84,7 +79,6 @@ export const AuthProvider = ({ children }) => {
         await SecureStore.setItemAsync("userID", response.data.userID);
         return response;
       }
- 
     } catch (error) {
       console.error(error);
     }
