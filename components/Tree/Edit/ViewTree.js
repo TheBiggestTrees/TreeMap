@@ -64,7 +64,7 @@ const ViewTree = () => {
         </TouchableHighlight>
       </View>
 
-      <View className="h-[67.5%] w-80 rounded-lg">
+      <View className="h-[67.5%] rounded-lg">
         <ScrollView className="gap-y-2">
           {/* Photos */}
           <PhotosPanel />

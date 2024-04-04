@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "../Site/Selected";
 import SiteCustPos from "../Site/CustPos";
@@ -12,10 +12,13 @@ import Profile from "../Users/Profile";
 import ViewTree from "../Tree/Edit/ViewTree";
 import InspectMain from "../Tree/Edit/Inspect/InspectMain";
 import WorkMain from "../Tree/Edit/Work/WorkMain";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
   const { sliderRef, currentScreen } = useContext(ScreenContext);
+
+  const { width, height } = Dimensions.get("window");
 
   const styles = {
     container: {
@@ -38,7 +41,10 @@ const Slider = (props) => {
     <View style={styles.page}>
       <SlidingUpPanel
         ref={sliderRef}
-        draggableRange={{ top: 800, bottom: 120 }}
+        draggableRange={{
+          top: height - height / 14,
+          bottom: 120,
+        }}
       >
         {(dragHandler) => (
           <View className="flex bg-gray-500 h-full rounded-tr-2xl rounded-tl-2xl px-4 items-center">

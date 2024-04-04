@@ -12,6 +12,7 @@ import NavBar from "../components/Layout/NavBar";
 import ScreenContext from "../context/screenContext";
 import Login from "./Users/Login";
 import { useAuth } from "../context/AuthContext";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 Mapbox.setAccessToken(
   process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
