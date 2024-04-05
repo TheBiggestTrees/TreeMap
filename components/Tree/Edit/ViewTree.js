@@ -66,6 +66,9 @@ const ViewTree = () => {
 
       <View className="h-[67.5%] rounded-lg">
         <ScrollView className="gap-y-2">
+          {/* Needs work items */}
+          {workingTree.properties.needsWork && <NeedsWorkItem nonEdit={true} />}
+
           {/* Photos */}
           <PhotosPanel />
 

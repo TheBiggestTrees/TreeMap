@@ -4,7 +4,9 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
 import axios from "axios";
 
-const NeedsWorkItem = () => {
+const NeedsWorkItem = (props) => {
+  const { nonEdit } = props;
+
   const {
     setErrMsg,
     setSelectedTrees,
@@ -22,6 +24,14 @@ const NeedsWorkItem = () => {
   const [checked, setChecked] = useState(
     workingTree.properties.needsWorkComment.completed
   );
+
+  const workNeedednonEdit = () => {
+    if (nonEdit) {
+      return "flex flex-row items-center justify-center bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl";
+    } else {
+      return "flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl";
+    }
+  };
 
   const updateChecked = (index) => {
     let temp = [...comment];
@@ -147,29 +157,28 @@ const NeedsWorkItem = () => {
         ) : (
           comment.map((comment, index) => {
             return (
-              <View
-                key={index}
-                className="flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl"
-              >
-                <TouchableOpacity
-                  onPress={() => {
-                    updateChecked(index);
-                  }}
-                  className="bg-gray-700 w-7 h-7 rounded-lg "
-                >
-                  {comment.completed && (
-                    <Icons
-                      style={{
-                        position: "absolute",
-                        top: -7,
-                        right: 3,
-                      }}
-                      name="check"
-                      size={40}
-                      color="#3bbf46"
-                    ></Icons>
-                  )}
-                </TouchableOpacity>
+              <View key={index} className={workNeedednonEdit()}>
+                {nonEdit ? null : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      updateChecked(index);
+                    }}
+                    className="bg-gray-700 w-7 h-7 rounded-lg "
+                  >
+                    {comment.completed && (
+                      <Icons
+                        style={{
+                          position: "absolute",
+                          top: -7,
+                          right: 3,
+                        }}
+                        name="check"
+                        size={40}
+                        color="#3bbf46"
+                      ></Icons>
+                    )}
+                  </TouchableOpacity>
+                )}
                 {comment.completed ? (
                   <View className="flex items-center">
                     <Text className="text-gray-500 font-bold text-lg my-[-14]">
@@ -183,40 +192,44 @@ const NeedsWorkItem = () => {
                   </Text>
                 )}
 
-                <TouchableOpacity
-                  onPress={() => {
-                    handleDelete(index);
-                  }}
-                >
-                  <Icons name="delete" size={30} color="#FF0000"></Icons>
-                </TouchableOpacity>
+                {nonEdit ? null : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleDelete(index);
+                    }}
+                  >
+                    <Icons name="delete" size={30} color="#FF0000"></Icons>
+                  </TouchableOpacity>
+                )}
               </View>
             );
           })
         )}
-        <View className="flex flex-row">
-          <TextInput
-            onChange={(e) => {
-              setAddComment(e.nativeEvent.text);
-            }}
-            value={addComment}
-            placeholder="Add Comment"
-            placeholderTextColor={"#ffffff78"}
-            className="bg-[#ffffff31] text-white text-lg font-bold p-2 rounded-xl grow"
-          />
-          <TouchableOpacity
-            onPress={() => {
-              if (addComment !== "") {
-                handleAddComment();
-                setErrMsg("");
-              } else {
-                setErrMsg("Please enter a comment.");
-              }
-            }}
-          >
-            <Icons name="add" size={40} color="#808080"></Icons>
-          </TouchableOpacity>
-        </View>
+        {nonEdit ? null : (
+          <View className="flex flex-row">
+            <TextInput
+              onChange={(e) => {
+                setAddComment(e.nativeEvent.text);
+              }}
+              value={addComment}
+              placeholder="Add Comment"
+              placeholderTextColor={"#ffffff78"}
+              className="bg-[#ffffff31] text-white text-lg font-bold p-2 rounded-xl grow"
+            />
+            <TouchableOpacity
+              onPress={() => {
+                if (addComment !== "") {
+                  handleAddComment();
+                  setErrMsg("");
+                } else {
+                  setErrMsg("Please enter a comment.");
+                }
+              }}
+            >
+              <Icons name="add" size={40} color="#808080"></Icons>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );
