@@ -4,6 +4,7 @@ import ScreenContext from "../../../context/screenContext";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import PhotosPanel from "./PhotosPanel";
 import NeedsWorkItem from "../../UI/NeedsWorkItem";
+import ToggleSwitch from "../../UI/ToggleSwitch";
 
 const ViewTree = () => {
   const { workingTree, sliderTitle, setCurrentScreen, setShowCustomTree } =
@@ -106,6 +107,9 @@ const ViewTree = () => {
             </Text>
             <Text className="text-white font-bold text-lg">
               Created By: {workingTree.properties.createdBy}
+            </Text>
+            <Text className="text-white font-bold text-lg">
+              Planted: {workingTree.properties.isPlanted ? "Yes" : "No"}
             </Text>
             <Text className="text-white font-bold text-lg">
               Planted By: {workingTree.properties.plantedBy}
