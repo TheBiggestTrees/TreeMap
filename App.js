@@ -31,6 +31,7 @@ const App = () => {
     dbh: 0,
     dateCreated: "N/A",
     createdBy: "N/A",
+    isPlanted: false,
     plantedBy: "N/A",
     datePlanted: "N/A",
     photos: ["N/A"],
