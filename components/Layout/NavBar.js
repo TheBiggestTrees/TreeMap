@@ -4,14 +4,11 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import { REACT_APP_API_URL } from "@env";
 
 const NavBar = () => {
-  const {
-    setCurrentScreen,
-    setShowCustomMark,
-    setShowCustomTree,
-    sliderRef,
-  } = useContext(ScreenContext);
+  const { setCurrentScreen, setShowCustomMark, setShowCustomTree, sliderRef } =
+    useContext(ScreenContext);
 
   return (
     <View className="flex flex-row items-center justify-evenly w-full h-24 rounded-tr-2xl rounded-tl-2xl absolute bottom-[-3px] bg-[#464a52] ">

@@ -3,22 +3,22 @@ import { Text, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
-import PopupMsg from "../../../UI/PopupMsg";
 import axios from "axios";
+import { useAuth } from "../../../../context/AuthContext";
 
 const InspectMain = () => {
   const {
     setTrees,
     workingTree,
     setWorkingTree,
-    errMsg,
     setCurrentScreen,
     trees,
     selectedTrees,
     setErrMsg,
     setSelectedTrees,
-    user,
   } = useContext(ScreenContext);
+
+  const { user } = useAuth();
 
   const handleGoBack = () => {
     setCurrentScreen("ViewTree");

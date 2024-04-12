@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
+import ScreenContext from "./screenContext";
 
 const TOKEN_KEY = "x-auth-token";
 const AuthContext = createContext({});
@@ -16,6 +17,8 @@ export const AuthProvider = ({ children }) => {
   });
   const [userID, setUserID] = useState("");
 
+  const [user, setUser] = useState({});
+
   useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
@@ -26,6 +29,11 @@ export const AuthProvider = ({ children }) => {
       const id = await SecureStore.getItemAsync("userID");
       if (id) {
         setUserID(id);
+      }
+      const userData = await SecureStore.getItemAsync("userData");
+      if (userData) {
+        setUser(JSON.parse(userData));
+        console.log(userData);
       }
     };
 
@@ -54,14 +62,21 @@ export const AuthProvider = ({ children }) => {
           { email, password }
         );
 
+        console.log(response.data);
+
         setAuthState({
           xauthtoken: response.data.data,
           authenticated: true,
         });
         setUserID(response.data.userID);
+        setUser(response.data.userData);
         axios.defaults.headers.common["x-auth-token"] = response.data.data;
         await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
         await SecureStore.setItemAsync("userID", response.data.userID);
+        await SecureStore.setItemAsync(
+          "userData",
+          JSON.stringify(response.data.userData)
+        );
         return response;
       } else {
         const response = await axios.post(
@@ -73,10 +88,15 @@ export const AuthProvider = ({ children }) => {
           xauthtoken: response.data.data,
           authenticated: true,
         });
+        setUser(response.data.userData);
         setUserID(response.data.userID);
         axios.defaults.headers.common["x-auth-token"] = response.data.data;
         await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
         await SecureStore.setItemAsync("userID", response.data.userID);
+        await SecureStore.setItemAsync(
+          "userData",
+          JSON.stringify(response.data.userData)
+        );
         return response;
       }
     } catch (error) {
@@ -88,8 +108,10 @@ export const AuthProvider = ({ children }) => {
     try {
       await SecureStore.deleteItemAsync(TOKEN_KEY);
       await SecureStore.deleteItemAsync("userID");
+      await SecureStore.deleteItemAsync("userData");
       setUserID(null);
       setAuthState({ xauthtoken: null, authenticated: false });
+      setUser({});
     } catch (error) {
       console.error(error);
     }
@@ -104,6 +126,8 @@ export const AuthProvider = ({ children }) => {
     authenticated: authState.authenticated,
     err,
     setErr,
+    user,
+    setUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

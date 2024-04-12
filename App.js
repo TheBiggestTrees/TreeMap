@@ -49,7 +49,6 @@ const App = () => {
   const [showCustomTree, setShowCustomTree] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("siteList");
   const [showList, setShowList] = useState(false);
-  const [user, setUser] = useState(null);
   const [workingTree, setWorkingTree] = useState(null);
   const { width, height } = Dimensions.get("window");
 
@@ -88,8 +87,6 @@ const App = () => {
           setCurrentScreen,
           showList,
           setShowList,
-          user,
-          setUser,
           workingTree,
           setWorkingTree,
           width,
