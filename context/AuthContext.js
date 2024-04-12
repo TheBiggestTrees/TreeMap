@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
       const userData = await SecureStore.getItemAsync("userData");
       if (userData) {
         setUser(JSON.parse(userData));
-        console.log(userData);
       }
     };
 
@@ -60,8 +59,6 @@ export const AuthProvider = ({ children }) => {
           `${process.env.REACT_APP_API_URL}/login`,
           { email, password }
         );
-
-        console.log(response.data);
 
         setAuthState({
           xauthtoken: response.data.data,
