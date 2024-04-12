@@ -69,8 +69,6 @@ const InspectMain = () => {
 
   return (
     <>
-      {errMsg && <PopupMsg />}
-
       <View className="flex items-center">
         <Text className="text-white font-bold text-lg">
           Inspecting Tree{" "}

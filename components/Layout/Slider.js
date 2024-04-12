@@ -12,10 +12,12 @@ import Profile from "../Users/Profile";
 import ViewTree from "../Tree/Edit/ViewTree";
 import InspectMain from "../Tree/Edit/Inspect/InspectMain";
 import WorkMain from "../Tree/Edit/Work/WorkMain";
+import PopupMsg from "../UI/PopupMsg";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
-  const { sliderRef, currentScreen, height } = useContext(ScreenContext);
+  const { sliderRef, currentScreen, height, errMsg } =
+    useContext(ScreenContext);
 
   const styles = {
     container: {
@@ -35,7 +37,7 @@ const Slider = (props) => {
   };
 
   return (
-    <View style={styles.page}>
+    <View>
       <SlidingUpPanel
         ref={sliderRef}
         draggableRange={{
@@ -45,6 +47,7 @@ const Slider = (props) => {
       >
         {(dragHandler) => (
           <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl px-4 items-center">
+            {errMsg && <PopupMsg />}
             <View style={styles.dragHandler} {...dragHandler}>
               <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
             </View>
