@@ -3,7 +3,7 @@ import { Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 
 const ButtonsRight = (props) => {
-  const { handlePress, icon, text, size, width } = props;
+  const { handlePress, icon, text, size, width, underlayColor } = props;
 
   return (
     <TouchableHighlight
@@ -13,7 +13,7 @@ const ButtonsRight = (props) => {
           : "rounded-lg bg-[#464a52] h-14 flex justify-center"
       }
       activeOpacity={0.5}
-      underlayColor="#6b7280"
+      underlayColor={underlayColor !== undefined ? underlayColor : "#6b728022"}
       onPress={() => {
         handlePress();
       }}

@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
 import { REACT_APP_API_URL } from "@env";
+import ButtonsLeft from "../UI/ButtonsLeft";
 
 const Profile = () => {
   const { onLogout, userID } = useAuth();
@@ -41,16 +42,16 @@ const Profile = () => {
             </Text>
             <Text className="text-white font-bold text-lg">{user.email}</Text>
           </View>
-          <TouchableHighlight
-            className="w-32 bg-[#4e545f56] rounded-lg self-center h-10 flex items-center justify-center mt-2"
-            activeOpacity={0.8}
-            underlayColor="#b80d13"
-            onPress={() => {
-              onLogout();
-            }}
-          >
-            <Text className="font-bold text-lg text-white">Log Out</Text>
-          </TouchableHighlight>
+          <View className="flex items-center p-4">
+            <ButtonsLeft
+              width="w-40"
+              text="Log Out"
+              handlePress={() => {
+                onLogout();
+              }}
+              underlayColor="#c23235"
+            />
+          </View>
         </View>
       ) : (
         <Text className="text-lg text-white font-bold">Loading...</Text>
