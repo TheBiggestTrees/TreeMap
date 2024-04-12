@@ -66,7 +66,6 @@ const Home = () => {
       const treeList = trees.features.filter(
         (tree) => tree.properties.siteID === site
       );
-      console.log("TreeList: ", treeList);
       setSelectedTrees(treeList);
     } catch (err) {
       setErrMsg(err);
