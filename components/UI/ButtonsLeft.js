@@ -15,7 +15,9 @@ const ButtonsLeft = (props) => {
       }}
     >
       <View className="flex flex-row justify-evenly w-40 items-center">
-        <Icons name={icon} size={size || 40} color="#56ccdb"></Icons>
+        {!icon ? null : (
+          <Icons name={icon} size={size || 40} color="#56ccdb"></Icons>
+        )}
         <Text className="text-white font-bold text-lg">{text}</Text>
       </View>
     </TouchableHighlight>

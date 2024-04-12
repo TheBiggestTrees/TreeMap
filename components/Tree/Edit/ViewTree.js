@@ -5,6 +5,7 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import PhotosPanel from "./PhotosPanel";
 import NeedsWorkItem from "../../UI/NeedsWorkItem";
 import ToggleSwitch from "../../UI/ToggleSwitch";
+import ButtonsRight from "../../UI/ButtonsRight";
 
 const ViewTree = () => {
   const { workingTree, sliderTitle, setCurrentScreen, setShowCustomTree } =
@@ -43,26 +44,20 @@ const ViewTree = () => {
 
       {/* Inspect / Work buttons */}
       <View className="flex flex-row w-80 justify-evenly">
-        <TouchableHighlight
-          className="flex items-center w-36 h-14 justify-center bg-slate-600 shadow-lg rounded-xl border-b-2 border-b-gray-500"
-          onPress={() => {
+        <ButtonsRight
+          handlePress={() => {
             setCurrentScreen("InspectMain");
           }}
-          activeOpacity={0.5}
-          underlayColor="#6b7280"
-        >
-          <Text className="text-white font-bold text-lg">Inspect</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          className="flex items-center w-36 h-14 justify-center bg-slate-600 shadow-lg rounded-xl border-b-2 border-b-gray-500"
-          onPress={() => {
+          text="Inspect"
+          width={"w-36"}
+        />
+        <ButtonsRight
+          handlePress={() => {
             setCurrentScreen("WorkMain");
           }}
-          activeOpacity={0.5}
-          underlayColor="#6b7280"
-        >
-          <Text className="text-white font-bold text-lg">Work</Text>
-        </TouchableHighlight>
+          text="Work"
+          width={"w-36"}
+        />
       </View>
 
       <View className="h-[67.5%] rounded-lg">
