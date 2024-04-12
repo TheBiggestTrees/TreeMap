@@ -33,6 +33,7 @@ const Home = () => {
     setSelectedTrees,
     selectedSite,
     customMark,
+    setSelectedSite,
     setCustomMark,
     showCustomMark,
     setShowCustomMark,
@@ -68,7 +69,7 @@ const Home = () => {
       console.log("TreeList: ", treeList);
       setSelectedTrees(treeList);
     } catch (err) {
-      console.log(err);
+      setErrMsg(err);
     }
   };
 
@@ -78,7 +79,7 @@ const Home = () => {
       const data = res.data.data;
       data.id = data._id;
       setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
-      console.log(res.data.message);
+      setErrMsg(res.data.message);
       setSelectedSite(data.id);
       fetchTreesInSite(data.id);
       setSliderTitle(data.properties.siteID.toString().padStart(4, "0"));
@@ -107,8 +108,7 @@ const Home = () => {
       setSelectedTrees((prev) => [...prev, data]);
       setTrees((prev) => ({ ...prev, features: [...prev.features, data] }));
       setCurrentScreen("SelectedSite");
-
-      console.log(res.data.message);
+      setErrMsg(res.data.message);
     } catch (err) {
       console.error(err);
       setErrMsg(err);
