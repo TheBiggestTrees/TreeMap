@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import ScreenContext from "./screenContext";
 
 const TOKEN_KEY = "x-auth-token";
 const AuthContext = createContext({});

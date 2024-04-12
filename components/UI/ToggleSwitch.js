@@ -1,7 +1,5 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import { Alert, Animated, Text, TouchableOpacity, View } from "react-native";
-import ScreenContext from "../../context/screenContext";
+import React from "react";
+import { Animated, Text, TouchableOpacity, View } from "react-native";
 
 export default ToggleSwitch = (props) => {
   const { setter, tree, label, propname, runFunc } = props;

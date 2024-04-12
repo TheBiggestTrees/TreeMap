@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Text, Touchable, TouchableHighlight, View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import ButtonsLeft from "../UI/ButtonsLeft";
 

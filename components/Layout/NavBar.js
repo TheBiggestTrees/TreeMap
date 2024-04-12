@@ -2,9 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
-import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
-import { REACT_APP_API_URL } from "@env";
 
 const NavBar = () => {
   const { setCurrentScreen, setShowCustomMark, setShowCustomTree, sliderRef } =
