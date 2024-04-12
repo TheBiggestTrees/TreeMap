@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Text, TextInput, TouchableHighlight, View } from "react-native";
-import Icons from "@expo/vector-icons/MaterialIcons";
+import React, { useContext } from "react";
+import { Text, TextInput, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 import ButtonsRight from "../UI/ButtonsRight";
 import ButtonsLeft from "../UI/ButtonsLeft";

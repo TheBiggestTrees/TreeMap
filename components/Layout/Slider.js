@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "../Site/Selected";
 import SiteCustPos from "../Site/CustPos";
@@ -15,9 +15,7 @@ import WorkMain from "../Tree/Edit/Work/WorkMain";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
-  const { sliderRef, currentScreen, height, width } = useContext(ScreenContext);
-
-  const sliderHeight = height - height / 8;
+  const { sliderRef, currentScreen, height } = useContext(ScreenContext);
 
   const styles = {
     container: {

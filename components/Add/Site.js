@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
-import { Text, TouchableHighlight, View } from "react-native";
-import Icons from "@expo/vector-icons/MaterialIcons";
+import { Text, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 import ButtonsLeft from "../UI/ButtonsLeft";
-import ButtonsRight from "../UI/ButtonsRight";
 
 const AddSite = (props) => {
   const { setCurrentScreen, setShowCustomMark, sliderRef } =
