@@ -4,10 +4,7 @@ import { Alert, Animated, Text, TouchableOpacity, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 
 export default ToggleSwitch = (props) => {
-  const { setter, tree, label, propname, sendReq } = props;
-
-  const { setTrees, trees, selectedTrees, setErrMsg, setSelectedTrees } =
-    useContext(ScreenContext);
+  const { setter, tree, label, propname, runFunc } = props;
 
   const slideAnim = new Animated.Value(tree.properties[propname] ? 1 : 0);
 
@@ -32,38 +29,7 @@ export default ToggleSwitch = (props) => {
         },
       };
     });
-
-    const workingIndex = trees.features.findIndex(
-      (treef) => treef._id === tree._id
-    );
-    const index = selectedTrees.findIndex((treef) => treef._id === tree._id);
-
-    if (sendReq) {
-      axios
-        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + tree._id, {
-          properties: {
-            ...tree.properties,
-            [propname]: !tree.properties[propname],
-          },
-        })
-        .then((res) => {
-          setErrMsg(res.data.message);
-          setSelectedTrees((prev) => {
-            prev[index] = res.data.data;
-            return prev;
-          });
-          setTrees((prev) => {
-            prev.features[workingIndex] = res.data.data;
-            return prev;
-          });
-          setter(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("No request sent");
-    }
+    runFunc();
   };
 
   return (
