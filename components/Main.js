@@ -13,6 +13,7 @@ import ScreenContext from "../context/screenContext";
 import Login from "./Users/Login";
 import { useAuth } from "../context/AuthContext";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import PopupMsg from "./UI/PopupMsg";
 
 Mapbox.setAccessToken(
   process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -272,13 +273,7 @@ const Main = () => {
 
           <Slider addNewSite={addNewSite} addNewTree={addNewTree} />
 
-          {errMsg && (
-            <View className="flex w-full absolute right-1 m-auto top-16 items-center justify-center text-center">
-              <View className="bg-red-400 p-4 rounded-3xl">
-                <Text className="text-white font-bold text-md">{errMsg}</Text>
-              </View>
-            </View>
-          )}
+          {errMsg && <PopupMsg />}
 
           <NavBar />
         </View>

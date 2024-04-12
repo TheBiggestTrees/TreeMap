@@ -14,10 +14,13 @@ const InspectMain = () => {
 
   return (
     <>
-      <View>
+      <View className="flex items-center">
         <Text className="text-white font-bold text-lg">
           Inspecting Tree{" "}
           {workingTree.properties.treeID.toString().padStart(4, "0")}
+        </Text>
+        <Text className="text-[#ffffff7c] text-sm w-48 text-center">
+          Changes made here will be saved automatically
         </Text>
       </View>
       <View className="bg-slate-400 flex w-full mt-4 rounded-lg grow p-4">
@@ -26,6 +29,7 @@ const InspectMain = () => {
           tree={workingTree}
           label="Planted"
           propname="isPlanted"
+          sendReq={true}
         />
       </View>
       <View className="flex w-full mt-4 rounded-lg grow p-4 items-center">

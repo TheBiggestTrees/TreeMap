@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useContext } from "react";
-import { Animated, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, Text, TouchableOpacity, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 
 export default ToggleSwitch = (props) => {
-  const { setter, tree, label, propname } = props;
+  const { setter, tree, label, propname, sendReq } = props;
 
   const { setTrees, trees, selectedTrees, setSelectedTrees } =
     useContext(ScreenContext);
@@ -38,27 +38,32 @@ export default ToggleSwitch = (props) => {
     );
     const index = selectedTrees.findIndex((treef) => treef._id === tree._id);
 
-    axios
-      .put(process.env.REACT_APP_API_URL + "/tree/edit/" + tree._id, {
-        properties: {
-          ...tree.properties,
-          [propname]: !tree.properties[propname],
-        },
-      })
-      .then((res) => {
-        setSelectedTrees((prev) => {
-          prev[index] = res.data.data;
-          return prev;
+    if (sendReq) {
+      axios
+        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + tree._id, {
+          properties: {
+            ...tree.properties,
+            [propname]: !tree.properties[propname],
+          },
+        })
+        .then((res) => {
+          console.log(res.data.message);
+          setSelectedTrees((prev) => {
+            prev[index] = res.data.data;
+            return prev;
+          });
+          setTrees((prev) => {
+            prev.features[workingIndex] = res.data.data;
+            return prev;
+          });
+          setter(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setTrees((prev) => {
-          prev.features[workingIndex] = res.data.data;
-          return prev;
-        });
-        setter(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    } else {
+      console.log("No request sent");
+    }
   };
 
   return (
