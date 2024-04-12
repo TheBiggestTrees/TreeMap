@@ -2,9 +2,15 @@ import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
+import ButtonsLeft from "../../../UI/ButtonsLeft";
 
 const InspectMain = () => {
-  const { workingTree, setWorkingTree } = useContext(ScreenContext);
+  const { workingTree, setWorkingTree, setCurrentScreen } =
+    useContext(ScreenContext);
+
+  const handleGoBack = () => {
+    setCurrentScreen("ViewTree");
+  };
 
   return (
     <>
@@ -20,6 +26,14 @@ const InspectMain = () => {
           tree={workingTree}
           label="Planted"
           propname="isPlanted"
+        />
+      </View>
+      <View className="flex w-full mt-4 rounded-lg grow p-4 items-center">
+        <ButtonsLeft
+          handlePress={handleGoBack}
+          width={"w-40"}
+          icon="undo"
+          text="Go Back"
         />
       </View>
     </>
