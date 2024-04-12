@@ -3,9 +3,10 @@ import { Text, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
+import PopupMsg from "../../../UI/PopupMsg";
 
 const InspectMain = () => {
-  const { workingTree, setWorkingTree, setCurrentScreen } =
+  const { workingTree, setWorkingTree, errMsg, setCurrentScreen } =
     useContext(ScreenContext);
 
   const handleGoBack = () => {
@@ -14,6 +15,8 @@ const InspectMain = () => {
 
   return (
     <>
+      {errMsg && <PopupMsg />}
+
       <View className="flex items-center">
         <Text className="text-white font-bold text-lg">
           Inspecting Tree{" "}

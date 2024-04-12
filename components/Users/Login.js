@@ -28,12 +28,15 @@ const LoginPage = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { onLogin } = useAuth();
-  const { setCurrentScreen } = useContext(ScreenContext);
+  const { onLogin, err } = useAuth();
+  const { setCurrentScreen, setErrMsg } = useContext(ScreenContext);
 
   const login = () => {
     onLogin(email, password);
     setCurrentScreen("siteList");
+    if (err) {
+      setErrMsg(err);
+    }
   };
 
   return (

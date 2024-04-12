@@ -6,7 +6,7 @@ import ScreenContext from "../../context/screenContext";
 export default ToggleSwitch = (props) => {
   const { setter, tree, label, propname, sendReq } = props;
 
-  const { setTrees, trees, selectedTrees, setSelectedTrees } =
+  const { setTrees, trees, selectedTrees, setErrMsg, setSelectedTrees } =
     useContext(ScreenContext);
 
   const slideAnim = new Animated.Value(tree.properties[propname] ? 1 : 0);
@@ -47,7 +47,7 @@ export default ToggleSwitch = (props) => {
           },
         })
         .then((res) => {
-          console.log(res.data.message);
+          setErrMsg(res.data.message);
           setSelectedTrees((prev) => {
             prev[index] = res.data.data;
             return prev;

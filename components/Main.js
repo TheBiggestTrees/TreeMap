@@ -222,7 +222,6 @@ const Main = () => {
       {authenticated ? (
         <View style={styles.container}>
           {showSplash && <Splash />}
-
           <Mapbox.MapView
             ref={mapRef}
             scaleBarEnabled={false}
@@ -273,12 +272,13 @@ const Main = () => {
 
           <Slider addNewSite={addNewSite} addNewTree={addNewTree} />
 
-          {errMsg && <PopupMsg />}
-
           <NavBar />
         </View>
       ) : (
-        <Login />
+        <>
+          <Login />
+          {errMsg && <PopupMsg type="error" />}
+        </>
       )}
     </View>
   );
