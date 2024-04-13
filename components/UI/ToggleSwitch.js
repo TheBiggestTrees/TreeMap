@@ -27,7 +27,9 @@ export default ToggleSwitch = (props) => {
         },
       };
     });
-    runFunc();
+    {
+      runFunc && runFunc();
+    }
   };
 
   return (

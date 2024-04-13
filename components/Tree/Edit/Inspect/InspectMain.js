@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
 import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
+import ButtonsRight from "../../../UI/ButtonsRight";
 
 const InspectMain = () => {
   const {
@@ -17,6 +18,11 @@ const InspectMain = () => {
     setErrMsg,
     setSelectedTrees,
   } = useContext(ScreenContext);
+
+  const [inspectTree, treeInspector] = useState(workingTree);
+  useEffect(() => {
+    treeInspector(workingTree);
+  }, []);
 
   const { user } = useAuth();
 
@@ -45,8 +51,8 @@ const InspectMain = () => {
     await axios
       .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
         properties: {
-          ...workingTree.properties,
-          [propname]: !workingTree.properties[propname],
+          ...inspectTree.properties,
+          [propname]: inspectTree.properties[propname],
           ...temp,
         },
       })
@@ -74,25 +80,27 @@ const InspectMain = () => {
           Inspecting Tree{" "}
           {workingTree.properties.treeID.toString().padStart(4, "0")}
         </Text>
-        <Text className="text-[#ffffff7c] text-sm w-48 text-center">
-          Changes made here will be saved automatically
-        </Text>
       </View>
       <View className="bg-slate-400 flex w-full mt-4 rounded-lg grow p-4">
         <ToggleSwitch
-          setter={setWorkingTree}
-          tree={workingTree}
+          setter={treeInspector}
+          tree={inspectTree}
           label="Planted"
           propname="isPlanted"
-          runFunc={() => handleRequest("isPlanted")}
         />
       </View>
-      <View className="flex w-full mt-4 rounded-lg grow p-4 items-center">
+      <View className="flex flex-row rounded-lg mb-14 mt-4 justify-between w-full ">
         <ButtonsLeft
           handlePress={handleGoBack}
           width={"w-40"}
           icon="undo"
           text="Go Back"
+        />
+        <ButtonsRight
+          handlePress={() => handleRequest("isPlanted")}
+          width={"w-40"}
+          icon="save"
+          text="Save"
         />
       </View>
     </>
