@@ -35,10 +35,6 @@ const SiteCustPos = (props) => {
           text="Add Tree"
         />
       </View>
-
-      <View className="flex flex-row w-full">
-        <Text>Hello World</Text>
-      </View>
     </>
   );
 };

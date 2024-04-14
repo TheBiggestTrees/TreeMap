@@ -4,7 +4,7 @@ import ScreenContext from "../../context/screenContext";
 import ButtonsLeft from "../UI/ButtonsLeft";
 
 const AddSite = (props) => {
-  const { setCurrentScreen, setShowCustomMark, sliderRef } =
+  const { setCurrentScreen, setShowCustomMark, sliderRef, camera, location } =
     useContext(ScreenContext);
 
   const { addNewSite } = props;
@@ -16,6 +16,12 @@ const AddSite = (props) => {
   };
 
   const handlePickPoint = () => {
+    camera.current?.setCamera({
+      centerCoordinate: [location.coords.longitude, location.coords.latitude],
+      zoomLevel: 13,
+      animationDuration: 500,
+      animationMode: "flyTo",
+    });
     setShowCustomMark(true);
     setCurrentScreen("SiteCustPos");
     sliderRef.current.show((toValue = 265));
