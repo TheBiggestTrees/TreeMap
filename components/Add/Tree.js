@@ -83,25 +83,33 @@ const AddTree = (props) => {
       </View>
 
       <View className="flex w-full m-4 justify-center">
-        <View className="flex flex-row items-center">
-          <Text className="text-white text-lg font-bold">Species: </Text>
+        <View className="bg-slate-400 rounded-2xl flex mb-2 p-4">
+          <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
+            Species:{" "}
+          </Text>
+
           <TextInput
-            className="text-white w-3/5"
+            className="text-white border-gray-500"
             onChange={(e) => {
               changeData(e, "treeSpecies");
             }}
+            multiline={true}
             value={tempTreeForm.treeSpecies}
           ></TextInput>
         </View>
 
-        <View className="flex flex-row items-center">
-          <Text className="text-white text-lg font-bold">Last Worked On: </Text>
+        <View className="bg-slate-400 rounded-2xl flex p-4">
+          <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
+            Comment:{" "}
+          </Text>
+
           <TextInput
-            className="text-white w-3/5"
+            className="text-white border-gray-500"
             onChange={(e) => {
-              changeData(e, "lastWorkDate");
+              changeData(e, "comment");
             }}
-            value={tempTreeForm.lastWorkDate}
+            multiline={true}
+            value={tempTreeForm.comment}
           ></TextInput>
         </View>
       </View>

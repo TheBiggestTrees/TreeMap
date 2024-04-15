@@ -82,6 +82,7 @@ const InspectMain = () => {
         </Text>
       </View>
       <View className="bg-slate-400 flex w-full mt-4 rounded-lg grow p-4">
+        <Text className="text-white font-bold text-lg">Initial Inspection</Text>
         <ToggleSwitch
           setter={treeInspector}
           tree={inspectTree}
