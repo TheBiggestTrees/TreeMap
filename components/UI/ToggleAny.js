@@ -1,10 +1,10 @@
 import React from "react";
 import { Animated, Text, TouchableOpacity, View } from "react-native";
 
-export default ToggleSwitch = (props) => {
-  const { setter, tree, label, propname, runFunc, onChange } = props;
+export default ToggleAny = (props) => {
+  const { start, onChange, label } = props;
 
-  const slideAnim = new Animated.Value(tree.properties[propname] ? 1 : 0);
+  const slideAnim = new Animated.Value(start ? 1 : 0);
 
   const slide = slideAnim.interpolate({
     inputRange: [0, 1],
@@ -13,23 +13,14 @@ export default ToggleSwitch = (props) => {
 
   const slideToggle = () => {
     Animated.timing(slideAnim, {
-      toValue: tree.properties[propname] ? 0 : 1,
+      toValue: start ? 0 : 1,
       duration: 300,
       useNativeDriver: false,
     }).start();
 
-    setter((prev) => {
-      return {
-        ...prev,
-        properties: {
-          ...prev.properties,
-          [propname]: !prev.properties[propname],
-        },
-      };
-    });
-    {
-      runFunc && runFunc();
-    }
+    onChange(!start);
+
+    console.log(start);
   };
 
   return (
@@ -38,12 +29,11 @@ export default ToggleSwitch = (props) => {
       <TouchableOpacity
         className="bg-slate-300 w-16 h-8 rounded-full"
         style={
-          tree.properties[propname]
+          start
             ? { backgroundColor: "#208039" }
             : { backgroundColor: "#333333" }
         }
         onPress={slideToggle}
-        onChange={onChange}
       >
         <Animated.View
           style={{

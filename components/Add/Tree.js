@@ -1,8 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 import ButtonsRight from "../UI/ButtonsRight";
 import ButtonsLeft from "../UI/ButtonsLeft";
+import ToggleSwitch from "../UI/ToggleSwitch";
+import ToggleAny from "../UI/ToggleAny";
 
 const AddTree = (props) => {
   const {
@@ -15,6 +17,8 @@ const AddTree = (props) => {
   } = useContext(ScreenContext);
 
   const { addNewTree } = props;
+
+  const [useLocationOr, setUseLocationOr] = useState(true);
 
   const changeData = (e, name) => {
     setTempTreeForm((prev) => ({ ...prev, [name]: e.nativeEvent.text }));
@@ -59,6 +63,14 @@ const AddTree = (props) => {
     });
   };
 
+  const handleNextScreen = () => {
+    if (useLocationOr) {
+      handleNewTree();
+    } else {
+      handlePickPoint();
+    }
+  };
+
   return (
     <>
       <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2">
@@ -66,20 +78,26 @@ const AddTree = (props) => {
           Add Tree to Site: {sliderTitle}
         </Text>
       </View>
-      <View className="flex flex-row w-full justify-between">
-        <ButtonsRight
-          handlePress={handleNewTree}
-          icon="my-location"
-          text="My Location"
-          size={28}
+      <View className="flex">
+        <ToggleAny
+          start={useLocationOr}
+          onChange={setUseLocationOr}
+          label="Use My Location"
         />
-
-        <ButtonsRight
-          handlePress={handlePickPoint}
-          icon="pin-drop"
-          text="Pick Point"
-          size={28}
-        />
+        <View className="flex flex-row w-full justify-between">
+          <ButtonsRight
+            handlePress={handleNewTree}
+            icon="my-location"
+            text="My Location"
+            size={28}
+          />
+          <ButtonsRight
+            handlePress={handlePickPoint}
+            icon="pin-drop"
+            text="Pick Point"
+            size={28}
+          />
+        </View>
       </View>
 
       <View className="flex w-full m-4 justify-center">
@@ -115,6 +133,11 @@ const AddTree = (props) => {
       </View>
 
       <ButtonsLeft handlePress={handleGoBack} icon="undo" text="Go Back" />
+      <ButtonsRight
+        handlePress={handleNextScreen}
+        icon="arrow-forward"
+        text="Next"
+      />
     </>
   );
 };
