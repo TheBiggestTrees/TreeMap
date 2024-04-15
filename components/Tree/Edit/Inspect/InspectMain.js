@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
@@ -89,6 +89,23 @@ const InspectMain = () => {
           label="Planted"
           propname="isPlanted"
         />
+        <View>
+          <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
+            Comment:{" "}
+          </Text>
+
+          <TextInput
+            className="text-white h-full flex align-text-top border-gray-500"
+            onChange={(e) =>
+              treeInspector((prev) => ({
+                ...prev,
+                properties: { ...prev.properties, comment: e.nativeEvent.text },
+              }))
+            }
+            multiline={true}
+            value={inspectTree.comment}
+          ></TextInput>
+        </View>
       </View>
       <View className="flex flex-row rounded-lg mb-14 mt-4 justify-between w-full ">
         <ButtonsLeft
