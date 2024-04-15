@@ -14,7 +14,7 @@ const SiteCustPos = (props) => {
     setCurrentScreen("AddTree");
     setShowCustomMark(false);
     setShowCustomTree(false);
-    sliderRef.current.show((toValue = 265));
+    sliderRef.current.show();
   };
 
   const handlePlace = () => {
