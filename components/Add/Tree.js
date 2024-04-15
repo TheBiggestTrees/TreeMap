@@ -21,8 +21,13 @@ const AddTree = (props) => {
   const [useLocationOr, setUseLocationOr] = useState(true);
 
   const changeData = (e, name) => {
-    setTempTreeForm((prev) => ({ ...prev, [name]: e.nativeEvent.text }));
-    console.log({ ...tempTreeForm, [name]: e.nativeEvent.text });
+    if (name === "dbh") {
+      setTempTreeForm((prev) => ({ ...prev, dbh: Number(e.nativeEvent.text) }));
+      console.log({ ...tempTreeForm, dbh: Number(e.nativeEvent.text) });
+    } else {
+      setTempTreeForm((prev) => ({ ...prev, [name]: e.nativeEvent.text }));
+      console.log({ ...tempTreeForm, [name]: e.nativeEvent.text });
+    }
   };
 
   const handleNewTree = () => {
@@ -78,26 +83,12 @@ const AddTree = (props) => {
           Add Tree to Site: {sliderTitle}
         </Text>
       </View>
-      <View className="flex">
+      <View className="flex w-full justify-between">
         <ToggleAny
           start={useLocationOr}
           onChange={setUseLocationOr}
           label="Use My Location"
         />
-        <View className="flex flex-row w-full justify-between">
-          <ButtonsRight
-            handlePress={handleNewTree}
-            icon="my-location"
-            text="My Location"
-            size={28}
-          />
-          <ButtonsRight
-            handlePress={handlePickPoint}
-            icon="pin-drop"
-            text="Pick Point"
-            size={28}
-          />
-        </View>
       </View>
 
       <View className="flex w-full m-4 justify-center">
@@ -114,9 +105,7 @@ const AddTree = (props) => {
             multiline={true}
             value={tempTreeForm.treeSpecies}
           ></TextInput>
-        </View>
 
-        <View className="bg-slate-400 rounded-2xl flex p-4">
           <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
             Comment:{" "}
           </Text>
@@ -129,15 +118,28 @@ const AddTree = (props) => {
             multiline={true}
             value={tempTreeForm.comment}
           ></TextInput>
+
+          <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
+            DBH:{" "}
+          </Text>
+          <TextInput
+            className="text-white border-gray-500"
+            onChange={(e) => {
+              changeData(e, "dbh");
+            }}
+            value={tempTreeForm.dbh.toString()}
+          ></TextInput>
         </View>
       </View>
 
-      <ButtonsLeft handlePress={handleGoBack} icon="undo" text="Go Back" />
-      <ButtonsRight
-        handlePress={handleNextScreen}
-        icon="arrow-forward"
-        text="Next"
-      />
+      <View className="flex flex-row justify-between w-full">
+        <ButtonsLeft handlePress={handleGoBack} icon="undo" text="Go Back" />
+        <ButtonsRight
+          handlePress={handleNextScreen}
+          icon="arrow-forward"
+          text="Next"
+        />
+      </View>
     </>
   );
 };
