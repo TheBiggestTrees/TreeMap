@@ -1,12 +1,11 @@
-import { Text, TouchableHighlight, View } from "react-native";
-import Icons from "@expo/vector-icons/MaterialIcons";
+import { Text, View } from "react-native";
 import { useContext } from "react";
 import ScreenContext from "../../context/screenContext";
 import ButtonsLeft from "../UI/ButtonsLeft";
 import ButtonsRight from "../UI/ButtonsRight";
 
 const SiteCustPos = (props) => {
-  const { setCurrentScreen, setShowCustomMark, sliderRef } =
+  const { setCurrentScreen, setShowCustomTree, setShowCustomMark, sliderRef } =
     useContext(ScreenContext);
 
   const { addNewTree } = props;
@@ -14,7 +13,8 @@ const SiteCustPos = (props) => {
   const handleGoBack = () => {
     setCurrentScreen("AddTree");
     setShowCustomMark(false);
-    sliderRef.current.show((toValue = 265));
+    setShowCustomTree(false);
+    sliderRef.current.show();
   };
 
   const handlePlace = () => {

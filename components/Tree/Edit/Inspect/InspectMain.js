@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
