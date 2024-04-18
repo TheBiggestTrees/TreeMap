@@ -6,6 +6,7 @@ import ButtonsLeft from "../../../UI/ButtonsLeft";
 import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
 import ButtonsRight from "../../../UI/ButtonsRight";
+import DropdownSelect from "../../../UI/DropdownSelect";
 
 const InspectMain = () => {
   const {
@@ -82,13 +83,27 @@ const InspectMain = () => {
         </Text>
       </View>
       <View className="bg-slate-400 flex w-full mt-4 rounded-lg grow p-4">
-        <Text className="text-white font-bold text-lg">Initial Inspection</Text>
-        <ToggleSwitch
-          setter={treeInspector}
-          tree={inspectTree}
-          label="Planted"
-          propname="isPlanted"
-        />
+        <View>
+          <Text className="text-white font-bold text-lg">
+            Initial Inspection
+          </Text>
+          <ToggleSwitch
+            setter={treeInspector}
+            tree={inspectTree}
+            label="Planted"
+            propname="isPlanted"
+          />
+
+          <DropdownSelect
+            working={inspectTree.properties.status}
+            setWorking={treeInspector}
+            options={["Alive", "Deceased", "Planted", "Removed"]}
+            label="Status"
+            border={"border-b-2"}
+            bgcolor={"bg-[#a4b0be]"}
+            borderColor={"border-gray-500"}
+          />
+        </View>
       </View>
       <View className="flex flex-row rounded-lg mb-14 mt-4 justify-between w-full ">
         <ButtonsLeft
