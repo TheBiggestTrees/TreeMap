@@ -125,7 +125,7 @@ const InspectMain = () => {
             options={["Alive", "Deceased", "Planted", "Removed"]}
             label="Status"
             border={"border-b-2"}
-            bgcolor={"bg-[#a4b0be]"}
+            bgcolor={"bg-[#4e545f56]"}
             borderColor={"border-gray-500"}
           />
           <CommentBox
@@ -133,7 +133,7 @@ const InspectMain = () => {
             setComments={treeInspector}
             handlePress={handleRemoveComment}
             label="Comment"
-            bgColor={"bg-[#a4b0be]"}
+            bgColor={"bg-[#4e545f56]"}
           />
         </View>
       </View>

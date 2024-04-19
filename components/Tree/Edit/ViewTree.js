@@ -64,6 +64,39 @@ const ViewTree = () => {
         <ScrollView className="gap-y-2">
           {/* Needs work items */}
           {workingTree.properties.needsWork && <NeedsWorkItem nonEdit={true} />}
+          {workingTree.properties.comment.length > 0 && (
+            <View className="bg-slate-400 shadow-lg px-4 py-4 rounded-xl">
+              <Text className="text-white font-bold text-lg py-2 px-4">
+                Comments
+              </Text>
+              <View className="bg-gray-500 h-1 rounded-full w-full"></View>
+              {workingTree.properties.comment.map((comment, index) => {
+                return (
+                  <View
+                    key={index}
+                    className="flex flex-row items-center justify-between bg-[#4e545f56] rounded-lg p-4 mt-2"
+                  >
+                    <Text className="text-white font-bold text-lg">
+                      {comment.workComment}
+                    </Text>
+                    {!comment.completed ? (
+                      <Icons
+                        name="assignment-late"
+                        size={28}
+                        color="#FF0000"
+                      ></Icons>
+                    ) : (
+                      <Icons
+                        name="assignment-turned-in"
+                        size={28}
+                        color="#3bbf46"
+                      ></Icons>
+                    )}
+                  </View>
+                );
+              })}
+            </View>
+          )}
 
           {/* Photos */}
           <PhotosPanel />
@@ -81,9 +114,6 @@ const ViewTree = () => {
             </Text>
             <Text className="text-white font-bold text-lg">
               Condition: {workingTree.properties.condition}
-            </Text>
-            <Text className="text-white font-bold text-lg">
-              Comment: {workingTree.properties.comment}
             </Text>
             <Text className="text-white font-bold text-lg">
               Last Work Date: {workingTree.properties.lastWorkDate}
