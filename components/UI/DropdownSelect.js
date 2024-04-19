@@ -36,7 +36,7 @@ const DropdownSelect = (props) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  className={`flex w-full rounded-t-2xl flex-row items-center justify-between p-1.5 px-4 ${borderColor} ${border} ${bgcolor}`}
+                  className={`flex w-full rounded-t-2xl flex-row items-center justify-between p-1.5 px-4 ${borderColor} ${border} bg-[#4e545f]`}
                   onPress={() => {
                     setWorking((prev) => ({
                       ...prev,
@@ -55,7 +55,7 @@ const DropdownSelect = (props) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  className={`flex w-full flex-row items-center justify-between p-1.5 px-4  rounded-b-2xl ${bgcolor} `}
+                  className={`flex w-full flex-row items-center justify-between p-1.5 px-4  rounded-b-2xl bg-[#4e545f] `}
                   onPress={() => {
                     setWorking((prev) => ({
                       ...prev,
@@ -74,7 +74,7 @@ const DropdownSelect = (props) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  className={`flex w-full flex-row items-center justify-between p-1.5 px-4 ${borderColor} ${border} ${bgcolor}`}
+                  className={`flex w-full flex-row items-center justify-between p-1.5 px-4 ${borderColor} ${border} bg-[#4e545f]`}
                   onPress={() => {
                     setWorking((prev) => ({
                       ...prev,

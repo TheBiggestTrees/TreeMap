@@ -51,7 +51,7 @@ const AddTree = (props) => {
       status: "Alive",
       condition: "Good",
       leafCondition: "Good",
-      comment: ["N/A"],
+      comment: [],
       lastModifiedDate: "N/A",
       lastModifiedBy: "N/A",
       lastWorkDate: "N/A",
@@ -104,19 +104,6 @@ const AddTree = (props) => {
             }}
             multiline={true}
             value={tempTreeForm.treeSpecies}
-          ></TextInput>
-
-          <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
-            Comment:{" "}
-          </Text>
-
-          <TextInput
-            className="text-white border-gray-500"
-            onChange={(e) => {
-              changeData(e, "comment");
-            }}
-            multiline={true}
-            value={tempTreeForm.comment}
           ></TextInput>
 
           <Text className="text-white text-lg font-bold border-b-2 border-gray-500">
