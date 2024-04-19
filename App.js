@@ -21,7 +21,7 @@ const App = () => {
     status: "Alive",
     condition: "Good",
     leafCondition: "Good",
-    comment: "N/A",
+    comment: ["N/A"],
     lastModifiedDate: "N/A",
     lastModifiedBy: "N/A",
     lastWorkDate: "N/A",
