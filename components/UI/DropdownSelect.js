@@ -27,7 +27,7 @@ const DropdownSelect = (props) => {
 
       {showDropdown && (
         <View
-          className="flex flex-col items-center rounded-2xl w-5/6 absolute top-[130]"
+          className="flex flex-col items-center rounded-2xl w-5/6 absolute top-[129]"
           style={{ zIndex: 1 }}
         >
           {options.map((option, index) => {
@@ -36,7 +36,7 @@ const DropdownSelect = (props) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  className={`flex w-full rounded-t-2xl flex-row items-center justify-between p-1 px-4 ${borderColor} ${border} ${bgcolor}`}
+                  className={`flex w-full rounded-t-2xl flex-row items-center justify-between p-1.5 px-4 ${borderColor} ${border} ${bgcolor}`}
                   onPress={() => {
                     setWorking((prev) => ({
                       ...prev,
@@ -55,7 +55,7 @@ const DropdownSelect = (props) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  className={`flex w-full flex-row items-center justify-between p-1 px-4  rounded-b-2xl ${bgcolor} `}
+                  className={`flex w-full flex-row items-center justify-between p-1.5 px-4  rounded-b-2xl ${bgcolor} `}
                   onPress={() => {
                     setWorking((prev) => ({
                       ...prev,
@@ -74,7 +74,7 @@ const DropdownSelect = (props) => {
               return (
                 <TouchableOpacity
                   key={index}
-                  className={`flex w-full flex-row items-center justify-between p-1 px-4 ${borderColor} ${border} ${bgcolor}`}
+                  className={`flex w-full flex-row items-center justify-between p-1.5 px-4 ${borderColor} ${border} ${bgcolor}`}
                   onPress={() => {
                     setWorking((prev) => ({
                       ...prev,

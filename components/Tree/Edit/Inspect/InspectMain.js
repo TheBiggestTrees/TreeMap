@@ -7,6 +7,7 @@ import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
 import ButtonsRight from "../../../UI/ButtonsRight";
 import DropdownSelect from "../../../UI/DropdownSelect";
+import CommentBox from "../../../UI/CommentBox";
 
 const InspectMain = () => {
   const {
@@ -29,6 +30,30 @@ const InspectMain = () => {
 
   const handleGoBack = () => {
     setCurrentScreen("ViewTree");
+  };
+
+  const handleRemoveComment = (index) => {
+    if (inspectTree.properties.comment.length === 1) {
+      treeInspector((prev) => ({
+        ...prev,
+        properties: {
+          ...prev.properties,
+          comment: [],
+        },
+      }));
+    } else {
+      treeInspector((prev) => ({
+        ...prev,
+        properties: {
+          ...prev.properties,
+          comment: [
+            ...prev.properties.comment.slice(0, index),
+            ...prev.properties.comment.slice(index + 1),
+          ],
+        },
+      }));
+    }
+    console.log(inspectTree.properties.comment);
   };
 
   const handleRequest = async (propname) => {
@@ -102,6 +127,13 @@ const InspectMain = () => {
             border={"border-b-2"}
             bgcolor={"bg-[#a4b0be]"}
             borderColor={"border-gray-500"}
+          />
+          <CommentBox
+            comments={inspectTree.properties.comment}
+            setComments={treeInspector}
+            handlePress={handleRemoveComment}
+            label="Comment"
+            bgColor={"bg-[#a4b0be]"}
           />
         </View>
       </View>
