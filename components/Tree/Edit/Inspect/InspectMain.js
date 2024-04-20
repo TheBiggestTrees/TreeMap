@@ -88,7 +88,6 @@ const InspectMain = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         setErrMsg(res.data.message);
         setSelectedTrees((prev) => {
           prev[index] = res.data.data;

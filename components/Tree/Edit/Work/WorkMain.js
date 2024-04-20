@@ -13,7 +13,6 @@ const WorkMain = () => {
 
   return (
     <>
-      <NeedsWorkItem />
       <View className="flex items-center w-full mt-4 rounded-lg grow p-4">
         <ButtonsLeft
           handlePress={handleGoBack}
