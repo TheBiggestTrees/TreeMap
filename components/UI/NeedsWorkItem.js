@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
-import axios from "axios";
 
 const NeedsWorkItem = (props) => {
   const { nonEdit, workingTree, comment, setComment } = props;
