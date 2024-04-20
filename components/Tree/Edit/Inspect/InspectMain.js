@@ -138,7 +138,7 @@ const InspectMain = () => {
                 comment={comment}
                 setComment={setComment}
               />
-              <AddPhotos />
+              <AddPhotos photos={inspectTree.properties.photos} />
             </>
           )}
 

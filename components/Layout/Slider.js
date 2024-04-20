@@ -13,6 +13,7 @@ import ViewTree from "../Tree/Edit/ViewTree";
 import InspectMain from "../Tree/Edit/Inspect/InspectMain";
 import WorkMain from "../Tree/Edit/Work/WorkMain";
 import PopupMsg from "../UI/PopupMsg";
+import AddPhotoDialog from "../Tree/Edit/AddPhotoDialog";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
@@ -74,6 +75,7 @@ const Slider = (props) => {
 
             {/* Work Parent */}
             {currentScreen === "WorkMain" && <WorkMain />}
+            {currentScreen === "AddPhotoDialog" && <AddPhotoDialog />}
           </View>
         )}
       </SlidingUpPanel>
