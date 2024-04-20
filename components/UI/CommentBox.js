@@ -57,7 +57,6 @@ const CommentBox = (props) => {
                             }),
                           },
                         }));
-                        console.log(comments);
                       }}
                     >
                       {comment.completed && (
