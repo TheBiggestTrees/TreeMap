@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import ScreenContext from "../../../../context/screenContext";
 import ToggleSwitch from "../../../UI/ToggleSwitch";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
@@ -8,7 +8,8 @@ import { useAuth } from "../../../../context/AuthContext";
 import ButtonsRight from "../../../UI/ButtonsRight";
 import DropdownSelect from "../../../UI/DropdownSelect";
 import CommentBox from "../../../UI/CommentBox";
-
+import AddPhotos from "../AddPhotos";
+import NeedsWorkItem from "../../../UI/NeedsWorkItem";
 const InspectMain = () => {
   const {
     setTrees,
@@ -68,18 +69,19 @@ const InspectMain = () => {
     const date = newDate.toLocaleDateString();
     const time = newDate.toLocaleTimeString();
 
-    let temp = { datePlanted: "N/A", plantedBy: "N/A" };
+    let tempRecordName = { datePlanted: "N/A", plantedBy: "N/A" };
     if (workingTree.properties.plantedBy === "N/A") {
-      temp.plantedBy = `${user.firstName} ${user.lastName}`;
-      temp.datePlanted = `${date} ${time}`;
+      tempRecordName.plantedBy = `${user.firstName} ${user.lastName}`;
+      tempRecordName.datePlanted = `${date} ${time}`;
     }
 
     await axios
       .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
         properties: {
           ...inspectTree.properties,
-          [propname]: inspectTree.properties[propname],
-          ...temp,
+          [propname[0]]: inspectTree.properties[propname[0]],
+          [propname[1]]: inspectTree.properties[propname[1]],
+          ...tempRecordName,
         },
       })
       .then((res) => {
@@ -107,8 +109,8 @@ const InspectMain = () => {
           {workingTree.properties.treeID.toString().padStart(4, "0")}
         </Text>
       </View>
-      <View className="bg-slate-400 flex w-full mt-4 rounded-lg grow p-4">
-        <View>
+      <ScrollView className="bg-slate-400 w-full mt-4 rounded-lg grow p-4">
+        <View className="mb-8">
           <Text className="text-white font-bold text-lg">
             Initial Inspection
           </Text>
@@ -118,6 +120,14 @@ const InspectMain = () => {
             label="Planted"
             propname="isPlanted"
           />
+          <ToggleSwitch
+            setter={treeInspector}
+            tree={inspectTree}
+            label="Needs Work"
+            propname="needsWork"
+          />
+
+          {inspectTree.properties.needsWork && <NeedsWorkItem />}
 
           <DropdownSelect
             working={inspectTree.properties.status}
@@ -128,6 +138,7 @@ const InspectMain = () => {
             bgcolor={"bg-[#4e545f56]"}
             borderColor={"border-gray-500"}
           />
+
           <CommentBox
             comments={inspectTree.properties.comment}
             setComments={treeInspector}
@@ -135,9 +146,10 @@ const InspectMain = () => {
             label="Comment"
             bgColor={"bg-[#4e545f56]"}
           />
+          <AddPhotos />
         </View>
-      </View>
-      <View className="flex flex-row rounded-lg mb-14 mt-4 justify-between w-full ">
+      </ScrollView>
+      <View className="flex flex-row rounded py-8-lg mb-14 mt-4 justify-between w-full ">
         <ButtonsLeft
           handlePress={handleGoBack}
           width={"w-40"}
@@ -145,7 +157,7 @@ const InspectMain = () => {
           text="Go Back"
         />
         <ButtonsRight
-          handlePress={() => handleRequest("isPlanted")}
+          handlePress={() => handleRequest("isPlanted", "needsWork")}
           width={"w-40"}
           icon="save"
           text="Save"

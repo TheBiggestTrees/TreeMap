@@ -9,7 +9,7 @@ const DropdownSelect = (props) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <>
+    <View>
       <Text className="text-white font-bold text-lg pb-2">{label}</Text>
       <View
         className={`flex rounded-xl pl-4 pr-2 ${bgcolor} ${borderColor} ${border}`}
@@ -27,7 +27,7 @@ const DropdownSelect = (props) => {
 
       {showDropdown && (
         <View
-          className="flex flex-col items-center rounded-2xl w-5/6 absolute top-[129]"
+          className="flex flex-col items-center rounded-2xl w-5/6 absolute top-9"
           style={{ zIndex: 1 }}
         >
           {options.map((option, index) => {
@@ -93,7 +93,7 @@ const DropdownSelect = (props) => {
           })}
         </View>
       )}
-    </>
+    </View>
   );
 };
 
