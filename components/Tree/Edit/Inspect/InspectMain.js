@@ -131,12 +131,15 @@ const InspectMain = () => {
           />
 
           {inspectTree.properties.needsWork && (
-            <NeedsWorkItem
-              workingTree={inspectTree}
-              setWorkingTree={treeInspector}
-              comment={comment}
-              setComment={setComment}
-            />
+            <>
+              <NeedsWorkItem
+                workingTree={inspectTree}
+                setWorkingTree={treeInspector}
+                comment={comment}
+                setComment={setComment}
+              />
+              <AddPhotos />
+            </>
           )}
 
           <DropdownSelect
@@ -156,7 +159,6 @@ const InspectMain = () => {
             label="Comment"
             bgColor={"bg-[#4e545f56]"}
           />
-          <AddPhotos />
         </View>
       </ScrollView>
       <View className="flex flex-row rounded py-8-lg mb-14 mt-4 justify-between w-full ">

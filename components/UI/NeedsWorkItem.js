@@ -15,9 +15,9 @@ const NeedsWorkItem = (props) => {
 
   const workNeedednonEdit = () => {
     if (nonEdit) {
-      return "flex flex-row items-center justify-center bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl";
+      return "flex flex-row items-center justify-center bg-[#636b79c9]  shadow-lg px-2 py-2 my-4 w-full rounded-xl";
     } else {
-      return "flex flex-row items-center justify-between bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl";
+      return "flex flex-row items-center justify-between bg-[#636b79c9]  shadow-lg px-2 py-2 my-4 w-full rounded-xl";
     }
   };
 
@@ -25,68 +25,12 @@ const NeedsWorkItem = (props) => {
     let temp = [...comment];
     temp[index].completed = !temp[index].completed;
     setComment(temp);
-    // try {
-    //   const workingIndex = trees.features.findIndex(
-    //     (tree) => tree._id === workingTree._id
-    //   );
-    //   const index = selectedTrees.findIndex(
-    //     (tree) => tree._id === workingTree._id
-    //   );
-    //   workingTree.properties.needsWorkComment = temp;
-
-    //   // axios
-    //   //   .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
-    //   //     properties: { ...workingTree.properties },
-    //   //   })
-    //   //   .then((res) => {
-    //   //     setSelectedTrees((prev) => {
-    //   //       prev[index] = res.data.data;
-    //   //       return prev;
-    //   //     });
-    //   //     setTrees((prev) => {
-    //   //       prev.features[workingIndex] = res.data.data;
-    //   //       return prev;
-    //   //     });
-    //   //     setWorkingTree(res.data.data);
-    //   //   });
-    // } catch (err) {
-    //   console.log(err);
-    //   setErrMsg("Error adding!");
-    // }
   };
 
   const handleDelete = (index) => {
     let temp = [...comment];
     temp.splice(index, 1);
     setComment(temp);
-    // try {
-    //   const workingIndex = trees.features.findIndex(
-    //     (tree) => tree._id === workingTree._id
-    //   );
-    //   const index = selectedTrees.findIndex(
-    //     (tree) => tree._id === workingTree._id
-    //   );
-    //   workingTree.properties.needsWorkComment = temp;
-
-    //   axios
-    //     .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
-    //       properties: { ...workingTree.properties },
-    //     })
-    //     .then((res) => {
-    //       setSelectedTrees((prev) => {
-    //         prev[index] = res.data.data;
-    //         return prev;
-    //       });
-    //       setTrees((prev) => {
-    //         prev.features[workingIndex] = res.data.data;
-    //         return prev;
-    //       });
-    //       setWorkingTree(res.data.data);
-    //     });
-    // } catch (err) {
-    //   console.log(err);
-    //   setErrMsg("Error adding!");
-    // }
   };
 
   const handleAddComment = () => {
@@ -94,43 +38,14 @@ const NeedsWorkItem = (props) => {
     temp.push({ comment: addComment, completed: checked });
     setComment(temp);
     setAddComment("");
-    // try {
-    //   const workingIndex = trees.features.findIndex(
-    //     (tree) => tree._id === workingTree._id
-    //   );
-    //   const index = selectedTrees.findIndex(
-    //     (tree) => tree._id === workingTree._id
-    //   );
-    //   workingTree.properties.needsWorkComment = temp;
-
-    //   axios
-    //     .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
-    //       properties: { ...workingTree.properties },
-    //     })
-    //     .then((res) => {
-    //       setSelectedTrees((prev) => {
-    //         prev[index] = res.data.data;
-    //         return prev;
-    //       });
-    //       setTrees((prev) => {
-    //         prev.features[workingIndex] = res.data.data;
-    //         return prev;
-    //       });
-    //       setWorkingTree(res.data.data);
-    //     });
-    // } catch (err) {
-    //   console.log(err);
-    //   setErrMsg("Error adding!");
-    // }
   };
 
   return (
-    <View className="flex bg-slate-400 shadow-lg px-5 py-4 w-full rounded-xl">
+    <View className="flex bg-[#4e545f56] shadow-lg px-5 py-4 mb-2 w-full rounded-xl">
       <View className="">
-        <Text className="px-5 py-2 text-white font-bold text-lg">
+        <Text className=" py-2 text-white font-bold text-lg border-b-2 border-b-gray-500">
           Work Needed
         </Text>
-        <View className="bg-gray-500 h-1 rounded-full"></View>
       </View>
       <View className="py-2">
         {comment.length < 1 ? (
@@ -139,7 +54,7 @@ const NeedsWorkItem = (props) => {
               No work needed
             </Text>
             <Text className="font-bold text-white text-lg mb-4 self-center">
-              Add a comment...
+              Add something...
             </Text>
           </View>
         ) : (
@@ -169,7 +84,7 @@ const NeedsWorkItem = (props) => {
                 )}
                 {comment.completed ? (
                   <View className="flex items-center">
-                    <Text className="text-gray-500 font-bold text-lg my-[-14]">
+                    <Text className="text-gray-300 font-bold text-lg my-[-14]">
                       {comment.comment}
                     </Text>
                     <View className="bg-red-600 h-1 rounded-full w-24"></View>
