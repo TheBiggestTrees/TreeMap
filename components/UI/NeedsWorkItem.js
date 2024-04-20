@@ -5,21 +5,10 @@ import ScreenContext from "../../context/screenContext";
 import axios from "axios";
 
 const NeedsWorkItem = (props) => {
-  const { nonEdit } = props;
+  const { nonEdit, workingTree, comment, setComment } = props;
 
-  const {
-    setErrMsg,
-    setSelectedTrees,
-    setTrees,
-    trees,
-    selectedTrees,
-    setWorkingTree,
-    workingTree,
-  } = useContext(ScreenContext);
+  const { setErrMsg } = useContext(ScreenContext);
 
-  const [comment, setComment] = useState(
-    workingTree.properties.needsWorkComment
-  );
   const [addComment, setAddComment] = useState("");
   const [checked, setChecked] = useState(
     workingTree.properties.needsWorkComment.completed
@@ -37,68 +26,68 @@ const NeedsWorkItem = (props) => {
     let temp = [...comment];
     temp[index].completed = !temp[index].completed;
     setComment(temp);
-    try {
-      const workingIndex = trees.features.findIndex(
-        (tree) => tree._id === workingTree._id
-      );
-      const index = selectedTrees.findIndex(
-        (tree) => tree._id === workingTree._id
-      );
-      workingTree.properties.needsWorkComment = temp;
+    // try {
+    //   const workingIndex = trees.features.findIndex(
+    //     (tree) => tree._id === workingTree._id
+    //   );
+    //   const index = selectedTrees.findIndex(
+    //     (tree) => tree._id === workingTree._id
+    //   );
+    //   workingTree.properties.needsWorkComment = temp;
 
-      axios
-        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
-          properties: { ...workingTree.properties },
-        })
-        .then((res) => {
-          setSelectedTrees((prev) => {
-            prev[index] = res.data.data;
-            return prev;
-          });
-          setTrees((prev) => {
-            prev.features[workingIndex] = res.data.data;
-            return prev;
-          });
-          setWorkingTree(res.data.data);
-        });
-    } catch (err) {
-      console.log(err);
-      setErrMsg("Error adding!");
-    }
+    //   // axios
+    //   //   .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+    //   //     properties: { ...workingTree.properties },
+    //   //   })
+    //   //   .then((res) => {
+    //   //     setSelectedTrees((prev) => {
+    //   //       prev[index] = res.data.data;
+    //   //       return prev;
+    //   //     });
+    //   //     setTrees((prev) => {
+    //   //       prev.features[workingIndex] = res.data.data;
+    //   //       return prev;
+    //   //     });
+    //   //     setWorkingTree(res.data.data);
+    //   //   });
+    // } catch (err) {
+    //   console.log(err);
+    //   setErrMsg("Error adding!");
+    // }
   };
 
   const handleDelete = (index) => {
     let temp = [...comment];
     temp.splice(index, 1);
     setComment(temp);
-    try {
-      const workingIndex = trees.features.findIndex(
-        (tree) => tree._id === workingTree._id
-      );
-      const index = selectedTrees.findIndex(
-        (tree) => tree._id === workingTree._id
-      );
-      workingTree.properties.needsWorkComment = temp;
+    // try {
+    //   const workingIndex = trees.features.findIndex(
+    //     (tree) => tree._id === workingTree._id
+    //   );
+    //   const index = selectedTrees.findIndex(
+    //     (tree) => tree._id === workingTree._id
+    //   );
+    //   workingTree.properties.needsWorkComment = temp;
 
-      axios
-        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
-          properties: { ...workingTree.properties },
-        })
-        .then((res) => {
-          setSelectedTrees((prev) => {
-            prev[index] = res.data.data;
-            return prev;
-          });
-          setTrees((prev) => {
-            prev.features[workingIndex] = res.data.data;
-            return prev;
-          });
-          setWorkingTree(res.data.data);
-        });
-    } catch (err) {
-      console.log(err);
-      setErrMsg("Error adding!");
-    }
+    //   axios
+    //     .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+    //       properties: { ...workingTree.properties },
+    //     })
+    //     .then((res) => {
+    //       setSelectedTrees((prev) => {
+    //         prev[index] = res.data.data;
+    //         return prev;
+    //       });
+    //       setTrees((prev) => {
+    //         prev.features[workingIndex] = res.data.data;
+    //         return prev;
+    //       });
+    //       setWorkingTree(res.data.data);
+    //     });
+    // } catch (err) {
+    //   console.log(err);
+    //   setErrMsg("Error adding!");
+    // }
   };
 
   const handleAddComment = () => {
@@ -106,34 +95,34 @@ const NeedsWorkItem = (props) => {
     temp.push({ comment: addComment, completed: checked });
     setComment(temp);
     setAddComment("");
-    try {
-      const workingIndex = trees.features.findIndex(
-        (tree) => tree._id === workingTree._id
-      );
-      const index = selectedTrees.findIndex(
-        (tree) => tree._id === workingTree._id
-      );
-      workingTree.properties.needsWorkComment = temp;
+    // try {
+    //   const workingIndex = trees.features.findIndex(
+    //     (tree) => tree._id === workingTree._id
+    //   );
+    //   const index = selectedTrees.findIndex(
+    //     (tree) => tree._id === workingTree._id
+    //   );
+    //   workingTree.properties.needsWorkComment = temp;
 
-      axios
-        .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
-          properties: { ...workingTree.properties },
-        })
-        .then((res) => {
-          setSelectedTrees((prev) => {
-            prev[index] = res.data.data;
-            return prev;
-          });
-          setTrees((prev) => {
-            prev.features[workingIndex] = res.data.data;
-            return prev;
-          });
-          setWorkingTree(res.data.data);
-        });
-    } catch (err) {
-      console.log(err);
-      setErrMsg("Error adding!");
-    }
+    //   axios
+    //     .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+    //       properties: { ...workingTree.properties },
+    //     })
+    //     .then((res) => {
+    //       setSelectedTrees((prev) => {
+    //         prev[index] = res.data.data;
+    //         return prev;
+    //       });
+    //       setTrees((prev) => {
+    //         prev.features[workingIndex] = res.data.data;
+    //         return prev;
+    //       });
+    //       setWorkingTree(res.data.data);
+    //     });
+    // } catch (err) {
+    //   console.log(err);
+    //   setErrMsg("Error adding!");
+    // }
   };
 
   return (

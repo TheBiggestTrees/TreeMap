@@ -27,6 +27,10 @@ const InspectMain = () => {
     treeInspector(workingTree);
   }, []);
 
+  const [comment, setComment] = useState(
+    workingTree.properties.needsWorkComment
+  );
+
   const { user } = useAuth();
 
   const handleGoBack = () => {
@@ -57,7 +61,7 @@ const InspectMain = () => {
     console.log(inspectTree.properties.comment);
   };
 
-  const handleRequest = async (propname) => {
+  const handleRequest = async () => {
     const workingIndex = trees.features.findIndex(
       (treef) => treef._id === workingTree._id
     );
@@ -79,12 +83,12 @@ const InspectMain = () => {
       .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
         properties: {
           ...inspectTree.properties,
-          [propname[0]]: inspectTree.properties[propname[0]],
-          [propname[1]]: inspectTree.properties[propname[1]],
           ...tempRecordName,
+          needsWorkComment: comment,
         },
       })
       .then((res) => {
+        console.log(res.data.data);
         setErrMsg(res.data.message);
         setSelectedTrees((prev) => {
           prev[index] = res.data.data;
@@ -127,7 +131,14 @@ const InspectMain = () => {
             propname="needsWork"
           />
 
-          {inspectTree.properties.needsWork && <NeedsWorkItem />}
+          {inspectTree.properties.needsWork && (
+            <NeedsWorkItem
+              workingTree={inspectTree}
+              setWorkingTree={treeInspector}
+              comment={comment}
+              setComment={setComment}
+            />
+          )}
 
           <DropdownSelect
             working={inspectTree.properties.status}
@@ -157,7 +168,7 @@ const InspectMain = () => {
           text="Go Back"
         />
         <ButtonsRight
-          handlePress={() => handleRequest("isPlanted", "needsWork")}
+          handlePress={() => handleRequest()}
           width={"w-40"}
           icon="save"
           text="Save"

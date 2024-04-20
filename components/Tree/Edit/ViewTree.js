@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { ScrollView, Text, TouchableHighlight, View } from "react-native";
 import ScreenContext from "../../../context/screenContext";
-import Icons from "@expo/vector-icons/MaterialIcons";
 import PhotosPanel from "./PhotosPanel";
-import NeedsWorkItem from "../../UI/NeedsWorkItem";
-import ToggleSwitch from "../../UI/ToggleSwitch";
 import ButtonsRight from "../../UI/ButtonsRight";
+import DisplayWork from "../../UI/DisplayWork";
+import Icons from "@expo/vector-icons/MaterialIcons";
 
 const ViewTree = () => {
   const { workingTree, sliderTitle, setCurrentScreen, setShowCustomTree } =
@@ -63,7 +62,9 @@ const ViewTree = () => {
       <View className="h-[67.5%] rounded-lg">
         <ScrollView className="gap-y-2">
           {/* Needs work items */}
-          {workingTree.properties.needsWork && <NeedsWorkItem nonEdit={true} />}
+          {workingTree.properties.needsWork && (
+            <DisplayWork workingTree={workingTree} />
+          )}
           {workingTree.properties.comment.length > 0 && (
             <View className="bg-slate-400 shadow-lg px-4 py-4 rounded-xl">
               <Text className="text-white font-bold text-lg py-2 px-4">
