@@ -47,36 +47,51 @@ const Slider = (props) => {
         }}
       >
         {(dragHandler) => (
-          <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl px-4 items-center">
-            {errMsg && <PopupMsg />}
-            <View style={styles.dragHandler} {...dragHandler}>
-              <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
-            </View>
-            {currentScreen === "siteList" && (
-              <>
-                <SiteList />
-              </>
-            )}
-            {currentScreen === "SelectedSite" && <SelectedSite />}
-            {currentScreen === "AddSite" && <AddSite addNewSite={addNewSite} />}
-            {currentScreen === "SiteCustPos" && (
-              <SiteCustPos addNewSite={addNewSite} />
-            )}
-            {currentScreen === "TreeCustPos" && (
-              <TreeCustPos addNewTree={addNewTree} />
-            )}
-            {currentScreen === "AddTree" && <AddTree addNewTree={addNewTree} />}
-            {currentScreen === "Profile" && <Profile />}
-            {/* View Tree is parent of Inspect and Work */}
-            {currentScreen === "ViewTree" && <ViewTree />}
+          <>
+            {currentScreen === "AddPhotoDialog" ? (
+              <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl items-center">
+                {errMsg && <PopupMsg />}
+                <View style={styles.dragHandler} {...dragHandler}>
+                  <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
+                </View>
+                {currentScreen === "AddPhotoDialog" && <AddPhotoDialog />}
+              </View>
+            ) : (
+              <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl px-4 items-center">
+                {errMsg && <PopupMsg />}
+                <View style={styles.dragHandler} {...dragHandler}>
+                  <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
+                </View>
+                {currentScreen === "siteList" && (
+                  <>
+                    <SiteList />
+                  </>
+                )}
+                {currentScreen === "SelectedSite" && <SelectedSite />}
+                {currentScreen === "AddSite" && (
+                  <AddSite addNewSite={addNewSite} />
+                )}
+                {currentScreen === "SiteCustPos" && (
+                  <SiteCustPos addNewSite={addNewSite} />
+                )}
+                {currentScreen === "TreeCustPos" && (
+                  <TreeCustPos addNewTree={addNewTree} />
+                )}
+                {currentScreen === "AddTree" && (
+                  <AddTree addNewTree={addNewTree} />
+                )}
+                {currentScreen === "Profile" && <Profile />}
+                {/* View Tree is parent of Inspect and Work */}
+                {currentScreen === "ViewTree" && <ViewTree />}
 
-            {/* Inspect Parent */}
-            {currentScreen === "InspectMain" && <InspectMain />}
+                {/* Inspect Parent */}
+                {currentScreen === "InspectMain" && <InspectMain />}
 
-            {/* Work Parent */}
-            {currentScreen === "WorkMain" && <WorkMain />}
-            {currentScreen === "AddPhotoDialog" && <AddPhotoDialog />}
-          </View>
+                {/* Work Parent */}
+                {currentScreen === "WorkMain" && <WorkMain />}
+              </View>
+            )}
+          </>
         )}
       </SlidingUpPanel>
     </View>

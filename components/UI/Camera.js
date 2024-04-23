@@ -11,8 +11,8 @@ const s3 = new AWS.S3();
 const CameraBox = () => {
   const cameraRef = useRef(null);
   const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [type, setType] = useState(CameraType.back);
   const [hasGalleryPermission, setHasGalleryPermission] = useState();
-  const [type, setType] = useState(Camera.Constants.Type.back);
 
   useEffect(() => {
     (async () => {
@@ -32,7 +32,7 @@ const CameraBox = () => {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const options = { quality: 1, base64: true };
+      const options = { quality: 1, base64: true, path: "/EasyTree/" };
       const data = await cameraRef.current.takePictureAsync(options);
       const source = data.uri;
       if (source) {
@@ -45,34 +45,50 @@ const CameraBox = () => {
     const asset = await MediaLibrary.createAssetAsync(photo);
     const album = await MediaLibrary.getAlbumAsync("EasyTree");
 
+    let success = false;
     if (album === null) {
-      await MediaLibrary.createAlbumAsync("EasyTree", asset, true);
+      success = await MediaLibrary.createAlbumAsync("EasyTree", asset, false);
     } else {
-      await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
+      success = await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
     }
+
+    if (!success) {
+      await FileSystem.deleteAsync(asset.uri);
+    }
+  };
+
+  const setTypeHandler = () => {
+    setType(type === CameraType.back ? CameraType.front : CameraType.back);
   };
 
   return (
     <Camera
+      type={type}
       style={{
         flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
         width: "100%",
         height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
+        marginBottom: 50,
+        paddingBottom: 50,
       }}
       ref={cameraRef}
     >
-      <View>
-        <ButtonsRight
-          icon={"photo-camera"}
-          width="w-40"
-          text="Take Picture"
-          handlePress={() => {
-            takePicture();
-          }}
-        />
-      </View>
+      <ButtonsRight
+        icon={"photo-camera"}
+        width="w-20 justify-center self-end"
+        handlePress={() => {
+          takePicture();
+        }}
+      />
+      <ButtonsRight
+        icon={"flip-camera-ios"}
+        width="w-20 justify-center self-end"
+        handlePress={() => {
+          setTypeHandler();
+        }}
+      />
     </Camera>
   );
 };
