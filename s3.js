@@ -94,25 +94,22 @@ const AWSHelper = {
     //use the s3.getObject method to get the image from the bucket
     //use the key to get the image from the bucket where key is the name of the image e.g. image.jpg
     //the key does not include the bucket name or the keyPrefix
-    console.log("Key: " + key);
-
-    let image;
-
-    const params = {
-      Bucket: options.bucket,
-      Key: options.keyPrefix + key,
-    };
-
-    s3.getObject(params, (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("ContentType:", data.ContentType);
-        console.log("ContentLength:", data.ContentLength);
-        //convert response to an image that we can display
-        image = `data:image/jpeg;base64,${data.Body.toString("base64")}`;
-      }
-    });
+    // console.log("Key: " + key);
+    // let image;
+    // const params = {
+    //   Bucket: options.bucket,
+    //   Key: options.keyPrefix + key,
+    // };
+    // s3.getObject(params, (err, data) => {
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     console.log("ContentType:", data.ContentType);
+    //     console.log("ContentLength:", data.ContentLength);
+    //     //convert response to an image that we can display
+    //     image = `data:image/jpeg;base64,${data.Body.toString("base64")}`;
+    //   }
+    // });
   },
 };
 
