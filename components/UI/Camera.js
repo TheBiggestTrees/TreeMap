@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Image, ImageBackground, Text, View } from "react-native";
 import { Camera, CameraType, FlashMode } from "expo-camera";
 import ButtonsRight from "./ButtonsRight";
 import AWSHelper from "../../s3";
+import axios from "axios";
+import ScreenContext from "../../context/screenContext";
+import { useAuth } from "../../context/AuthContext";
 
 const CameraBox = () => {
   const cameraRef = useRef(null);
@@ -12,6 +15,18 @@ const CameraBox = () => {
   const [flashColor, setFlashColor] = useState("#b3b3b3");
   const [flashIcon, setFlashIcon] = useState("flash-off");
   const [image, setImage] = useState(null);
+
+  const {
+    workingTree,
+    setErrMsg,
+    setSelectedTrees,
+    setTrees,
+    setWorkingTree,
+    trees,
+    selectedTrees,
+  } = useContext(ScreenContext);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -38,7 +53,54 @@ const CameraBox = () => {
   };
 
   const savePicture = async (photo) => {
-    AWSHelper.uploadFile(photo);
+    AWSHelper.saveToPhone(photo);
+
+    //update the tree with the image key in the workingTree.properties.photos array
+    //use the axios.put method to update the tree
+    //use the process.env.REACT_APP_API_URL to get the API URL
+    //use the workingTree._id to get the tree id
+    const shortPhoto = photo.split("/").pop();
+
+    const workingIndex = trees.features.findIndex(
+      (treef) => treef._id === workingTree._id
+    );
+    const index = selectedTrees.findIndex(
+      (treef) => treef._id === workingTree._id
+    );
+
+    const newDate = new Date();
+    const date = newDate.toLocaleDateString();
+    const time = newDate.toLocaleTimeString();
+
+    let tempRecordName = { datePlanted: "N/A", plantedBy: "N/A" };
+    if (workingTree.properties.plantedBy === "N/A") {
+      tempRecordName.plantedBy = `${user.firstName} ${user.lastName}`;
+      tempRecordName.datePlanted = `${date} ${time}`;
+    }
+
+    await axios
+      .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+        properties: {
+          ...workingTree.properties,
+          ...tempRecordName,
+          photos: [...workingTree.properties.photos, shortPhoto],
+        },
+      })
+      .then((res) => {
+        setErrMsg(res.data.message);
+        setSelectedTrees((prev) => {
+          prev[index] = res.data.data;
+          return prev;
+        });
+        setTrees((prev) => {
+          prev.features[workingIndex] = res.data.data;
+          return prev;
+        });
+        setWorkingTree(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const setTypeHandler = () => {

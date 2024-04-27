@@ -1,10 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import ScreenContext from "../../../context/screenContext";
+import AWSHelper from "../../../s3";
 
 const PhotosPanel = () => {
   const { workingTree } = useContext(ScreenContext);
-  const photos = workingTree.properties.photos;
+  ``;
+  const [photos, setPhotos] = useState(workingTree.properties.photos);
+  const [images, setImages] = useState(AWSHelper.images);
+
+  useEffect(() => {
+    AWSHelper.getImage(workingTree.properties.photos[0]);
+    console.log(AWSHelper.images);
+  }, []);
 
   return (
     <View className="flex bg-slate-400 shadow-lg px-5 py-4 mt-2 rounded-xl">
@@ -15,20 +23,12 @@ const PhotosPanel = () => {
       <View className="m-2 flex flex-row items-center justify-evenly">
         <TouchableHighlight
           className="rounded-lg"
-          onPress={() => console.log("image")}
           activeOpacity={0.8}
           underlayColor={"transparent"}
         >
-          <Image
-            source={
-              photos[0] !== "N/A"
-                ? { uri: photos[0] }
-                : require("../../../assets/image-not-found.png")
-            }
-            className="w-32 h-32 rounded-xl"
-          />
+          <Image source={images[0]} className="w-32 h-32 rounded-xl" />
         </TouchableHighlight>
-        <TouchableHighlight
+        {/* <TouchableHighlight
           className="rounded-lg ml-2"
           onPress={() => console.log("image2")}
           activeOpacity={0.8}
@@ -73,7 +73,7 @@ const PhotosPanel = () => {
               />
             </View>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight> */}
       </View>
     </View>
   );
