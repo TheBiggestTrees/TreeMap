@@ -20,10 +20,9 @@ const getImages = async (key) => {
 
   AWS.config.credentials = credentials;
   AWS.config.region = options.region;
-  const ep = new AWS.Endpoint("s3.us-central-1.wasabisys.com");
 
+  const ep = new AWS.Endpoint("s3.us-central-1.wasabisys.com");
   const s3 = new AWS.S3({ endpoint: ep });
-  console.log("Key: " + key);
 
   return new Promise((resolve, reject) => {
     const params = {
@@ -31,13 +30,13 @@ const getImages = async (key) => {
       Key: options.keyPrefix + key,
     };
 
-    s3.getObject(params, (err, data) => {
+    // Get the image from S3 using presigned URL
+    s3.getSignedUrl("getObject", params, (err, url) => {
       if (err) {
         console.error(err);
         reject(err);
       } else {
-        const image = `data:image/png;base64,${data.Body.toString("base64")}`;
-        resolve(image);
+        resolve(url);
       }
     });
   });
@@ -49,53 +48,27 @@ const PhotosPanel = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    //check if there are 5 entries in images array
-    //if there are not, get the next image from the photos array
-    //if there are, do nothing
+    const fetchImages = async () => {
+      for (const photo of workingTree.properties.photos) {
+        if (images.length >= 5) {
+          break;
+        }
 
-    if (images.length < 5) {
-      workingTree.properties.photos.map((photo) => {
-        getImages(photo)
-          .then((res) => {
-            if (!images) {
-              setImages([res]);
-            } else if (images.length < 5) {
-              if (!images.includes(res)) {
-                setImages((prev) => [...prev, res]);
-              }
-            }
-          })
-          .catch(console.error);
-      });
-    }
+        try {
+          const res = await getImages(photo);
+          console.log(res);
+          if (!images.includes(res)) {
+            setImages((prev) => [...prev, res]);
+          } else {
+            console.log("Image already exists in the list", images);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
 
-    // if (images.length <= 5) {
-    //   workingTree.properties.photos.map((photo) => {
-    //     getImages(photo)
-    //       .then((res) => {
-    //         //if images is not defined, set it to an array with the first image
-    //         //if images is defined and has less than 5 images, add the new image to the array
-    //         //check if image is already in the array
-    //         //if it is, do not add it to the array
-    //         //if it is not, add it to the array
-
-    //         if (!images) {
-    //           setImages([res]);
-    //         } else if (images.length < 5) {
-    //           if (!images.includes(res)) {
-    //             setImages((prev) => [...prev, res]);
-    //           }
-    //         }
-
-    //         // if (!images) {
-    //         //   setImages([res]);
-    //         // } else if (images.length < 5) {
-    //         //   setImages((prev) => [...prev, res]);
-    //         // }
-    //       })
-    //       .catch(console.error);
-    //   });
-    // }
+    fetchImages();
   }, []);
 
   return (
@@ -109,13 +82,13 @@ const PhotosPanel = () => {
           className="rounded-lg"
           activeOpacity={0.8}
           underlayColor={"transparent"}
-          onPress={() => console.log("image1")}
+          onPress={() => console.log(images[images.length])}
         >
           <Image
             source={
-              images.length >= 1
-                ? { uri: images[0] }
-                : require("../../../assets/image-not-found.png")
+              images.length < 1
+                ? require("../../../assets/image-not-found.png")
+                : { uri: images[images.length - 1] }
             }
             className="w-32 h-32 rounded-lg"
           />
@@ -130,17 +103,17 @@ const PhotosPanel = () => {
             <View>
               <Image
                 source={
-                  images.length >= 2
-                    ? { uri: images[1] }
-                    : require("../../../assets/image-not-found.png")
+                  images.length < 2
+                    ? require("../../../assets/image-not-found.png")
+                    : { uri: images[images.length - 2] }
                 }
                 className="w-16 h-16 rounded-tl-xl"
               />
               <Image
                 source={
-                  images.length >= 3
-                    ? { uri: images[2] }
-                    : require("../../../assets/image-not-found.png")
+                  images.length < 3
+                    ? require("../../../assets/image-not-found.png")
+                    : { uri: images[images.length - 3] }
                 }
                 className="w-16 h-16 rounded-bl-xl"
               />
@@ -148,18 +121,18 @@ const PhotosPanel = () => {
             <View>
               <Image
                 source={
-                  images.length >= 4
-                    ? { uri: images[3] }
-                    : require("../../../assets/image-not-found.png")
+                  images.length < 4
+                    ? require("../../../assets/image-not-found.png")
+                    : { uri: images[images.length - 4] }
                 }
                 className="w-16 h-16 rounded-tr-xl"
               />
 
               <Image
                 source={
-                  images.length >= 5
-                    ? { uri: images[4] }
-                    : require("../../../assets/image-not-found.png")
+                  images.length < 5
+                    ? require("../../../assets/image-not-found.png")
+                    : { uri: images[images.length - 5] }
                 }
                 className="w-16 h-16 rounded-br-xl"
               />
