@@ -1,46 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import ScreenContext from "../../../context/screenContext";
-import AWSHelper from "../../../s3";
+import axios from "axios";
 
 const getImages = async (key) => {
-  const AWS = require("aws-sdk");
-
-  const options = {
-    keyPrefix: "treeimages/",
-    bucket: "easytree",
-    region: "us-central-1",
-    successActionStatus: 201,
-  };
-
-  const credentials = {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  };
-
-  AWS.config.credentials = credentials;
-  AWS.config.region = options.region;
-  const ep = new AWS.Endpoint("s3.us-central-1.wasabisys.com");
-
-  const s3 = new AWS.S3({ endpoint: ep });
-  console.log("Key: " + key);
-
-  return new Promise((resolve, reject) => {
-    const params = {
-      Bucket: options.bucket,
-      Key: options.keyPrefix + key,
-    };
-
-    s3.getObject(params, (err, data) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        const image = `data:image/png;base64,${data.Body.toString("base64")}`;
-        resolve(image);
-      }
-    });
-  });
+  //use api url to get the image from the api using key as the id param
+  //use axios.get method to get the image from the api
+  //use the key as the id param
+  //return the image
+  const url = process.env.REACT_APP_API_URL + "/images/" + key;
+  const response = await axios.get(url);
+  return response.data;
 };
 
 const PhotosPanel = () => {
@@ -65,7 +35,10 @@ const PhotosPanel = () => {
               }
             }
           })
-          .catch(console.error);
+          .catch((err) => {
+            console.error(err);
+            console.log("Error getting images, ", err);
+          });
       });
     }
 

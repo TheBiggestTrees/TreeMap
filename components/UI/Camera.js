@@ -82,7 +82,6 @@ const CameraBox = () => {
       .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
         properties: {
           ...workingTree.properties,
-          ...tempRecordName,
           photos: [...workingTree.properties.photos, shortPhoto],
         },
       })

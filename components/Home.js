@@ -15,7 +15,6 @@ Mapbox.setAccessToken(
   process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
 );
 const API_URL = process.env.REACT_APP_API_URL || REACT_APP_API_URL;
-
 const Home = () => {
   const {
     location,
