@@ -77,6 +77,9 @@ const InspectMain = () => {
     if (workingTree.properties.plantedBy === "N/A") {
       tempRecordName.plantedBy = `${user.firstName} ${user.lastName}`;
       tempRecordName.datePlanted = `${date} ${time}`;
+    } else {
+      tempRecordName.plantedBy = workingTree.properties.plantedBy;
+      tempRecordName.datePlanted = workingTree.properties.datePlanted;
     }
 
     await axios
@@ -100,7 +103,7 @@ const InspectMain = () => {
         setWorkingTree(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
 

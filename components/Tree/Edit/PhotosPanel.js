@@ -25,20 +25,23 @@ const PhotosPanel = () => {
 
     if (images.length < 5) {
       workingTree.properties.photos.map((photo) => {
-        getImages(photo)
-          .then((res) => {
-            if (!images) {
-              setImages([res]);
-            } else if (images.length < 5) {
-              if (!images.includes(res)) {
-                setImages((prev) => [...prev, res]);
+        if (photo !== "N/A") {
+          getImages(photo)
+            .then((res) => {
+              console.log(res);
+              if (!images) {
+                setImages([res]);
+              } else if (images.length < 5) {
+                if (!images.includes(res)) {
+                  setImages((prev) => [...prev, res]);
+                }
               }
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            console.log("Error getting images, ", err);
-          });
+            })
+            .catch((err) => {
+              console.error(err);
+              console.log("Error getting images, ", err.body.message);
+            });
+        }
       });
     }
 
