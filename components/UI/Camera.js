@@ -68,21 +68,10 @@ const CameraBox = () => {
       (treef) => treef._id === workingTree._id
     );
 
-    const newDate = new Date();
-    const date = newDate.toLocaleDateString();
-    const time = newDate.toLocaleTimeString();
-
-    let tempRecordName = { datePlanted: "N/A", plantedBy: "N/A" };
-    if (workingTree.properties.plantedBy === "N/A") {
-      tempRecordName.plantedBy = `${user.firstName} ${user.lastName}`;
-      tempRecordName.datePlanted = `${date} ${time}`;
-    }
-
     await axios
       .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
         properties: {
           ...workingTree.properties,
-          ...tempRecordName,
           photos: [...workingTree.properties.photos, shortPhoto],
         },
       })
@@ -100,6 +89,7 @@ const CameraBox = () => {
       })
       .catch((err) => {
         console.log(err);
+        setErrMsg(err.data.message);
       });
   };
 

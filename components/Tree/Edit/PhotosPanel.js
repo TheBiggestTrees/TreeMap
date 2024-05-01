@@ -1,45 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import ScreenContext from "../../../context/screenContext";
-import AWSHelper from "../../../s3";
+import axios from "axios";
 
 const getImages = async (key) => {
-  const AWS = require("aws-sdk");
-
-  const options = {
-    keyPrefix: "treeimages/",
-    bucket: "easytree",
-    region: "us-central-1",
-    successActionStatus: 201,
-  };
-
-  const credentials = {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  };
-
-  AWS.config.credentials = credentials;
-  AWS.config.region = options.region;
-
-  const ep = new AWS.Endpoint("s3.us-central-1.wasabisys.com");
-  const s3 = new AWS.S3({ endpoint: ep });
-
-  return new Promise((resolve, reject) => {
-    const params = {
-      Bucket: options.bucket,
-      Key: options.keyPrefix + key,
-    };
-
-    // Get the image from S3 using presigned URL
-    s3.getSignedUrl("getObject", params, (err, url) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(url);
-      }
-    });
-  });
+  //use api url to get the image from the api using key as the id param
+  //use axios.get method to get the image from the api
+  //use the key as the id param
+  //return the image
+  const url = process.env.REACT_APP_API_URL + "/images/" + key;
+  const response = await axios.get(url);
+  return response.data;
 };
 
 const PhotosPanel = () => {
@@ -49,24 +20,27 @@ const PhotosPanel = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      for (const photo of workingTree.properties.photos) {
-        if (images.length >= 5) {
-          break;
+    if (images.length < 5) {
+      workingTree.properties.photos.map((photo) => {
+        if (photo !== "N/A") {
+          getImages(photo)
+            .then((res) => {
+              console.log(res);
+              if (!images) {
+                setImages([res]);
+              } else if (images.length < 5) {
+                if (!images.includes(res)) {
+                  setImages((prev) => [...prev, res]);
+                }
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              console.log("Error getting images, ", err.body.message);
+            });
         }
-
-        try {
-          const res = await getImages(photo);
-          console.log(res);
-          if (!images.includes(res)) {
-            setImages((prev) => [...prev, res]);
-          } else {
-            console.log("Image already exists in the list", images);
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
+      });
+    }
 
     fetchImages();
   }, []);

@@ -60,6 +60,10 @@ export const AuthProvider = ({ children }) => {
           { email, password }
         );
 
+        if (!response) {
+          throw new Error("503 Service Unavailable");
+        }
+
         setAuthState({
           xauthtoken: response.data.data,
           authenticated: true,
@@ -96,6 +100,7 @@ export const AuthProvider = ({ children }) => {
         return response;
       }
     } catch (error) {
+      console.log(error);
       setErr(error.response.data.message);
     }
   };
