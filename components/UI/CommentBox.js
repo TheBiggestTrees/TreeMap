@@ -27,7 +27,7 @@ const CommentBox = (props) => {
             {comments === undefined || comments.length < 1 ? (
               <View>
                 <Text className="font-bold text-white text-lg mt-4 self-center">
-                  No work needed
+                  No comments
                 </Text>
               </View>
             ) : (
@@ -74,11 +74,10 @@ const CommentBox = (props) => {
                     </TouchableOpacity>
 
                     {comment.completed ? (
-                      <View className="flex items-center">
-                        <Text className="text-gray-500 font-bold text-lg my-[-14]">
+                      <View className="flex items-center h-auto">
+                        <Text className="text-gray-500 font-bold flex-wrap w-48 text-lg my-[-14]">
                           {comment.workComment}
                         </Text>
-                        <View className="bg-red-600 h-1 rounded-full w-24"></View>
                       </View>
                     ) : (
                       <Text className="text-white font-bold text-lg">
@@ -101,7 +100,8 @@ const CommentBox = (props) => {
 
           <View className="flex flex-row  rounded-lg p-2 ml-4">
             <TextInput
-              className="grow text-white text-lg mb-4 border-b-2 border-gray-500 "
+              multiline={true}
+              className="w-56 h-auto text-white text-lg mb-4 border-b-2 border-gray-500 "
               value={workComment.workComment}
               onChangeText={(text) =>
                 setWorkComment((prev) => ({

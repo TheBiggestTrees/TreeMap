@@ -77,7 +77,7 @@ const ViewTree = () => {
                     key={index}
                     className="flex flex-row items-center justify-between bg-[#4e545f56] rounded-lg p-4 mt-2"
                   >
-                    <Text className="text-white font-bold text-lg">
+                    <Text className="text-white font-bold text-lg w-[80%]">
                       {comment.workComment}
                     </Text>
                     {!comment.completed ? (

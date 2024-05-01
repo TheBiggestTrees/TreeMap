@@ -117,9 +117,6 @@ const InspectMain = () => {
       </View>
       <ScrollView className="bg-slate-400 w-full mt-4 rounded-lg grow p-4">
         <View className="mb-8">
-          <Text className="text-white font-bold text-lg">
-            Initial Inspection
-          </Text>
           <ToggleSwitch
             setter={treeInspector}
             tree={inspectTree}
