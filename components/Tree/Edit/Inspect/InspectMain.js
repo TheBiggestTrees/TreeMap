@@ -83,7 +83,7 @@ const InspectMain = () => {
     }
 
     await axios
-      .put(process.env.REACT_APP_API_URL + "/tree/edit/" + workingTree._id, {
+      .put(`${process.env.REACT_APP_API_URL}/tree/edit/${workingTree._id}`, {
         properties: {
           ...inspectTree.properties,
           ...tempRecordName,

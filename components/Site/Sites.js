@@ -23,7 +23,7 @@ const Sites = (props) => {
       try {
         const data = await axios({
           method: "get",
-          url: process.env.REACT_APP_API_URL + "/site/",
+          url: `${process.env.REACT_APP_API_URL}/site/`,
           timeout: 8000,
         });
 

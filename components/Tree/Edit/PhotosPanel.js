@@ -8,7 +8,7 @@ const getImages = async (key) => {
   //use axios.get method to get the image from the api
   //use the key as the id param
   //return the image
-  const url = process.env.REACT_APP_API_URL + "/images/" + key;
+  const url = `${process.env.REACT_APP_API_URL}/images/${key}`;
   const response = await axios.get(url);
   return response.data;
 };

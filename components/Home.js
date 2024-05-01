@@ -73,7 +73,10 @@ const Home = () => {
 
   const postSite = async (temp) => {
     try {
-      const res = await axios.post(`${API_URL}/site/`, temp);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/site/`,
+        temp
+      );
       const data = res.data.data;
       data.id = data._id;
       setSites((prev) => ({ ...prev, features: [...prev.features, data] }));
@@ -101,7 +104,10 @@ const Home = () => {
 
   const postTree = async (temp) => {
     try {
-      const res = await axios.post(`${API_URL}/tree/${selectedSite}`, temp);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/tree/${selectedSite}`,
+        temp
+      );
       const data = res.data.data;
       setSelectedTrees((prev) => [...prev, data]);
       setTrees((prev) => ({ ...prev, features: [...prev.features, data] }));
