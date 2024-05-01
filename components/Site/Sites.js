@@ -13,21 +13,20 @@ const Sites = (props) => {
     setCurrentScreen,
     sites,
     setSites,
-    setCustomMark
+    setCustomMark,
   } = useContext(ScreenContext);
 
-  const {apiURL, fetchTreesInSite} = props;
+  const { apiURL, fetchTreesInSite } = props;
 
-  
   useEffect(() => {
     const fetchSites = async () => {
       try {
         const data = await axios({
           method: "get",
-          url: apiURL + "/site/",
+          url: process.env.REACT_APP_API_URL + "/site/",
           timeout: 8000,
         });
-  
+
         data.data.data.features.map((site, index) => {
           site.id = data.data.data.features[index]._id;
         });
@@ -48,11 +47,13 @@ const Sites = (props) => {
         onPress={(e) => {
           setSelectedSite(e.features[0].id);
           fetchTreesInSite(e.features[0].id);
-          setSliderTitle(e.features[0].properties.siteID.toString().padStart(4, "0"));
+          setSliderTitle(
+            e.features[0].properties.siteID.toString().padStart(4, "0")
+          );
           setCustomMark(e.features[0].geometry.coordinates);
           setShowCustomMark(false);
           setCurrentScreen("SelectedSite");
-          
+
           sliderRef.current.show({
             toValue: 200,
           });

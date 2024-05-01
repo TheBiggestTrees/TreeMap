@@ -19,6 +19,8 @@ Mapbox.setAccessToken(
   process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
 );
 
+console.log(process.env.REACT_APP_API_URL);
+
 const Main = () => {
   const { errMsg } = useContext(ScreenContext);
 

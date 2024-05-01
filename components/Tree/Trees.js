@@ -3,18 +3,13 @@ import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
 
-const Trees = (props) => {
-  const { apiURL } = props;
+const Trees = () => {
   const { trees, setTrees } = useContext(ScreenContext);
 
-
-
-
   useEffect(() => {
-
     const fetchTrees = async () => {
       try {
-        const data = await axios.get(`${apiURL}/tree/`);
+        const data = await axios.get(`${process.env.REACT_APP_API_URL}/tree/`);
         console.log(data.data.message);
         setTrees(data.data.data);
       } catch (err) {
@@ -26,12 +21,7 @@ const Trees = (props) => {
   }, []);
 
   return (
-    <Mapbox.ShapeSource
-      id="trees1"
-      shape={trees}
-      buffer={128}
-      
-    >
+    <Mapbox.ShapeSource id="trees1" shape={trees} buffer={128}>
       <Mapbox.CircleLayer
         id="Treepoint"
         style={{

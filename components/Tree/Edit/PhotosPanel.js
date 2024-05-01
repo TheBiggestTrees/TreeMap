@@ -19,31 +19,26 @@ const PhotosPanel = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    const fetchImages = async () => {
-      if (images.length < 5) {
-        workingTree.properties.photos.map((photo) => {
-          if (photo !== "N/A") {
-            getImages(photo)
-              .then((res) => {
-                console.log(res);
-                if (!images) {
-                  setImages([res]);
-                } else if (images.length < 5) {
-                  if (!images.includes(res)) {
-                    setImages((prev) => [...prev, res]);
-                  }
+    if (images.length < 5) {
+      workingTree.properties.photos.map((photo) => {
+        if (photo !== "N/A") {
+          getImages(photo)
+            .then((res) => {
+              if (!images) {
+                setImages([res]);
+              } else if (images.length < 5) {
+                if (!images.includes(res)) {
+                  setImages((prev) => [...prev, res]);
                 }
-              })
-              .catch((err) => {
-                console.error(err);
-                console.log("Error getting images, ", err.body.message);
-              });
-          }
-        });
-      }
-
-      fetchImages();
-    };
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              console.log("Error getting images, ", err.body.message);
+            });
+        }
+      });
+    }
   }, []);
 
   return (
@@ -57,7 +52,6 @@ const PhotosPanel = () => {
           className="rounded-lg"
           activeOpacity={0.8}
           underlayColor={"transparent"}
-          onPress={() => console.log(images[images.length])}
         >
           <Image
             source={
