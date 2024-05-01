@@ -75,12 +75,12 @@ const CommentBox = (props) => {
 
                     {comment.completed ? (
                       <View className="flex items-center h-auto">
-                        <Text className="text-gray-500 font-bold flex-wrap w-48 text-lg my-[-14]">
+                        <Text className="text-gray-500 font-bold flex-wrap w-48 text-lg ">
                           {comment.workComment}
                         </Text>
                       </View>
                     ) : (
-                      <Text className="text-white font-bold text-lg">
+                      <Text className="text-white font-bold flex-wrap w-48 text-lg">
                         {comment.workComment}
                       </Text>
                     )}
