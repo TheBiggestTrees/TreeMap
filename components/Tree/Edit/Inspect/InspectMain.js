@@ -74,7 +74,7 @@ const InspectMain = () => {
     const time = newDate.toLocaleTimeString();
 
     let tempRecordName = { datePlanted: "N/A", plantedBy: "N/A" };
-    if (workingTree.properties.plantedBy === "N/A") {
+    if (inspectTree.properties.plantedBy === "N/A") {
       tempRecordName.plantedBy = `${user.firstName} ${user.lastName}`;
       tempRecordName.datePlanted = `${date} ${time}`;
     } else {

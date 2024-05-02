@@ -24,14 +24,7 @@ const AddPhotos = (props) => {
                 <Text className="text-white text-lg">No photos</Text>
               </View>
             ))}
-          {photos.length > 0 && (
-            <View className="flex flex-row mx-4 my-2 items-center">
-              <Text className="text-white text-lg">{photos.length} </Text>
-              <Text className="text-white text-lg">
-                {photos.length >= 2 ? "Photos" : "Photo"}
-              </Text>
-            </View>
-          )}
+
           <ButtonsRight
             text="Add Photos"
             icon="add-a-photo"
