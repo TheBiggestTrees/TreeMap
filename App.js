@@ -1,9 +1,8 @@
 import { Dimensions } from "react-native";
 import Main from "./components/Main";
-import Login from "./components/Users/Login";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import ScreenContext from "./context/screenContext";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const App = () => {
   const sliderRef = useRef();
