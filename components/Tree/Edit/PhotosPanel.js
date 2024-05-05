@@ -15,7 +15,6 @@ const getImages = async (key) => {
 
 const PhotosPanel = () => {
   const { workingTree } = useContext(ScreenContext);
-  const [photos, setPhotos] = useState(workingTree.properties.photos);
   const [images, setImages] = useState([]);
 
   useEffect(() => {

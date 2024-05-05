@@ -138,13 +138,13 @@ const InspectMain = () => {
                 comment={comment}
                 setComment={setComment}
               />
-              <AddPhotos
-                handleRequest={handleRequest}
-                photos={inspectTree.properties.photos}
-              />
             </>
           )}
 
+          <AddPhotos
+            handleRequest={handleRequest}
+            photos={inspectTree.properties.photos}
+          />
           <DropdownSelect
             working={inspectTree.properties.status}
             setWorking={treeInspector}

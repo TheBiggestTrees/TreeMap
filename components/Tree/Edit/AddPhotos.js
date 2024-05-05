@@ -13,7 +13,7 @@ const AddPhotos = (props) => {
 
   return (
     <>
-      <View className="bg-[#4e545f56] flex rounded-2xl mt-2 pb-4">
+      <View className="bg-[#4e545f56] flex rounded-2xl mt-2 pb-4 mb-2">
         <Text className="text-white text-lg font-bold mx-4 py-2 my-2 border-b-2 border-gray-500">
           Photos
         </Text>
