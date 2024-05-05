@@ -11,6 +11,16 @@ const AddPhotos = (props) => {
     setCurrentScreen("AddPhotoDialog");
   };
 
+  const checkPhotoCount = () => {
+    if (!photos) {
+      return 0;
+    } else if (photos.includes("N/A")) {
+      return photos.length - 1;
+    } else {
+      return photos.length;
+    }
+  };
+
   return (
     <>
       <View className="bg-[#4e545f56] flex rounded-2xl mt-2 pb-4 mb-2">
@@ -18,12 +28,17 @@ const AddPhotos = (props) => {
           Photos
         </Text>
         <View className="flex items-center justify-center">
-          {photos.length === 0 ||
-            (photos[0] === "N/A" && (
-              <View className="flex flex-row justify-between mx-4 my-2 items-center">
-                <Text className="text-white text-lg">No photos</Text>
-              </View>
-            ))}
+          {checkPhotoCount() > 0 ? (
+            <View className="flex flex-row justify-between mx-4 my-2 items-center">
+              <Text className="text-white text-lg">
+                {checkPhotoCount()} photo{checkPhotoCount() > 1 ? "s" : ""}
+              </Text>
+            </View>
+          ) : (
+            <View className="flex flex-row justify-between mx-4 my-2 items-center">
+              <Text className="text-white text-lg">No photos</Text>
+            </View>
+          )}
 
           <ButtonsRight
             text="Add Photos"

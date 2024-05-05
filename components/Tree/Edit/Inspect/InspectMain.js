@@ -141,14 +141,19 @@ const InspectMain = () => {
             </>
           )}
 
-          <AddPhotos
-            handleRequest={handleRequest}
-            photos={inspectTree.properties.photos}
-          />
           <DropdownSelect
             working={inspectTree.properties.status}
             setWorking={treeInspector}
-            options={["Alive", "Deceased", "Planted", "Removed"]}
+            options={[
+              "Planted",
+              "Healthy",
+              "Stressed",
+              "Diseased",
+              "Infested",
+              "Damaged",
+              "Dying",
+              "Dead",
+            ]}
             label="Status"
             border={"border-b-2"}
             bgcolor={"bg-[#4e545f56]"}
@@ -161,6 +166,11 @@ const InspectMain = () => {
             handlePress={handleRemoveComment}
             label="Comment"
             bgColor={"bg-[#4e545f56]"}
+          />
+
+          <AddPhotos
+            handleRequest={handleRequest}
+            photos={inspectTree.properties.photos}
           />
         </View>
       </ScrollView>
