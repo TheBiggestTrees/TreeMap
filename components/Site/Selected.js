@@ -70,13 +70,13 @@ const SelectedSite = () => {
                   <Text className="font-bold text-lg text-white">
                     Tree: {tree.properties.treeID.toString().padStart(4, "0")}
                   </Text>
-                  <View className="flex flex-row items-center gap-1">
+                  <View className="flex flex-row w-3/5 items-center justify-between gap-1">
+                    <Text className="font-bold text-lg text-white">
+                      {tree.properties.status}
+                    </Text>
                     {tree.properties.needsWork && (
                       <Icons name="assignment-late" size={32} color="#e38732" />
                     )}
-                    <Text className="font-bold text-lg text-white">
-                      {tree.properties.treeSpecies}
-                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
