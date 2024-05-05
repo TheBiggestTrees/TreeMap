@@ -24,6 +24,7 @@ const CameraBox = () => {
     setWorkingTree,
     trees,
     selectedTrees,
+    setCurrentScreen,
   } = useContext(ScreenContext);
 
   const { user } = useAuth();
@@ -139,6 +140,7 @@ const CameraBox = () => {
               width="w-20 justify-center rounded-full"
               handlePress={() => {
                 savePicture(image);
+                setCurrentScreen("InspectMain");
               }}
             />
           </View>
