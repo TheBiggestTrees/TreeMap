@@ -145,7 +145,6 @@ const InspectMain = () => {
             working={inspectTree.properties.status}
             setWorking={treeInspector}
             options={[
-              "Planted",
               "Healthy",
               "Stressed",
               "Diseased",
