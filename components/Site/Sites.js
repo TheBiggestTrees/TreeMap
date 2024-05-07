@@ -14,6 +14,7 @@ const Sites = (props) => {
     sites,
     setSites,
     setCustomMark,
+    setSiteLength,
   } = useContext(ScreenContext);
 
   const { apiURL, fetchTreesInSite } = props;
@@ -27,11 +28,16 @@ const Sites = (props) => {
           timeout: 8000,
         });
 
-        data.data.data.features.map((site, index) => {
-          site.id = data.data.data.features[index]._id;
+        const siteGeoJSON = {
+          type: "FeatureCollection",
+          features: [...data.data.data],
+        };
+
+        siteGeoJSON.features.map((site, index) => {
+          site.id = siteGeoJSON.features[index]._id;
         });
-        console.log(data.data.message);
-        setSites(data.data.data);
+        setSites(siteGeoJSON);
+        setSiteLength(data.data.total);
       } catch (err) {
         console.log(err);
       }
