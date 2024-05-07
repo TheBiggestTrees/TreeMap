@@ -28,6 +28,7 @@ const SiteList = () => {
     setWorkingTree,
     setShowCustomTree,
     height,
+    treeLength,
   } = useContext(ScreenContext);
 
   const holder = ["Search Site"];
@@ -168,8 +169,7 @@ const SiteList = () => {
 
         <View className="flex w-full p-2 mt-4 bg-slate-400 rounded-2xl">
           <Text className="font-bold text-white text-lg px-4">
-            Sites: {sites && sites.features.length} Trees:{" "}
-            {trees && trees.features.length}
+            Sites: {sites && sites.features.length} Trees: {trees && treeLength}
           </Text>
           <ScrollView className="">
             {/* map through trees and creates a touchable highlight that shows each tree and when touched displays the associated site in SelectedSite */}
