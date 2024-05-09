@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
@@ -12,15 +12,13 @@ const Trees = () => {
         const data = await axios.get(
           `${process.env.REACT_APP_API_URL}/tree/totalcount`
         );
-        console.log(data.data.message);
         setTreeLength(data.data.data);
-        // setTrees(data.data.data);
       } catch (err) {
         console.log(err);
       }
     };
 
-    // fetchTreeLength();
+    fetchTreeLength();
   }, []);
 
   return (
