@@ -17,7 +17,7 @@ const Sites = (props) => {
     setSiteLength,
   } = useContext(ScreenContext);
 
-  const { apiURL, fetchTreesInSite } = props;
+  const { fetchTreesInSite } = props;
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -25,6 +25,12 @@ const Sites = (props) => {
         const data = await axios({
           method: "get",
           url: `${process.env.REACT_APP_API_URL}/site/`,
+          timeout: 8000,
+        });
+
+        const totalCount = await axios({
+          method: "get",
+          url: `${process.env.REACT_APP_API_URL}/site/totalcount`,
           timeout: 8000,
         });
 
@@ -36,8 +42,9 @@ const Sites = (props) => {
         siteGeoJSON.features.map((site, index) => {
           site.id = siteGeoJSON.features[index]._id;
         });
+        setSiteLength(totalCount.data.data);
+        console.log(totalCount.data.message);
         setSites(siteGeoJSON);
-        setSiteLength(data.data.total);
       } catch (err) {
         console.log(err);
       }
