@@ -235,7 +235,11 @@ const SiteList = () => {
                     <TouchableHighlight
                       key={index}
                       onPress={() => {
-                        handleSitePress(site.id);
+                        handleSitePress(
+                          site.id,
+                          site.properties.siteID,
+                          site.geometry.coordinates
+                        );
                       }}
                       activeOpacity={0.6}
                       underlayColor={"#818996"}
