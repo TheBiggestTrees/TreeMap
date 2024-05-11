@@ -128,7 +128,7 @@ const CommentBox = (props) => {
                 }));
               }}
             >
-              <Icons name="add" size={30} color="#4e545f56"></Icons>
+              <Icons name="add" size={30} color="#464a52"></Icons>
             </TouchableHighlight>
           </View>
         </View>
