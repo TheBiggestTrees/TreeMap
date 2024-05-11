@@ -30,7 +30,6 @@ const SiteList = () => {
     setSelectedTrees,
     setWorkingTree,
     setShowCustomTree,
-    height,
     treeLength,
     siteLength,
     page,
@@ -63,10 +62,6 @@ const SiteList = () => {
       </TouchableHighlight>
     </React.Fragment>
   );
-
-  //get dimensions of slider
-
-  const sliderHeight = height - height / 8;
 
   //get trees for site
   const getTrees = async (siteID) => {
