@@ -124,30 +124,6 @@ const SiteList = () => {
     }
   };
 
-  const handlePress = (tree, siteID, coords) => {
-    const siteNum = sites.features.find((site) => site.id === siteID);
-
-    const treeList = trees.features.filter(
-      (tree) => tree.properties.siteID === siteID
-    );
-
-    camera.current?.setCamera({
-      centerCoordinate: coords,
-      zoomLevel: 19,
-      animationDuration: 500,
-      animationMode: "flyTo",
-    });
-    sliderRef.current.show();
-    setSelectedTrees(treeList);
-    setSelectedSite(siteID);
-    setCurrentScreen("ViewTree");
-    setCustomMark(siteNum.geometry.coordinates);
-    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
-    setShowCustomTree(false);
-    setWorkingTree(tree);
-    setShowList(false);
-  };
-
   const handleSitePress = (siteID, siteName, coords) => {
     const siteNum = sites.features.find((site) => site.id === siteID);
 
