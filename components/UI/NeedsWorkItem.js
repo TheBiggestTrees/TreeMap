@@ -1,5 +1,11 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
 
@@ -33,11 +39,17 @@ const NeedsWorkItem = (props) => {
     setComment(temp);
   };
 
-  const handleAddComment = () => {
-    let temp = [...comment];
-    temp.push({ comment: addComment, completed: checked });
-    setComment(temp);
-    setAddComment("");
+  const handleAddComment = (suggestion) => {
+    if (!suggestion) {
+      let temp = [...comment];
+      temp.push({ comment: addComment, completed: checked });
+      setComment(temp);
+    } else {
+      let temp = [...comment];
+      temp.push({ comment: suggestion, completed: checked });
+      setComment(temp);
+      setAddComment("");
+    }
   };
 
   return (
@@ -50,12 +62,41 @@ const NeedsWorkItem = (props) => {
       <View className="py-2">
         {comment.length < 1 ? (
           <View>
-            <Text className="font-bold text-white text-lg mt-4 self-center">
+            <Text className="font-bold text-white text-lg my-4 self-center">
               No work needed
             </Text>
-            <Text className="font-bold text-white text-lg mb-4 self-center">
-              Add something...
-            </Text>
+            <View>
+              <ScrollView
+                className="h-20 gap-4"
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              >
+                <TouchableOpacity
+                  onPress={() => handleAddComment("Infested")}
+                  className="bg-[#464a52] flex justify-center items-center h-12 w-24 rounded-lg"
+                >
+                  <Text className="text-white font-bold text-lg">Infested</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleAddComment("Diseased")}
+                  className="bg-[#464a52] flex justify-center items-center h-12 w-24 rounded-lg"
+                >
+                  <Text className="text-white font-bold text-lg">Diseased</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleAddComment("Damaged")}
+                  className="bg-[#464a52] flex justify-center items-center h-12 w-24 rounded-lg"
+                >
+                  <Text className="text-white font-bold text-lg">Damaged</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleAddComment("Dead")}
+                  className="bg-[#464a52] flex justify-center items-center h-12 w-24 rounded-lg"
+                >
+                  <Text className="text-white font-bold text-lg">Dead</Text>
+                </TouchableOpacity>
+              </ScrollView>
+            </View>
           </View>
         ) : (
           comment.map((comment, index) => {
@@ -129,7 +170,7 @@ const NeedsWorkItem = (props) => {
                 }
               }}
             >
-              <Icons name="add" size={40} color="#808080"></Icons>
+              <Icons name="add" size={40} color="#464a52"></Icons>
             </TouchableOpacity>
           </View>
         )}

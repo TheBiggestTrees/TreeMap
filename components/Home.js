@@ -231,7 +231,7 @@ const Home = () => {
           ref={camera}
         />
 
-        <Trees apiURL={API_URL} />
+        <Trees />
         <Sites fetchTreesInSite={fetchTreesInSite} apiURL={API_URL} />
 
         {/* Custom Site Position Marker */}

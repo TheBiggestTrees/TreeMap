@@ -1,23 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
 
 const Trees = () => {
-  const { trees, setTrees } = useContext(ScreenContext);
+  const { trees, setTreeLength } = useContext(ScreenContext);
 
   useEffect(() => {
-    const fetchTrees = async () => {
+    const fetchTreeLength = async () => {
       try {
-        const data = await axios.get(`${process.env.REACT_APP_API_URL}/tree/`);
-        console.log(data.data.message);
-        setTrees(data.data.data);
+        const data = await axios.get(
+          `${process.env.REACT_APP_API_URL}/tree/totalcount`
+        );
+        setTreeLength(data.data.data);
       } catch (err) {
         console.log(err);
       }
     };
 
-    fetchTrees();
+    fetchTreeLength();
   }, []);
 
   return (

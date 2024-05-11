@@ -49,6 +49,9 @@ const App = () => {
   const [showList, setShowList] = useState(false);
   const [workingTree, setWorkingTree] = useState(null);
   const { width, height } = Dimensions.get("window");
+  const [treeLength, setTreeLength] = useState(0);
+  const [siteLength, setSiteLength] = useState(0);
+  const [page, setPage] = useState(2);
 
   return (
     <AuthProvider>
@@ -89,6 +92,12 @@ const App = () => {
           setWorkingTree,
           width,
           height,
+          treeLength,
+          setTreeLength,
+          siteLength,
+          setSiteLength,
+          page,
+          setPage,
         }}
       >
         <Main />

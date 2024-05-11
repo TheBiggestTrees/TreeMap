@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ScrollView, Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
@@ -8,11 +8,15 @@ const SelectedSite = () => {
     sliderRef,
     sliderTitle,
     selectedTrees,
-    setSelectedTrees,
     setShowCustomTree,
     setCurrentScreen,
     setWorkingTree,
   } = useContext(ScreenContext);
+
+  function goBack() {
+    setCurrentScreen("siteList");
+    sliderRef.current.show();
+  }
 
   return (
     <>
@@ -26,7 +30,6 @@ const SelectedSite = () => {
               className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg"
               onPress={() => {
                 setCurrentScreen("AddTree");
-                setShowCustomTree(false);
                 sliderRef.current.show();
               }}
               underlayColor={"transparent"}
@@ -37,12 +40,7 @@ const SelectedSite = () => {
               </View>
             </TouchableHighlight>
             <TouchableHighlight
-              onPress={() => {
-                setCurrentScreen("siteList");
-                setShowCustomTree(false);
-
-                sliderRef.current.show();
-              }}
+              onPress={goBack}
               underlayColor={"transparent"}
               className="bg-[#4e545f56] rounded-full"
             >

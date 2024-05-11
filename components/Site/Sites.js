@@ -14,9 +14,10 @@ const Sites = (props) => {
     sites,
     setSites,
     setCustomMark,
+    setSiteLength,
   } = useContext(ScreenContext);
 
-  const { apiURL, fetchTreesInSite } = props;
+  const { fetchTreesInSite } = props;
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -27,11 +28,23 @@ const Sites = (props) => {
           timeout: 8000,
         });
 
-        data.data.data.features.map((site, index) => {
-          site.id = data.data.data.features[index]._id;
+        const totalCount = await axios({
+          method: "get",
+          url: `${process.env.REACT_APP_API_URL}/site/totalcount`,
+          timeout: 8000,
         });
-        console.log(data.data.message);
-        setSites(data.data.data);
+
+        const siteGeoJSON = {
+          type: "FeatureCollection",
+          features: [...data.data.data],
+        };
+
+        siteGeoJSON.features.map((site, index) => {
+          site.id = siteGeoJSON.features[index]._id;
+        });
+        setSiteLength(totalCount.data.data);
+        console.log(totalCount.data.message);
+        setSites(siteGeoJSON);
       } catch (err) {
         console.log(err);
       }
