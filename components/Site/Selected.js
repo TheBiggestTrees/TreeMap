@@ -13,12 +13,10 @@ const SelectedSite = () => {
     setWorkingTree,
   } = useContext(ScreenContext);
 
-  const goBack = () => {
+  function goBack() {
     setCurrentScreen("siteList");
-    setShowCustomTree(false);
-
     sliderRef.current.show();
-  };
+  }
 
   return (
     <>
@@ -32,7 +30,6 @@ const SelectedSite = () => {
               className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg"
               onPress={() => {
                 setCurrentScreen("AddTree");
-                setShowCustomTree(false);
                 sliderRef.current.show();
               }}
               underlayColor={"transparent"}
