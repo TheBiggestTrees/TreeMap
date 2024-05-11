@@ -40,12 +40,50 @@ const SiteList = () => {
   const holder = ["Search Site"];
   const [search, setSearch] = useState("");
   const [siteList, setSiteList] = useState(null);
-  const [showTree, setShowTree] = useState(false);
-  const [selectedSiteId, setSelectedSiteId] = useState(null);
+
+  const renderItem = ({ item: site }) => (
+    <React.Fragment>
+      <TouchableHighlight
+        className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
+        onPress={() =>
+          handleSitePress(
+            site._id,
+            site.properties.siteID,
+            site.geometry.coordinates
+          )
+        }
+        activeOpacity={0.6}
+        underlayColor={"#4e545f56"}
+      >
+        <View className="flex flex-row w-full justify-start items-center">
+          <Text className="font-bold pl-1 py-2 text-lg text-white">
+            Site: {site.properties.siteID.toString().padStart(4, "0")}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    </React.Fragment>
+  );
 
   //get dimensions of slider
 
   const sliderHeight = height - height / 8;
+
+  //get trees for site
+  const getTrees = async (siteID) => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/site/trees/${siteID}`
+      );
+
+      setSelectedTrees([...res.data.data.trees]);
+
+      console.log("Trees fetched successfully");
+    } catch (err) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.headers);
+    }
+  };
 
   const handleChange = (e) => {
     {
@@ -115,21 +153,9 @@ const SiteList = () => {
     setShowList(false);
   };
 
-  const handleSitePress = (siteID) => {
-    if (selectedSiteId === siteID) {
-      setShowTree(!showTree);
-      setSelectedSiteId(siteID);
-    } else {
-      setShowTree(true);
-      setSelectedSiteId(siteID);
-    }
-  };
-
-  const handleSiteLongPress = (siteID) => {
+  const handleSitePress = (siteID, siteName, coords) => {
     const siteNum = sites.features.find((site) => site.id === siteID);
-    const treeList = trees.features.filter(
-      (tree) => tree.properties.siteID === siteID
-    );
+
     camera.current?.setCamera({
       centerCoordinate: siteNum.geometry.coordinates,
       zoomLevel: 17,
@@ -137,10 +163,10 @@ const SiteList = () => {
       animationMode: "flyTo",
     });
     sliderRef.current.show();
-    setSliderTitle(siteNum.properties.siteID.toString().padStart(4, "0"));
+    setSliderTitle(siteName.toString().padStart(4, "0"));
+    setCustomMark(coords);
     setSelectedSite(siteID);
-    setSelectedTrees(treeList);
-    setCustomMark(siteNum.geometry.coordinates);
+    getTrees(siteID);
     setCurrentScreen("SelectedSite");
   };
 
@@ -156,7 +182,6 @@ const SiteList = () => {
       }));
       //get the page from res.data.page
       setPage((prev) => prev + 1);
-
       console.log(res.data.message);
     } catch (err) {
       console.log(err);
@@ -198,60 +223,12 @@ const SiteList = () => {
           </Text>
           <FlatList
             data={sites?.features}
-            onEndReachedThreshold={0.1}
+            maxToRenderPerBatch={15}
+            onEndReachedThreshold={0.6}
             keyExtractor={(item) => item.properties.siteID.toString()}
             onEndReached={() => fetchMoreSites()}
-            renderItem={({ item: site }) => (
-              <React.Fragment>
-                <TouchableHighlight
-                  className="flex flex-row rounded-lg px-4 py-0 my-2 mx-4 border-b-2 bg-[#d4dbe044] border-gray-600 justify-between items-center shadow-xl"
-                  onPress={() => handleSitePress(site._id)}
-                  onLongPress={() => handleSiteLongPress(site._id)}
-                  activeOpacity={0.6}
-                  underlayColor={"#4e545f56"}
-                >
-                  <View className="flex flex-row w-full justify-between items-center">
-                    <Text className="font-bold pl-1 py-2 text-lg text-white">
-                      Site: {site.properties.siteID.toString().padStart(4, "0")}
-                    </Text>
-                    <Icons
-                      name={"expand-more"}
-                      size={40}
-                      color="#4e545f56"
-                    ></Icons>
-                  </View>
-                </TouchableHighlight>
-                {showTree &&
-                  selectedSiteId === site.id &&
-                  trees.features.map((tree) => {
-                    if (tree.properties.siteID === site.id) {
-                      return (
-                        <React.Fragment key={tree._id}>
-                          <TouchableHighlight
-                            className="flex flex-row rounded-lg px-8 py-0 my-2 mx-6 border-b-2 border-gray-500 bg-[#75797c36] justify-between items-center"
-                            onPress={() =>
-                              handlePress(
-                                tree,
-                                tree.properties.siteID,
-                                tree.geometry.coordinates
-                              )
-                            }
-                            activeOpacity={0.6}
-                            underlayColor={"#4e545f56"}
-                          >
-                            <Text className="font-bold pl-1 py-2 text-lg text-white">
-                              Tree:{" "}
-                              {tree.properties.treeID
-                                .toString()
-                                .padStart(4, "0")}
-                            </Text>
-                          </TouchableHighlight>
-                        </React.Fragment>
-                      );
-                    }
-                  })}
-              </React.Fragment>
-            )}
+            removeClippedSubviews={true}
+            renderItem={renderItem}
           />
         </View>
       </View>
@@ -268,7 +245,7 @@ const SiteList = () => {
                     <TouchableHighlight
                       key={index}
                       onPress={() => {
-                        handleSiteLongPress(site.id);
+                        handleSitePress(site.id);
                       }}
                       activeOpacity={0.6}
                       underlayColor={"#818996"}
@@ -283,7 +260,7 @@ const SiteList = () => {
                     <TouchableHighlight
                       key={index}
                       onPress={() => {
-                        handleSiteLongPress(site.id);
+                        handleSitePress(site.id);
                       }}
                       activeOpacity={0.6}
                       underlayColor={"#818996"}
