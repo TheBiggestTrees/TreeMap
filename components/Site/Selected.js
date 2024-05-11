@@ -8,11 +8,17 @@ const SelectedSite = () => {
     sliderRef,
     sliderTitle,
     selectedTrees,
-    setSelectedTrees,
     setShowCustomTree,
     setCurrentScreen,
     setWorkingTree,
   } = useContext(ScreenContext);
+
+  const goBack = () => {
+    setCurrentScreen("siteList");
+    setShowCustomTree(false);
+
+    sliderRef.current.show();
+  };
 
   return (
     <>
@@ -37,12 +43,7 @@ const SelectedSite = () => {
               </View>
             </TouchableHighlight>
             <TouchableHighlight
-              onPress={() => {
-                setCurrentScreen("siteList");
-                setShowCustomTree(false);
-
-                sliderRef.current.show();
-              }}
+              onPress={goBack}
               underlayColor={"transparent"}
               className="bg-[#4e545f56] rounded-full"
             >
