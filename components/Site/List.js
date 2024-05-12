@@ -9,6 +9,7 @@ import {
   View,
   Dimensions,
   FlatList,
+  useWindowDimensions,
 } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
@@ -63,6 +64,41 @@ const SiteList = () => {
     </React.Fragment>
   );
 
+  const showlistItem = ({ item: site }) => (
+    <TouchableHighlight
+      className="bg-slate-400"
+      onPress={() => {
+        handleSitePress(
+          search !== "" ? site._id : site.id,
+          site.properties.siteID,
+          site.geometry.coordinates
+        );
+      }}
+      activeOpacity={0.6}
+      underlayColor={"#818996"}
+      style={{
+        flexDirection: "row",
+        width: "100%",
+        borderTopWidth: 2,
+        borderColor: "gray",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Text
+        style={{
+          fontWeight: "bold",
+          paddingLeft: 10,
+          paddingVertical: 5,
+          fontSize: 18,
+          color: "white",
+        }}
+      >
+        {site.properties.siteID.toString().padStart(4, "0")}
+      </Text>
+    </TouchableHighlight>
+  );
+
   //get trees for site
   const getTrees = async (siteID) => {
     try {
@@ -105,7 +141,9 @@ const SiteList = () => {
 
   const opacityAnimation = useRef(new Animated.Value(0)).current;
 
-  const opacityStyle = { opacity: opacityAnimation };
+  const opacityStyle = {
+    opacity: opacityAnimation,
+  };
 
   const animateElement = () => {
     if (opacityAnimation._value === 0) {
@@ -194,7 +232,7 @@ const SiteList = () => {
           </Text>
           <FlatList
             data={sites?.features}
-            maxToRenderPerBatch={15}
+            maxToRenderPerBatch={100}
             onEndReachedThreshold={0.6}
             keyExtractor={(item) => item.properties.siteID.toString()}
             onEndReached={() => fetchMoreSites()}
@@ -207,50 +245,18 @@ const SiteList = () => {
       {showList && (
         <>
           <Animated.View
-            className="absolute top-28 px-2 drop-shadow-2xl w-2/3 z-auto"
-            style={opacityStyle}
+            className="absolute top-28 mx-2 drop-shadow-2xl w-2/3 z-auto overflow-hidden rounded-b-xl"
+            style={{ ...opacityStyle }}
           >
-            <ScrollView className="w-full h-fit max-h-[400px] px-2 bg-slate-400 rounded-b-xl ">
-              {search !== ""
-                ? siteList.map((site, index) => (
-                    <TouchableHighlight
-                      key={index}
-                      onPress={() => {
-                        handleSitePress(
-                          site._id,
-                          site.properties.siteID,
-                          site.geometry.coordinates
-                        );
-                      }}
-                      activeOpacity={0.6}
-                      underlayColor={"#818996"}
-                      className="flex flex-row rounded-lg w-full border-t-2 border-gray-600 justify-between items-center"
-                    >
-                      <Text className="font-bold pl-1 py-2 text-lg text-white">
-                        {site.properties.siteID.toString().padStart(4, "0")}
-                      </Text>
-                    </TouchableHighlight>
-                  ))
-                : sites.features.map((site, index) => (
-                    <TouchableHighlight
-                      key={index}
-                      onPress={() => {
-                        handleSitePress(
-                          site.id,
-                          site.properties.siteID,
-                          site.geometry.coordinates
-                        );
-                      }}
-                      activeOpacity={0.6}
-                      underlayColor={"#818996"}
-                      className="flex flex-row rounded-lg w-full border-t-2 border-gray-600 justify-between items-center"
-                    >
-                      <Text className="font-bold pl-1 py-2 text-lg text-white">
-                        {site.properties.siteID.toString().padStart(4, "0")}
-                      </Text>
-                    </TouchableHighlight>
-                  ))}
-            </ScrollView>
+            <FlatList
+              data={search !== "" ? siteList : sites.features}
+              maxToRenderPerBatch={25}
+              keyExtractor={(item, index) => item._id.toString()}
+              removeClippedSubviews={true}
+              showsVerticalScrollIndicator={false}
+              renderItem={showlistItem}
+              className="max-h-56 bg-slate-400"
+            />
           </Animated.View>
         </>
       )}

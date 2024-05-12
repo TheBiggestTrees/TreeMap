@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
 
 const Trees = () => {
-  const { trees, setTreeLength } = useContext(ScreenContext);
+  const { setTreeLength, selectedTrees } = useContext(ScreenContext);
 
   useEffect(() => {
     const fetchTreeLength = async () => {
@@ -20,6 +20,16 @@ const Trees = () => {
 
     fetchTreeLength();
   }, []);
+
+  const [trees, setTrees] = useState({
+    type: "FeatureCollection",
+    features: [],
+  });
+
+  useEffect(() => {
+    if (!selectedTrees) return;
+    setTrees({ type: "FeatureCollection", features: [...selectedTrees] });
+  }, [selectedTrees]);
 
   return (
     <Mapbox.ShapeSource id="trees1" shape={trees} buffer={128}>
