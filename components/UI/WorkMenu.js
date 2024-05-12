@@ -1,10 +1,12 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 const WorkMenu = () => {
   return (
     <View>
-      <Text>Work Menu</Text>
+      <ScrollView className="rounded-2xl bg-slate-400">
+        <Text>Work Menu</Text>
+      </ScrollView>
     </View>
   );
 };

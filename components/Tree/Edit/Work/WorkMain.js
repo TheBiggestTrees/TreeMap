@@ -19,9 +19,9 @@ const WorkMain = () => {
 
   return (
     <>
-      <View className="flex justify-between mb-14 mt-4 rounded-lg grow">
+      <View className="flex justify-between mb-14 rounded-lg max-h-[75%]">
         <WorkMenu />
-        <View className="flex flex-row items-center justify-between w-full self-end">
+        <View className="flex flex-row items-center mt-4 justify-between w-full self-end">
           <ButtonsLeft
             handlePress={handleGoBack}
             icon={"undo"}
