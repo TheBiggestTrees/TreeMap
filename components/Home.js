@@ -232,6 +232,7 @@ const Home = () => {
         />
 
         {location && <Mapbox.UserLocation visible={true} animated={true} />}
+
         <Trees />
         <Sites fetchTreesInSite={fetchTreesInSite} apiURL={API_URL} />
 
