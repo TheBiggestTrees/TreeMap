@@ -163,8 +163,9 @@ const SiteList = () => {
   };
 
   const handleSitePress = (siteID, siteName, coords) => {
+    setShowList(false);
+    opacityAnimation._value = 0;
     const siteNum = sites.features.find((site) => site.id === siteID);
-
     camera.current?.setCamera({
       centerCoordinate: siteNum.geometry.coordinates,
       zoomLevel: 17,
