@@ -11,6 +11,7 @@ const SelectedSite = () => {
     setShowCustomTree,
     setCurrentScreen,
     setWorkingTree,
+    camera,
   } = useContext(ScreenContext);
 
   function goBack() {
@@ -58,6 +59,12 @@ const SelectedSite = () => {
                   setCurrentScreen("ViewTree");
                   setShowCustomTree(false);
                   setWorkingTree(tree);
+                  camera.current?.setCamera({
+                    centerCoordinate: tree.geometry.coordinates,
+                    zoomLevel: 17,
+                    animationDuration: 500,
+                    animationMode: "flyTo",
+                  });
                   sliderRef.current.show();
                 }}
                 activeOpacity={0.6}
