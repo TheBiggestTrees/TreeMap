@@ -15,9 +15,8 @@ const Sites = (props) => {
     setSites,
     setCustomMark,
     setSiteLength,
+    setSelectedTrees,
   } = useContext(ScreenContext);
-
-  const { fetchTreesInSite } = props;
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -52,6 +51,23 @@ const Sites = (props) => {
     fetchSites();
   }, []);
 
+  //get trees for site
+  const getTrees = async (siteID) => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/site/trees/${siteID}`
+      );
+
+      setSelectedTrees([...res.data.data.trees]);
+
+      console.log("Trees fetched successfully");
+    } catch (err) {
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.headers);
+    }
+  };
+
   return (
     <>
       <Mapbox.ShapeSource
@@ -59,7 +75,7 @@ const Sites = (props) => {
         shape={sites}
         onPress={(e) => {
           setSelectedSite(e.features[0].id);
-          fetchTreesInSite(e.features[0].id);
+          getTrees(e.features[0].id);
           setSliderTitle(
             e.features[0].properties.siteID.toString().padStart(4, "0")
           );
