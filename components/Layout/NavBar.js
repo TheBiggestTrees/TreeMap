@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
@@ -6,6 +6,8 @@ import ScreenContext from "../../context/screenContext";
 const NavBar = () => {
   const { setCurrentScreen, setShowCustomMark, setShowCustomTree, sliderRef } =
     useContext(ScreenContext);
+
+  const [notifictaions, setNotifications] = useState(0);
 
   return (
     <View className="flex flex-row items-center justify-evenly w-full h-24 rounded-tr-2xl rounded-tl-2xl absolute bottom-[-3px] bg-[#464a52] ">
@@ -42,6 +44,7 @@ const NavBar = () => {
         activeOpacity={0.5}
         underlayColor="#6b7280"
         onPress={() => {
+          sliderRef.current.show();
           setCurrentScreen("Settings");
           setShowCustomMark(false);
           setShowCustomTree(false);
@@ -56,12 +59,16 @@ const NavBar = () => {
         underlayColor="#6b7280"
         onPress={() => {
           sliderRef.current.show();
-          setCurrentScreen("Profile");
+          setCurrentScreen("Chat");
           setShowCustomMark(false);
           setShowCustomTree(false);
         }}
       >
-        <Icons name="person" size={40} color="#56ccdb"></Icons>
+        {notifictaions ? (
+          <Icons name="mark-unread-chat-alt" size={40} color="#56ccdb" />
+        ) : (
+          <Icons name="chat" size={40} color="#56ccdb" />
+        )}
       </TouchableHighlight>
     </View>
   );

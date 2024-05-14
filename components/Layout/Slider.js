@@ -80,7 +80,7 @@ const Slider = (props) => {
                 {currentScreen === "AddTree" && (
                   <AddTree addNewTree={addNewTree} />
                 )}
-                {currentScreen === "Profile" && <Profile />}
+                {currentScreen === "Settings" && <Profile />}
                 {/* View Tree is parent of Inspect and Work */}
                 {currentScreen === "ViewTree" && <ViewTree />}
 
