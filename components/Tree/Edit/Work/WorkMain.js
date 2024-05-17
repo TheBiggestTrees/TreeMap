@@ -6,7 +6,7 @@ import ScreenContext from "../../../../context/screenContext";
 import ButtonsRight from "../../../UI/ButtonsRight";
 
 const WorkMain = () => {
-  const { setCurrentScreen } = useContext(ScreenContext);
+  const { setCurrentScreen, setWorkingTree } = useContext(ScreenContext);
 
   const handleGoBack = () => {
     setCurrentScreen("ViewTree");
@@ -14,6 +14,7 @@ const WorkMain = () => {
 
   const saveWorkDone = () => {
     //save updated list of work items on the tree to the database
+    // setWorkingTree();
     setCurrentScreen("ViewTree");
   };
 
