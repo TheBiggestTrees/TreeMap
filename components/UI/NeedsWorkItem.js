@@ -10,7 +10,7 @@ import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
 
 const NeedsWorkItem = (props) => {
-  const { nonEdit, workingTree, comment, setComment } = props;
+  const { nonEdit, setNonEdit, workingTree, comment, setComment } = props;
 
   const { setErrMsg } = useContext(ScreenContext);
 
@@ -54,10 +54,17 @@ const NeedsWorkItem = (props) => {
 
   return (
     <View className="flex bg-[#4e545f56] shadow-lg px-5 py-4 mb-2 w-full rounded-xl">
-      <View className="">
-        <Text className=" py-2 text-white font-bold text-lg border-b-2 border-b-gray-500">
-          Work Needed
-        </Text>
+      <View className="flex flex-row justify-between border-b-2 border-b-gray-500">
+        <Text className=" py-2 text-white font-bold text-lg">Work Needed</Text>
+        <TouchableOpacity
+          className="flex justify-center items-center rounded-lg"
+          activeOpacity={0.6}
+          onPress={() => {
+            setNonEdit(!nonEdit);
+          }}
+        >
+          <Icons color={"#4e543488"} size={36} name={"edit"} />
+        </TouchableOpacity>
       </View>
       <View className="py-2">
         {comment.length < 1 ? (
@@ -124,7 +131,7 @@ const NeedsWorkItem = (props) => {
                   </TouchableOpacity>
                 )}
                 {comment.completed ? (
-                  <View className="flex items-center">
+                  <View className="flex items-center p-4">
                     <Text className="text-gray-300 font-bold text-lg my-[-14]">
                       {comment.comment}
                     </Text>
