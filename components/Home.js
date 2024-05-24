@@ -42,22 +42,25 @@ const Home = () => {
     trees,
   } = useContext(ScreenContext);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-          setErrMsg("Location permissions were " + status);
-          console.log("Location permissions were " + status);
-          return;
-        }
+  const getLocation = async () => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrMsg("Permission to access location was denied");
+        return;
+      } else if (status === "granted") {
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
-      } catch (error) {
-        setErrMsg("Could not get location from device");
-        console.log(error);
+        setErrMsg("Location Enabled");
+        return;
       }
-    })();
+    } catch (err) {
+      setErrMsg("Location is turned off");
+    }
+  };
+
+  useEffect(() => {
+    getLocation();
   }, []);
 
   const fetchTreesInSite = async (site) => {
