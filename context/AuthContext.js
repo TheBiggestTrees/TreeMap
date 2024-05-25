@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
 
 const TOKEN_KEY = "x-auth-token";
@@ -33,8 +34,25 @@ export const AuthProvider = ({ children }) => {
       if (userData) {
         setUser(JSON.parse(userData));
       }
-    };
 
+      const tokenExpiration = await SecureStore.getItemAsync("tokenExpiration");
+
+      if (tokenExpiration) {
+        const expirationDate = new Date(parseInt(tokenExpiration));
+        const now = new Date();
+        if (now > expirationDate) {
+          logout();
+        } else {
+          const intervalId = setInterval(() => {
+            const now = new Date();
+            if (now > expirationDate) {
+              clearInterval(intervalId);
+              logout();
+            }
+          }, 60000);
+        }
+      }
+    };
     loadToken();
   }, []);
 
@@ -60,13 +78,19 @@ export const AuthProvider = ({ children }) => {
           { email, password }
         );
 
+        // const decodedToken = jwtDecode(response.data.data);
+        // const tokenExpiration = decodedToken.exp * 1000;
+
         setAuthState({
           xauthtoken: response.data.data,
           authenticated: true,
         });
         setUserID(response.data.userID);
         setUser(response.data.userData);
+
         axios.defaults.headers.common["x-auth-token"] = response.data.data;
+
+        // await SecureStore.setItemAsynce("tokenExpiration", tokenExpiration);
         await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
         await SecureStore.setItemAsync("userID", response.data.userID);
         await SecureStore.setItemAsync(
@@ -80,13 +104,28 @@ export const AuthProvider = ({ children }) => {
           { username: email, password }
         );
 
+        const token = response.data.data;
+        console.log(token);
+        try {
+          const decodedToken = jwtDecode(token);
+          console.log("Decoded Token:", decodedToken);
+          // ... rest of your code
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          // Handle the error appropriately
+        }
+        const tokenExpiration = decodedToken.exp * 1000;
+
         setAuthState({
           xauthtoken: response.data.data,
           authenticated: true,
         });
         setUser(response.data.userData);
         setUserID(response.data.userID);
+
         axios.defaults.headers.common["x-auth-token"] = response.data.data;
+
+        await SecureStore.setItemAsync("tokenExpiration", tokenExpiration);
         await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
         await SecureStore.setItemAsync("userID", response.data.userID);
         await SecureStore.setItemAsync(
@@ -107,6 +146,7 @@ export const AuthProvider = ({ children }) => {
       await SecureStore.deleteItemAsync(TOKEN_KEY);
       await SecureStore.deleteItemAsync("userID");
       await SecureStore.deleteItemAsync("userData");
+      await SecureStore.deleteItemAsync("tokenExpiration");
       setUserID(null);
       setAuthState({ xauthtoken: null, authenticated: false });
       setUser({});
