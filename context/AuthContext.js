@@ -78,8 +78,17 @@ export const AuthProvider = ({ children }) => {
           { email, password }
         );
 
-        // const decodedToken = jwtDecode(response.data.data);
-        // const tokenExpiration = decodedToken.exp * 1000;
+        const token = response.data.data;
+        console.log(token);
+        try {
+          const decodedToken = jwtDecode(token);
+          console.log("Decoded Token:", decodedToken);
+          // ... rest of your code
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          // Handle the error appropriately
+        }
+        const tokenExpiration = decodedToken.exp * 1000;
 
         setAuthState({
           xauthtoken: response.data.data,
@@ -90,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
         axios.defaults.headers.common["x-auth-token"] = response.data.data;
 
-        // await SecureStore.setItemAsynce("tokenExpiration", tokenExpiration);
+        await SecureStore.setItemAsync("tokenExpiration", tokenExpiration);
         await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
         await SecureStore.setItemAsync("userID", response.data.userID);
         await SecureStore.setItemAsync(
