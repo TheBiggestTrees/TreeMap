@@ -21,34 +21,23 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      if (token) {
-        setAuthState({ xauthtoken: token, authenticated: true });
-        axios.defaults.headers.common["x-auth-token"] = token;
-      }
-      const id = await SecureStore.getItemAsync("userID");
-      if (id) {
-        setUserID(id);
-      }
+      const userID = await SecureStore.getItemAsync("userID");
       const userData = await SecureStore.getItemAsync("userData");
-      if (userData) {
-        setUser(JSON.parse(userData));
-      }
-
       const tokenExpiration = await SecureStore.getItemAsync("tokenExpiration");
 
-      if (tokenExpiration) {
+      if (token && userID && userData && tokenExpiration) {
         const expirationDate = new Date(parseInt(tokenExpiration));
         const now = new Date();
         if (now > expirationDate) {
           logout();
         } else {
-          const intervalId = setInterval(() => {
-            const now = new Date();
-            if (now > expirationDate) {
-              clearInterval(intervalId);
-              logout();
-            }
-          }, 60000);
+          setAuthState({
+            xauthtoken: token,
+            authenticated: true,
+          });
+          axios.defaults.headers.common["x-auth-token"] = token;
+          setUser(JSON.parse(userData));
+          setUserID(userID);
         }
       }
     };
@@ -69,63 +58,43 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
+  const login = async (emailOrUsername, password) => {
     try {
-      if (email.includes("@")) {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/login`,
-          { email, password }
-        );
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        emailOrUsername.includes("@")
+          ? { email: emailOrUsername, password }
+          : { username: emailOrUsername, password }
+      );
 
-        const tokenExpiration = response.data.expiresAt;
+      const { data, expiresAt, userData, userID } = response.data;
+      if (data && userID && userData) {
+        setAuthState({ xauthtoken: data, authenticated: true });
+        setUserID(userID);
+        setUser(userData);
+        console.log(new Date(expiresAt));
 
-        setAuthState({
-          xauthtoken: response.data.data,
-          authenticated: true,
-        });
-        setUserID(response.data.userID);
-        setUser(response.data.userData);
+        axios.defaults.headers.common["x-auth-token"] = data;
 
-        axios.defaults.headers.common["x-auth-token"] = response.data.data;
-
-        await SecureStore.setItemAsync("tokenExpiration", tokenExpiration);
-        await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
-        await SecureStore.setItemAsync("userID", response.data.userID);
-        await SecureStore.setItemAsync(
-          "userData",
-          JSON.stringify(response.data.userData)
-        );
+        await SecureStore.setItemAsync("tokenExpiration", expiresAt);
+        await SecureStore.setItemAsync(TOKEN_KEY, data);
+        await SecureStore.setItemAsync("userID", userID);
+        await SecureStore.setItemAsync("userData", JSON.stringify(userData));
         return response;
       } else {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/login`,
-          { username: email, password }
+        throw new Error(
+          "login() received invalid response from server. Response data is invalid."
         );
-
-        const tokenExpiration = response.data.expiresAt;
-
-        setAuthState({
-          xauthtoken: response.data.data,
-          authenticated: true,
-        });
-        setUser(response.data.userData);
-        setUserID(response.data.userID);
-
-        axios.defaults.headers.common["x-auth-token"] = response.data.data;
-
-        await SecureStore.setItemAsync("tokenExpiration", tokenExpiration);
-        await SecureStore.setItemAsync(TOKEN_KEY, response.data.data);
-        await SecureStore.setItemAsync("userID", response.data.userID);
-        await SecureStore.setItemAsync(
-          "userData",
-          JSON.stringify(response.data.userData)
-        );
-        return response;
       }
     } catch (error) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
+      if (error) {
+        setErr(error.response?.data?.message);
+      } else {
+        setErr(
+          "An error occurred while attempting to log in. Please try again later. "
+        );
+        console.error(error);
+      }
     }
   };
 
