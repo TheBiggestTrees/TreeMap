@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
 
 const TOKEN_KEY = "x-auth-token";
@@ -78,17 +77,7 @@ export const AuthProvider = ({ children }) => {
           { email, password }
         );
 
-        const token = response.data.data;
-        console.log(token);
-        try {
-          const decodedToken = jwtDecode(token);
-          console.log("Decoded Token:", decodedToken);
-          // ... rest of your code
-        } catch (error) {
-          console.error("Error decoding token:", error);
-          // Handle the error appropriately
-        }
-        const tokenExpiration = decodedToken.exp * 1000;
+        const tokenExpiration = response.data.expiresAt;
 
         setAuthState({
           xauthtoken: response.data.data,
@@ -113,17 +102,7 @@ export const AuthProvider = ({ children }) => {
           { username: email, password }
         );
 
-        const token = response.data.data;
-        console.log(token);
-        try {
-          const decodedToken = jwtDecode(token);
-          console.log("Decoded Token:", decodedToken);
-          // ... rest of your code
-        } catch (error) {
-          console.error("Error decoding token:", error);
-          // Handle the error appropriately
-        }
-        const tokenExpiration = decodedToken.exp * 1000;
+        const tokenExpiration = response.data.expiresAt;
 
         setAuthState({
           xauthtoken: response.data.data,
