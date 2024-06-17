@@ -13,15 +13,16 @@ const credentials = {
 
 const options = {
   keyPrefix: "treeimages/",
-  bucket: "easytree",
-  region: "us-central-1",
+  bucket: "treemap",
+  region: "us-east-005",
+  s3ForcePathStyle: true,
   credentials,
   successActionStatus: 201,
 };
 
 AWS.config.credentials = credentials;
 AWS.config.region = options.region;
-const ep = new AWS.Endpoint("s3.us-central-1.wasabisys.com");
+const ep = new AWS.Endpoint("https://s3.us-east-005.backblazeb2.com");
 
 const s3 = new AWS.S3({ endpoint: ep });
 
@@ -40,11 +41,24 @@ const uploadImage = async (imageUri) => {
 
   s3.upload(params, (err, data) => {
     if (err) {
-      console.log(err);
+      console.log("s3:43, Error: ", err);
     } else {
       console.log(data);
     }
   });
+
+  // console.log(blob);
+
+  // axios
+  //   .post(`${process.env.REACT_APP_API_URL}/images/upload/${name}`, {
+  //     data: blob,
+  //   })
+  //   .then((res) => {
+  //     console.log(res.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log("s3.js", err.response.data);
+  //   });
 };
 
 const AWSHelper = {
@@ -58,19 +72,19 @@ const AWSHelper = {
       console.log(asset);
       uploadImage(asset.uri);
     } catch (error) {
-      console.log(error);
+      console.log("s3:60, Error: ", error);
     }
   },
 
   uploadFile: async (path) => {
     try {
       const asset = await MediaLibrary.getAssetInfoAsync(path);
+      console.log(asset);
 
       const blob = await FileSystem.readAsStringAsync(asset.uri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-
-      console.log(asset);
+      console.log("s3:72, blob:" + " ", blob);
 
       const params = {
         Bucket: options.bucket,
@@ -81,13 +95,13 @@ const AWSHelper = {
 
       s3.upload(params, (err, data) => {
         if (err) {
-          console.log(err);
+          console.log("s3:83, Error: ", err);
         } else {
           console.log(data);
         }
       });
     } catch (error) {
-      console.log(error);
+      console.log("s3:89, Error: ", error.data);
     }
   },
   getImage: async (key) => {

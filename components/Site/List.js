@@ -111,8 +111,6 @@ const SiteList = () => {
       console.log("Trees fetched successfully");
     } catch (err) {
       console.log(err.response.data);
-      console.log(err.response.status);
-      console.log(err.response.headers);
     }
   };
 

@@ -77,7 +77,7 @@ const CameraBox = () => {
         },
       })
       .then((res) => {
-        setErrMsg(res.data.message);
+        console.log(workingTree._id);
         setSelectedTrees((prev) => {
           prev[index] = res.data.data;
           return prev;
@@ -90,7 +90,6 @@ const CameraBox = () => {
       })
       .catch((err) => {
         console.log(err);
-        setErrMsg(err.data.message);
       });
   };
 

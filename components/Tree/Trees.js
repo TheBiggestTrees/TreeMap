@@ -14,7 +14,7 @@ const Trees = () => {
         );
         setTreeLength(data.data.data);
       } catch (err) {
-        console.log(err);
+        console.log(err.data.message);
       }
     };
 

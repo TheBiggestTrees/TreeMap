@@ -18,29 +18,30 @@ export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState({});
 
-  useEffect(() => {
-    const loadToken = async () => {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      const userID = await SecureStore.getItemAsync("userID");
-      const userData = await SecureStore.getItemAsync("userData");
-      const tokenExpiration = await SecureStore.getItemAsync("tokenExpiration");
+  const loadToken = async () => {
+    const token = await SecureStore.getItemAsync(TOKEN_KEY);
+    const userID = await SecureStore.getItemAsync("userID");
+    const userData = await SecureStore.getItemAsync("userData");
+    const tokenExpiration = await SecureStore.getItemAsync("tokenExpiration");
 
-      if (token && userID && userData && tokenExpiration) {
-        const expirationDate = new Date(parseInt(tokenExpiration));
-        const now = new Date();
-        if (now > expirationDate) {
-          logout();
-        } else {
-          setAuthState({
-            xauthtoken: token,
-            authenticated: true,
-          });
-          axios.defaults.headers.common["x-auth-token"] = token;
-          setUser(JSON.parse(userData));
-          setUserID(userID);
-        }
+    if (token && userID && userData && tokenExpiration) {
+      const expirationDate = new Date(parseInt(tokenExpiration));
+      const now = new Date();
+      if (now > expirationDate) {
+        logout();
+      } else {
+        setAuthState({
+          xauthtoken: token,
+          authenticated: true,
+        });
+        axios.defaults.headers.common["x-auth-token"] = token;
+        setUser(JSON.parse(userData));
+        setUserID(userID);
       }
-    };
+    }
+  };
+
+  useEffect(() => {
     loadToken();
   }, []);
 
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (emailOrUsername, password) => {
     try {
+      setErr("Logging in...");
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login`,
         emailOrUsername.includes("@")

@@ -45,7 +45,7 @@ const Sites = (props) => {
         console.log(totalCount.data.message);
         setSites(siteGeoJSON);
       } catch (err) {
-        console.log(err);
+        console.log(err.data.message);
       }
     };
     fetchSites();
