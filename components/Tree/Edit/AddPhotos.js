@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
-import { Text, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { Image, Text, View } from "react-native";
 import ButtonsRight from "../../UI/ButtonsRight";
 import ScreenContext from "../../../context/screenContext";
+import axios from "axios";
 
 const AddPhotos = (props) => {
   const { photos } = props;
@@ -11,16 +12,6 @@ const AddPhotos = (props) => {
     setCurrentScreen("AddPhotoDialog");
   };
 
-  const checkPhotoCount = () => {
-    if (!photos) {
-      return 0;
-    } else if (photos.includes("N/A")) {
-      return photos.length - 1;
-    } else {
-      return photos.length;
-    }
-  };
-
   return (
     <>
       <View className="bg-[#4e545f56] flex rounded-2xl mt-2 pb-4 mb-2">
@@ -28,17 +19,16 @@ const AddPhotos = (props) => {
           Photos
         </Text>
         <View className="flex items-center justify-center">
-          {checkPhotoCount() > 0 ? (
-            <View className="flex flex-row justify-between mx-4 my-2 items-center">
-              <Text className="text-white text-lg">
-                {checkPhotoCount()} photo{checkPhotoCount() > 1 ? "s" : ""}
+          <View className="m-4">
+            {!photos ? (
+              <Text className="text-white font-bold text-lg">No Photos</Text>
+            ) : (
+              <Text className="text-white font-bold text-lg">
+                {photos.length} Photo
+                {photos.length === 1 ? "" : "s"} Found
               </Text>
-            </View>
-          ) : (
-            <View className="flex flex-row justify-between mx-4 my-2 items-center">
-              <Text className="text-white text-lg">No photos</Text>
-            </View>
-          )}
+            )}
+          </View>
 
           <ButtonsRight
             text="Add Photos"
