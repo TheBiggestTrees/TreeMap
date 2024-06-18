@@ -60,7 +60,8 @@
           "RNMapboxMapsDownloadToken": "sk.eyJ1IjoidGlpcm5ha28iLCJhIjoiY2x0N3dndnk0MDYxeDJpbzRxM3NqMTh2OSJ9.3o_QTMyOWf2hV7ixJFrZww"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-router"
     ],
     "extra": {
       "eas": {

@@ -14,11 +14,13 @@ import InspectMain from "../Tree/Edit/Inspect/InspectMain";
 import WorkMain from "../Tree/Edit/Work/WorkMain";
 import PopupMsg from "../UI/PopupMsg";
 import AddPhotoDialog from "../Tree/Edit/AddPhotoDialog";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { navigationRef } from "../../RootNavigation";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
-  const { sliderRef, currentScreen, height, errMsg } =
-    useContext(ScreenContext);
+  const { sliderRef, height, errMsg } = useContext(ScreenContext);
 
   const styles = {
     container: {
@@ -37,6 +39,8 @@ const Slider = (props) => {
     },
   };
 
+  const Stack = createNativeStackNavigator();
+
   return (
     <View>
       <SlidingUpPanel
@@ -48,49 +52,56 @@ const Slider = (props) => {
       >
         {(dragHandler) => (
           <>
-            {currentScreen === "AddPhotoDialog" ? (
-              <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl items-center">
-                {errMsg && <PopupMsg />}
-                <View style={styles.dragHandler} {...dragHandler}>
-                  <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
-                </View>
-                {currentScreen === "AddPhotoDialog" && <AddPhotoDialog />}
+            <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl px-4 items-center">
+              {errMsg && <PopupMsg />}
+              <View style={styles.dragHandler} {...dragHandler}>
+                <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
               </View>
-            ) : (
-              <View className="flex bg-gray-500 h-[90%] rounded-tr-2xl rounded-tl-2xl px-4 items-center">
-                {errMsg && <PopupMsg />}
-                <View style={styles.dragHandler} {...dragHandler}>
-                  <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
-                </View>
-                {currentScreen === "siteList" && (
-                  <>
-                    <SiteList />
-                  </>
-                )}
-                {currentScreen === "SelectedSite" && <SelectedSite />}
-                {currentScreen === "AddSite" && (
-                  <AddSite addNewSite={addNewSite} />
-                )}
-                {currentScreen === "SiteCustPos" && (
-                  <SiteCustPos addNewSite={addNewSite} />
-                )}
-                {currentScreen === "TreeCustPos" && (
-                  <TreeCustPos addNewTree={addNewTree} />
-                )}
-                {currentScreen === "AddTree" && (
-                  <AddTree addNewTree={addNewTree} />
-                )}
-                {currentScreen === "Settings" && <Profile />}
-                {/* View Tree is parent of Inspect and Work */}
-                {currentScreen === "ViewTree" && <ViewTree />}
-
-                {/* Inspect Parent */}
-                {currentScreen === "InspectMain" && <InspectMain />}
-
-                {/* Work Parent */}
-                {currentScreen === "WorkMain" && <WorkMain />}
+              <View className="w-full grow">
+                <NavigationContainer ref={navigationRef}>
+                  <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Group>
+                      <Stack.Screen name="siteList" component={SiteList} />
+                      <Stack.Screen
+                        name="SelectedSite"
+                        component={SelectedSite}
+                      />
+                      <Stack.Screen
+                        name="AddSite"
+                        component={AddSite}
+                        initialParams={{ addNewSite: addNewSite }}
+                      />
+                      <Stack.Screen
+                        name="SiteCustPos"
+                        component={SiteCustPos}
+                        initialParams={{ addNewSite: addNewSite }}
+                      />
+                      <Stack.Screen
+                        name="TreeCustPos"
+                        component={TreeCustPos}
+                        initialParams={{ addNewTree: addNewTree }}
+                      />
+                      <Stack.Screen
+                        name="AddTree"
+                        component={AddTree}
+                        initialParams={{ addNewTree: addNewTree }}
+                      />
+                      <Stack.Screen name="Settings" component={Profile} />
+                      <Stack.Screen name="ViewTree" component={ViewTree} />
+                      <Stack.Screen
+                        name="InspectMain"
+                        component={InspectMain}
+                      />
+                      <Stack.Screen name="WorkMain" component={WorkMain} />
+                      <Stack.Screen
+                        name="AddPhotoDialog"
+                        component={AddPhotoDialog}
+                      />
+                    </Stack.Group>
+                  </Stack.Navigator>
+                </NavigationContainer>
               </View>
-            )}
+            </View>
           </>
         )}
       </SlidingUpPanel>

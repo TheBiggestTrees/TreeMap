@@ -9,6 +9,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import ScreenContext from "../../context/screenContext";
 import RegisterPage from "./Register";
+import * as RootNavigation from "../../RootNavigation";
 
 const Login = () => {
   const [screen, setScreen] = useState("login");
@@ -29,11 +30,11 @@ const LoginPage = (props) => {
   const [password, setPassword] = useState("");
 
   const { onLogin, err } = useAuth();
-  const { setCurrentScreen, setErrMsg } = useContext(ScreenContext);
+  const { setErrMsg } = useContext(ScreenContext);
 
   const login = () => {
     onLogin(email, password);
-    setCurrentScreen("siteList");
+    RootNavigation.navigate("siteList");
     if (err) {
       setErrMsg(err);
     }

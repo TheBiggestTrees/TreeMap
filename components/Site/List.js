@@ -198,7 +198,7 @@ const SiteList = () => {
 
   return (
     <>
-      <View className="flex flex-col w-full h-full pb-44 items-center">
+      <View className="flex flex-col w-full h-full pb-36 items-center bg-gray-500">
         <View className="flex flex-row items-center bg-slate-400 shadow-lg w-full p-4 rounded-full">
           <View className="flex grow">
             <Text className="text-white font-bold text-lg">Site</Text>

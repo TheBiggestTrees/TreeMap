@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.563.0",
+    "@react-navigation/native": "^6.1.17",
     "@rnmapbox/maps": "^10.1.16",
     "aws-sdk": "^2.1603.0",
     "axios": "^1.6.7",
@@ -32,7 +33,11 @@
     "react-native-safe-area-context": "4.8.2",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-url-polyfill": "^2.0.0",
-    "rn-sliding-up-panel": "^2.4.6"
+    "rn-sliding-up-panel": "^2.4.6",
+    "react-native-screens": "~3.29.0",
+    "expo-router": "~3.4.10",
+    "expo-linking": "~6.2.2",
+    "expo-constants": "~15.4.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
