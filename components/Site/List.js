@@ -1,19 +1,17 @@
 import React, { useContext, useRef, useState } from "react";
 import {
-  ScrollView,
   Text,
   TextInput,
   TouchableHighlight,
   Animated,
   TouchableOpacity,
   View,
-  Dimensions,
   FlatList,
-  useWindowDimensions,
 } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
 import axios from "axios";
+import * as RootNavigation from "../../RootNavigation";
 
 const SiteList = () => {
   const {
@@ -25,12 +23,9 @@ const SiteList = () => {
     showList,
     setShowList,
     setSelectedSite,
-    setCurrentScreen,
     setSliderTitle,
     setCustomMark,
     setSelectedTrees,
-    setWorkingTree,
-    setShowCustomTree,
     treeLength,
     siteLength,
     page,
@@ -175,7 +170,7 @@ const SiteList = () => {
     setCustomMark(coords);
     setSelectedSite(siteID);
     getTrees(siteID);
-    setCurrentScreen("SelectedSite");
+    RootNavigation.navigate("SelectedSite");
   };
 
   const fetchMoreSites = async () => {
