@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 import ButtonsRight from "../../UI/ButtonsRight";
-import ScreenContext from "../../../context/screenContext";
-import axios from "axios";
+import * as RootNavigation from "../../../RootNavigation";
 
 const AddPhotos = (props) => {
   const { photos } = props;
-  const { setCurrentScreen } = useContext(ScreenContext);
 
   const handleAddPhotoSwitch = () => {
-    setCurrentScreen("AddPhotoDialog");
+    RootNavigation.navigate("AddPhotoDialog");
   };
 
   return (

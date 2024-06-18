@@ -2,20 +2,18 @@ import React, { useContext } from "react";
 import WorkMenu from "../../../UI/WorkMenu";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
 import { View } from "react-native";
-import ScreenContext from "../../../../context/screenContext";
 import ButtonsRight from "../../../UI/ButtonsRight";
+import * as RootNavigation from "../../../../RootNavigation";
 
 const WorkMain = () => {
-  const { setCurrentScreen, setWorkingTree } = useContext(ScreenContext);
-
   const handleGoBack = () => {
-    setCurrentScreen("ViewTree");
+    RootNavigation.navigate("ViewTree");
   };
 
   const saveWorkDone = () => {
     //save updated list of work items on the tree to the database
     // setWorkingTree();
-    setCurrentScreen("ViewTree");
+    RootNavigation.navigate("ViewTree");
   };
 
   return (

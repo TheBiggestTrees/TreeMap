@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Mapbox from "@rnmapbox/maps";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
+import * as RootNavigation from "../../RootNavigation";
 
 const Sites = (props) => {
   const {
@@ -10,7 +11,6 @@ const Sites = (props) => {
     camera,
     setSelectedSite,
     setShowCustomMark,
-    setCurrentScreen,
     sites,
     setSites,
     setCustomMark,
@@ -81,7 +81,7 @@ const Sites = (props) => {
           );
           setCustomMark(e.features[0].geometry.coordinates);
           setShowCustomMark(false);
-          setCurrentScreen("SelectedSite");
+          RootNavigation.navigate("SelectedSite");
 
           sliderRef.current.show({
             toValue: 200,

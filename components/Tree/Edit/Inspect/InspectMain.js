@@ -10,12 +10,12 @@ import DropdownSelect from "../../../UI/DropdownSelect";
 import CommentBox from "../../../UI/CommentBox";
 import AddPhotos from "../AddPhotos";
 import NeedsWorkItem from "../../../UI/NeedsWorkItem";
+import * as RootNavigation from "../../../../RootNavigation";
 const InspectMain = () => {
   const {
     setTrees,
     workingTree,
     setWorkingTree,
-    setCurrentScreen,
     trees,
     selectedTrees,
     setErrMsg,
@@ -34,7 +34,7 @@ const InspectMain = () => {
   const { user } = useAuth();
 
   const handleGoBack = () => {
-    setCurrentScreen("ViewTree");
+    RootNavigation.navigate("ViewTree");
   };
 
   const handleRemoveComment = (index) => {
@@ -101,6 +101,7 @@ const InspectMain = () => {
           return prev;
         });
         setWorkingTree(res.data.data);
+        RootNavigation.navigate("ViewTree");
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -108,8 +109,8 @@ const InspectMain = () => {
   };
 
   return (
-    <>
-      <View className="flex items-center">
+    <View className="bg-gray-500 flex mb-40">
+      <View className="flex items-center ">
         <Text className="text-white font-bold text-lg">
           Inspecting Tree{" "}
           {workingTree.properties.treeID.toString().padStart(4, "0")}
@@ -187,7 +188,7 @@ const InspectMain = () => {
           text="Save"
         />
       </View>
-    </>
+    </View>
   );
 };
 

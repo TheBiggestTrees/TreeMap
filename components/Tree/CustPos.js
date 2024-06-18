@@ -3,15 +3,16 @@ import { useContext } from "react";
 import ScreenContext from "../../context/screenContext";
 import ButtonsLeft from "../UI/ButtonsLeft";
 import ButtonsRight from "../UI/ButtonsRight";
+import * as RootNavigation from "../../RootNavigation";
 
 const SiteCustPos = (props) => {
-  const { setCurrentScreen, setShowCustomTree, setShowCustomMark, sliderRef } =
+  const { setShowCustomTree, setShowCustomMark, sliderRef } =
     useContext(ScreenContext);
 
   const { addNewTree } = props;
 
   const handleGoBack = () => {
-    setCurrentScreen("AddTree");
+    RootNavigation.navigate("AddTree");
     setShowCustomMark(false);
     setShowCustomTree(false);
     sliderRef.current.show();

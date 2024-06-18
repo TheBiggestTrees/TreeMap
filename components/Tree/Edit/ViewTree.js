@@ -5,19 +5,20 @@ import PhotosPanel from "./PhotosPanel";
 import ButtonsRight from "../../UI/ButtonsRight";
 import DisplayWork from "../../UI/DisplayWork";
 import Icons from "@expo/vector-icons/MaterialIcons";
+import * as RootNavigation from "../../../RootNavigation";
 
 const ViewTree = () => {
-  const { workingTree, sliderTitle, setCurrentScreen, setShowCustomTree } =
+  const { workingTree, sliderTitle, setShowCustomTree } =
     useContext(ScreenContext);
 
   return (
-    <View className="flex items-center gap-4">
+    <View className="flex grow items-center gap-4 bg-gray-500">
       {/* Title bar */}
       <View className="flex flex-row bg-slate-400 shadow-lg py-4 rounded-full items-center">
         <TouchableHighlight
           className="flex items-center justify-center absolute left-2 top-2 w-14 h-14 rounded-full"
           onPress={() => {
-            setCurrentScreen("SelectedSite");
+            RootNavigation.navigate("SelectedSite");
             setShowCustomTree(false);
           }}
           activeOpacity={0.2}
@@ -45,14 +46,14 @@ const ViewTree = () => {
       <View className="flex flex-row w-80 justify-evenly">
         <ButtonsRight
           handlePress={() => {
-            setCurrentScreen("InspectMain");
+            RootNavigation.navigate("InspectMain");
           }}
           text="Inspect"
           width={"w-36"}
         />
         <ButtonsRight
           handlePress={() => {
-            setCurrentScreen("WorkMain");
+            RootNavigation.navigate("WorkMain");
           }}
           text="Work"
           width={"w-36"}

@@ -6,6 +6,7 @@ import AWSHelper from "../../s3";
 import axios from "axios";
 import ScreenContext from "../../context/screenContext";
 import { useAuth } from "../../context/AuthContext";
+import * as RootNavigation from "../../RootNavigation";
 
 const CameraBox = () => {
   const cameraRef = useRef(null);
@@ -18,13 +19,11 @@ const CameraBox = () => {
 
   const {
     workingTree,
-    setErrMsg,
     setSelectedTrees,
     setTrees,
     setWorkingTree,
     trees,
     selectedTrees,
-    setCurrentScreen,
   } = useContext(ScreenContext);
 
   const { user } = useAuth();
@@ -139,7 +138,7 @@ const CameraBox = () => {
               width="w-20 justify-center rounded-full"
               handlePress={() => {
                 savePicture(image);
-                setCurrentScreen("InspectMain");
+                RootNavigation.navigate("InspectMain");
               }}
             />
           </View>

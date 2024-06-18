@@ -45,7 +45,6 @@ const App = () => {
   const [customMark, setCustomMark] = useState([0, 0]);
   const [showCustomMark, setShowCustomMark] = useState(false);
   const [showCustomTree, setShowCustomTree] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState("siteList");
   const [showList, setShowList] = useState(false);
   const [workingTree, setWorkingTree] = useState(null);
   const { width, height } = Dimensions.get("window");
@@ -84,8 +83,6 @@ const App = () => {
           setShowCustomMark,
           showCustomTree,
           setShowCustomTree,
-          currentScreen,
-          setCurrentScreen,
           showList,
           setShowList,
           workingTree,

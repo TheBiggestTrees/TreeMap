@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
+import * as RootNavigation from "../../RootNavigation";
 
 const NavBar = () => {
-  const { setCurrentScreen, setShowCustomMark, setShowCustomTree, sliderRef } =
+  const { setShowCustomMark, setShowCustomTree, sliderRef } =
     useContext(ScreenContext);
 
   const [notifictaions, setNotifications] = useState(0);
@@ -16,7 +17,7 @@ const NavBar = () => {
         activeOpacity={0.5}
         underlayColor="#6b7280"
         onPress={() => {
-          setCurrentScreen("siteList");
+          RootNavigation.navigate("siteList");
           setShowCustomMark(false);
           setShowCustomTree(false);
           sliderRef.current.show();
@@ -30,7 +31,7 @@ const NavBar = () => {
         activeOpacity={0.5}
         underlayColor="#6b7280"
         onPress={() => {
-          setCurrentScreen("AddSite");
+          RootNavigation.navigate("AddSite");
           setShowCustomMark(false);
           setShowCustomTree(false);
           sliderRef.current.show((toValue = 265));
@@ -45,7 +46,7 @@ const NavBar = () => {
         underlayColor="#6b7280"
         onPress={() => {
           sliderRef.current.show();
-          setCurrentScreen("Settings");
+          RootNavigation.navigate("Settings");
           setShowCustomMark(false);
           setShowCustomTree(false);
         }}
@@ -59,7 +60,7 @@ const NavBar = () => {
         underlayColor="#6b7280"
         onPress={() => {
           sliderRef.current.show();
-          setCurrentScreen("Chat");
+          RootNavigation.navigate("Settings");
           setShowCustomMark(false);
           setShowCustomTree(false);
         }}

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { ScrollView, Text, TouchableHighlight, View } from "react-native";
 import Icons from "@expo/vector-icons/MaterialIcons";
 import ScreenContext from "../../context/screenContext";
+import * as RootNavigation from "../../RootNavigation";
 
 const SelectedSite = () => {
   const {
@@ -9,19 +10,18 @@ const SelectedSite = () => {
     sliderTitle,
     selectedTrees,
     setShowCustomTree,
-    setCurrentScreen,
     setWorkingTree,
     camera,
   } = useContext(ScreenContext);
 
   function goBack() {
-    setCurrentScreen("siteList");
+    RootNavigation.navigate("siteList");
     sliderRef.current.show();
   }
 
   return (
     <>
-      <View className="w-full flex">
+      <View className="w-full flex bg-[#6b7280]">
         <View className="w-full flex flex-row items-center justify-between pb-4">
           <Text className="font-bold text-lg text-white">
             Site: {sliderTitle}
@@ -30,7 +30,7 @@ const SelectedSite = () => {
             <TouchableHighlight
               className="flex flex-row items-center justify-center text-center bg-[#4e545f56]  rounded-lg"
               onPress={() => {
-                setCurrentScreen("AddTree");
+                RootNavigation.navigate("AddTree");
                 sliderRef.current.show();
               }}
               underlayColor={"transparent"}
@@ -50,13 +50,13 @@ const SelectedSite = () => {
           </View>
         </View>
 
-        <ScrollView className="h-[75%] rounded-lg">
+        <ScrollView className="grow mb-24 rounded-lg">
           {selectedTrees &&
             selectedTrees.map((tree, index) => (
               <TouchableHighlight
                 key={index}
                 onPress={() => {
-                  setCurrentScreen("ViewTree");
+                  RootNavigation.navigate("ViewTree");
                   setShowCustomTree(false);
                   setWorkingTree(tree);
                   camera.current?.setCamera({

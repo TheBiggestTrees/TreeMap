@@ -1,18 +1,17 @@
-import { Text, TouchableHighlight, View } from "react-native";
-import Icons from "@expo/vector-icons/MaterialIcons";
+import { Text, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 import { useContext } from "react";
 import ButtonsLeft from "../UI/ButtonsLeft";
 import ButtonsRight from "../UI/ButtonsRight";
+import * as RootNavigation from "../../RootNavigation";
 
 const SiteCustPos = (props) => {
   const { addNewSite } = props;
 
-  const { setCurrentScreen, setShowCustomMark, sliderRef } =
-    useContext(ScreenContext);
+  const { setShowCustomMark, sliderRef } = useContext(ScreenContext);
 
   const handleGoBack = () => {
-    setCurrentScreen("AddSite");
+    RootNavigation.navigate("AddSite");
     setShowCustomMark(false);
     sliderRef.current.show((toValue = 265));
   };

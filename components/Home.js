@@ -10,6 +10,7 @@ import axios from "axios";
 import * as Location from "expo-location";
 import NavBar from "./Layout/NavBar";
 import ScreenContext from "../context/screenContext";
+import * as RootNavigation from "../RootNavigation";
 
 Mapbox.setAccessToken(
   process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -38,7 +39,6 @@ const Home = () => {
     setShowCustomMark,
     showCustomTree,
     setShowCustomTree,
-    setCurrentScreen,
     trees,
   } = useContext(ScreenContext);
 
@@ -87,7 +87,7 @@ const Home = () => {
       setSelectedSite(data.id);
       fetchTreesInSite(data.id);
       setSliderTitle(data.properties.siteID.toString().padStart(4, "0"));
-      setCurrentScreen("SelectedSite");
+      RootNavigation.navigate("SelectedSite");
       setCustomMark(data.geometry.coordinates);
       sliderRef.current.show({
         toValue: 200,
@@ -114,7 +114,7 @@ const Home = () => {
       const data = res.data.data;
       setSelectedTrees((prev) => [...prev, data]);
       setTrees((prev) => ({ ...prev, features: [...prev.features, data] }));
-      setCurrentScreen("SelectedSite");
+      RootNavigation.navigate("SelectedSite");
       setErrMsg(res.data.message);
     } catch (err) {
       console.error(err);
