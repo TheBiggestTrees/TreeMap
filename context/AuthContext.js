@@ -1,10 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TOKEN_KEY = "x-auth-token";
 const AuthContext = createContext({});
-
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -19,24 +18,26 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   const loadToken = async () => {
-    const token = await SecureStore.getItemAsync(TOKEN_KEY);
-    const userID = await SecureStore.getItemAsync("userID");
-    const userData = await SecureStore.getItemAsync("userData");
-    const tokenExpiration = await SecureStore.getItemAsync("tokenExpiration");
+    const token = await AsyncStorage.getItem(TOKEN_KEY);
+    const userID = await AsyncStorage.getItem("userID");
+    const userData = await AsyncStorage.getItem("userData");
+    const tokenExpiration = await AsyncStorage.getItem("tokenExpiration");
 
-    if (token && userID && userData && tokenExpiration) {
+    if (token) {
       const expirationDate = new Date(parseInt(tokenExpiration));
       const now = new Date();
       if (now > expirationDate) {
+        console.log("Token expired");
         logout();
       } else {
+        console.log("Token still valid");
         setAuthState({
           xauthtoken: token,
           authenticated: true,
         });
-        axios.defaults.headers.common["x-auth-token"] = token;
         setUser(JSON.parse(userData));
         setUserID(userID);
+        axios.defaults.headers.common["x-auth-token"] = token;
       }
     }
   };
@@ -60,8 +61,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (emailOrUsername, password) => {
+    setErr("Logging in...");
     try {
-      setErr("Logging in...");
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login`,
         emailOrUsername.includes("@")
@@ -74,14 +75,18 @@ export const AuthProvider = ({ children }) => {
         setAuthState({ xauthtoken: data, authenticated: true });
         setUserID(userID);
         setUser(userData);
-        console.log(new Date(expiresAt));
+        console.log("Log Out Date: ", new Date(expiresAt));
 
         axios.defaults.headers.common["x-auth-token"] = data;
 
-        await SecureStore.setItemAsync("tokenExpiration", expiresAt);
-        await SecureStore.setItemAsync(TOKEN_KEY, data);
-        await SecureStore.setItemAsync("userID", userID);
-        await SecureStore.setItemAsync("userData", JSON.stringify(userData));
+        await AsyncStorage.setItem(
+          "tokenExpiration",
+          JSON.stringify(expiresAt)
+        );
+        await AsyncStorage.setItem(TOKEN_KEY, data);
+        await AsyncStorage.setItem("userID", userID);
+        await AsyncStorage.setItem("userData", JSON.stringify(userData));
+
         return response;
       } else {
         throw new Error(
@@ -102,10 +107,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await SecureStore.deleteItemAsync(TOKEN_KEY);
-      await SecureStore.deleteItemAsync("userID");
-      await SecureStore.deleteItemAsync("userData");
-      await SecureStore.deleteItemAsync("tokenExpiration");
+      await AsyncStorage.removeItem(TOKEN_KEY);
+      await AsyncStorage.removeItem("userID");
+      await AsyncStorage.removeItem("userData");
+      await AsyncStorage.removeItem("tokenExpiration");
       setUserID(null);
       setAuthState({ xauthtoken: null, authenticated: false });
       setUser({});

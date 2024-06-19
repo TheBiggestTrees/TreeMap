@@ -34,10 +34,10 @@ const LoginPage = (props) => {
 
   const login = () => {
     onLogin(email, password);
-    RootNavigation.navigate("siteList");
     if (err) {
       setErrMsg(err);
     }
+    RootNavigation.navigate("siteList");
   };
 
   return (
