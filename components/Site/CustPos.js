@@ -22,7 +22,7 @@ const SiteCustPos = (props) => {
   };
 
   return (
-    <>
+    <View className="bg-gray-500 items-center grow">
       <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2">
         <Text className="font-bold text-white text-xl">Add Site</Text>
       </View>
@@ -34,7 +34,7 @@ const SiteCustPos = (props) => {
           text="Place Site"
         />
       </View>
-    </>
+    </View>
   );
 };
 

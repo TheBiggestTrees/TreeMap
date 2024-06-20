@@ -3,8 +3,8 @@ import { Text, TextInput, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 import ButtonsRight from "../UI/ButtonsRight";
 import ButtonsLeft from "../UI/ButtonsLeft";
-import ToggleSwitch from "../UI/ToggleSwitch";
 import ToggleAny from "../UI/ToggleAny";
+import * as RootNavigation from "../../RootNavigation";
 
 const AddTree = (props) => {
   const {
@@ -13,7 +13,6 @@ const AddTree = (props) => {
     setShowCustomTree,
     sliderTitle,
     sliderRef,
-    setCurrentScreen,
   } = useContext(ScreenContext);
 
   const { addNewTree } = props;
@@ -32,18 +31,18 @@ const AddTree = (props) => {
 
   const handleNewTree = () => {
     addNewTree();
-    setCurrentScreen("selectedSite");
+    RootNavigation.navigate("SelectedSite");
     sliderRef.current.hide();
   };
 
   const handlePickPoint = () => {
     setShowCustomTree(true);
-    setCurrentScreen("TreeCustPos");
+    RootNavigation.navigate("TreeCustPos");
     sliderRef.current.show((toValue = 265));
   };
 
   const handleGoBack = () => {
-    setCurrentScreen("SelectedSite");
+    RootNavigation.navigate("SelectedSite");
     setTempTreeForm({
       treeID: 0,
       treeSpecies: "Oak",
@@ -77,7 +76,7 @@ const AddTree = (props) => {
   };
 
   return (
-    <>
+    <View className="flex bg-gray-500 items-center grow">
       <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2">
         <Text className="font-bold text-white text-xl">
           Add Tree to Site: {sliderTitle}
@@ -127,7 +126,7 @@ const AddTree = (props) => {
           text="Next"
         />
       </View>
-    </>
+    </View>
   );
 };
 

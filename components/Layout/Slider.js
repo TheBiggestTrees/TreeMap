@@ -57,7 +57,7 @@ const Slider = (props) => {
               <View style={styles.dragHandler} {...dragHandler}>
                 <View className="border-t-2  border-gray-700 w-[40%] self-center mt-4"></View>
               </View>
-              <View className="w-full grow">
+              <View className="w-full grow bg-gray-500">
                 <NavigationContainer ref={navigationRef}>
                   <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Group>
@@ -66,26 +66,34 @@ const Slider = (props) => {
                         name="SelectedSite"
                         component={SelectedSite}
                       />
-                      <Stack.Screen
-                        name="AddSite"
-                        component={AddSite}
-                        initialParams={{ addNewSite: addNewSite }}
-                      />
-                      <Stack.Screen
-                        name="SiteCustPos"
-                        component={SiteCustPos}
-                        initialParams={{ addNewSite: addNewSite }}
-                      />
-                      <Stack.Screen
-                        name="TreeCustPos"
-                        component={TreeCustPos}
-                        initialParams={{ addNewTree: addNewTree }}
-                      />
-                      <Stack.Screen
-                        name="AddTree"
-                        component={AddTree}
-                        initialParams={{ addNewTree: addNewTree }}
-                      />
+                      <Stack.Screen name="AddSite">
+                        {(props) => (
+                          <AddSite {...props} addNewSite={addNewSite} />
+                        )}
+                      </Stack.Screen>
+
+                      <Stack.Screen name="SiteCustPos">
+                        {(props) => (
+                          <SiteCustPos
+                            {...props}
+                            addNewSite={addNewSite}
+                          ></SiteCustPos>
+                        )}
+                      </Stack.Screen>
+                      <Stack.Screen name="TreeCustPos">
+                        {(props) => (
+                          <TreeCustPos
+                            {...props}
+                            addNewTree={addNewTree}
+                          ></TreeCustPos>
+                        )}
+                      </Stack.Screen>
+
+                      <Stack.Screen name="AddTree">
+                        {(props) => (
+                          <AddTree {...props} addNewTree={addNewTree} />
+                        )}
+                      </Stack.Screen>
                       <Stack.Screen name="Settings" component={Profile} />
                       <Stack.Screen name="ViewTree" component={ViewTree} />
                       <Stack.Screen

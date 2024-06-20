@@ -2,16 +2,17 @@ import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import ScreenContext from "../../context/screenContext";
 import ButtonsLeft from "../UI/ButtonsLeft";
+import * as RootNavigation from "../../RootNavigation";
 
 const AddSite = (props) => {
-  const { setCurrentScreen, setShowCustomMark, sliderRef, camera, location } =
+  const { setShowCustomMark, sliderRef, camera, location } =
     useContext(ScreenContext);
 
   const { addNewSite } = props;
 
   const handleLocation = () => {
     addNewSite();
-    setCurrentScreen("selectedSite");
+    RootNavigation.navigate("SelectedSite");
     sliderRef.current.hide();
   };
 
@@ -23,18 +24,18 @@ const AddSite = (props) => {
       animationMode: "flyTo",
     });
     setShowCustomMark(true);
-    setCurrentScreen("SiteCustPos");
+    RootNavigation.navigate("SiteCustPos");
     sliderRef.current.show((toValue = 265));
   };
 
   const handleGoBack = () => {
-    setCurrentScreen("siteList");
+    RootNavigation.navigate("SiteList");
     sliderRef.current.show({ toValue: 265 });
   };
 
   return (
-    <>
-      <View className="flex justify-center items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2">
+    <View className="flex items-center bg-gray-500 grow">
+      <View className="flex items-center text-center mb-4 border-b-2 border-gray-700 w-4/5 pb-2">
         <Text className="font-bold text-white text-xl">Add Site</Text>
       </View>
       <View className="flex flex-row w-full justify-between">
@@ -54,7 +55,7 @@ const AddSite = (props) => {
       <View className="mt-4">
         <ButtonsLeft handlePress={handleGoBack} icon="undo" text="Go Back" />
       </View>
-    </>
+    </View>
   );
 };
 

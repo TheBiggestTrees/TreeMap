@@ -21,7 +21,7 @@ const SelectedSite = () => {
 
   return (
     <>
-      <View className="w-full flex bg-[#6b7280]">
+      <View className="w-full flex bg-[#6b7280] mb-24">
         <View className="w-full flex flex-row items-center justify-between pb-4">
           <Text className="font-bold text-lg text-white">
             Site: {sliderTitle}
@@ -50,7 +50,7 @@ const SelectedSite = () => {
           </View>
         </View>
 
-        <ScrollView className="grow mb-24 rounded-lg">
+        <ScrollView className="h-full rounded-lg">
           {selectedTrees &&
             selectedTrees.map((tree, index) => (
               <TouchableHighlight

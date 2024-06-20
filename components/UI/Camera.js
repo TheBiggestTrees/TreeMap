@@ -18,6 +18,7 @@ const CameraBox = () => {
   const [image, setImage] = useState(null);
 
   const {
+    setErrMsg,
     workingTree,
     setSelectedTrees,
     setTrees,
@@ -86,6 +87,8 @@ const CameraBox = () => {
           return prev;
         });
         setWorkingTree(res.data.data);
+        RootNavigation.navigate("ViewTree");
+        setErrMsg("Uploaded image");
       })
       .catch((err) => {
         console.log(err);
@@ -138,7 +141,6 @@ const CameraBox = () => {
               width="w-20 justify-center rounded-full"
               handlePress={() => {
                 savePicture(image);
-                RootNavigation.navigate("InspectMain");
               }}
             />
           </View>
