@@ -124,11 +124,8 @@ const CameraBox = () => {
     <>
       {image ? (
         <>
-          <Image
-            source={{ uri: image }}
-            style={{ flex: 1, width: "100%", height: "100%", marginBottom: 50 }}
-          />
-          <View className="w-full flex flex-row justify-between px-8 m-8 absolute bottom-8">
+          <Image source={{ uri: image }} style={{ flex: 1 }} />
+          <View className="flex absolute bottom-8 flex-row mb-8 px-4 w-full justify-between">
             <ButtonsRight
               icon={"undo"}
               width="w-20 justify-center rounded-full"
@@ -138,7 +135,7 @@ const CameraBox = () => {
             />
             <ButtonsRight
               icon={"save"}
-              width="w-20 justify-center rounded-full"
+              width="w-20 justify-center rounded-full "
               handlePress={() => {
                 savePicture(image);
               }}
@@ -151,40 +148,37 @@ const CameraBox = () => {
           flashMode={flash}
           style={{
             flex: 1,
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
             width: "100%",
             height: "100%",
-            marginBottom: 50,
-            padding: 25,
           }}
           ref={cameraRef}
         >
-          <View style={{}} className="flex flex-row w-full justify-between">
+          <View className="flex justify-between grow mb-16 items-center mt-8 mx-4">
+            <View style={{}} className="flex flex-row w-full justify-between">
+              <ButtonsRight
+                icon={flashIcon}
+                iconColor={flashColor}
+                width="w-20 justify-center rounded-full"
+                handlePress={() => {
+                  setFlashState();
+                }}
+              />
+              <ButtonsRight
+                icon={"flip-camera-ios"}
+                width="w-20 justify-center rounded-full"
+                handlePress={() => {
+                  setTypeHandler();
+                }}
+              />
+            </View>
             <ButtonsRight
-              icon={flashIcon}
-              iconColor={flashColor}
+              icon={"photo-camera"}
               width="w-20 justify-center rounded-full"
               handlePress={() => {
-                setFlashState();
-              }}
-            />
-            <ButtonsRight
-              icon={"flip-camera-ios"}
-              width="w-20 justify-center rounded-full"
-              handlePress={() => {
-                setTypeHandler();
+                takePicture();
               }}
             />
           </View>
-          <ButtonsRight
-            icon={"photo-camera"}
-            width="w-20 justify-center rounded-full"
-            handlePress={() => {
-              takePicture();
-            }}
-          />
         </Camera>
       )}
     </>
