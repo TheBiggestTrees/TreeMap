@@ -37,9 +37,21 @@ const CameraBox = () => {
   }, []);
 
   if (hasCameraPermission === undefined) {
-    return <Text>Requesting Permissions...</Text>;
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-500">
+        <Text className="text-white font-bold text-lg">
+          Requesting Permissions...
+        </Text>
+      </View>
+    );
   } else if (!hasCameraPermission) {
-    return <Text>No access to camera</Text>;
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-500">
+        <Text className="text-white font-bold text-lg">
+          No camera access...
+        </Text>
+      </View>
+    );
   }
 
   const takePicture = async () => {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import WorkMenu from "../../../UI/WorkMenu";
 import ButtonsLeft from "../../../UI/ButtonsLeft";
 import { View } from "react-native";
@@ -18,9 +18,9 @@ const WorkMain = () => {
 
   return (
     <>
-      <View className="flex justify-between mb-14 rounded-lg max-h-[75%]">
+      <View className="bg-gray-500 flex grow">
         <WorkMenu />
-        <View className="flex flex-row items-center mt-4 justify-between w-full self-end">
+        <View className="flex flex-row items-center mt-8 justify-between w-full">
           <ButtonsLeft
             handlePress={handleGoBack}
             icon={"undo"}
