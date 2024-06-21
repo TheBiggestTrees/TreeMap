@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PhotoItem from "./Edit/PhotoItem";
 import screenContext from "../../context/screenContext";
 import axios from "axios";
@@ -41,12 +47,30 @@ const PhotoViewer = () => {
     <View className="flex bg-slate-400 shadow-lg px-5 py-4 mt-2 rounded-xl grow">
       <View className="flex items-center w-full">
         <Text className="text-white font-bold text-lg">Photos</Text>
-        <View className="bg-gray-500 h-1 rounded-full w-full mt-2"></View>
+        <View className="bg-gray-500 h-1 rounded-full w-full mt-2 mb-4"></View>
       </View>
-
-      {images.map((image, index) => {
-        return <PhotoItem key={index} image={image} size={24} />;
-      })}
+      <ScrollView>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            marginBottom: 86,
+          }}
+        >
+          {images.map((image, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => console.log("Photo clicked")}
+                activeOpacity={0.2}
+                underlayColor={"#000000"}
+                key={index}
+              >
+                <PhotoItem image={image} size={24} />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </ScrollView>
     </View>
   );
 };
