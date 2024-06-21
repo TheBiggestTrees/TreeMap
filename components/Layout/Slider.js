@@ -17,6 +17,7 @@ import AddPhotoDialog from "../Tree/Edit/AddPhotoDialog";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { navigationRef } from "../../RootNavigation";
+import PhotoViewer from "../Tree/PhotoViewer";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
@@ -59,7 +60,14 @@ const Slider = (props) => {
               </View>
               <View className="w-full grow bg-gray-500">
                 <NavigationContainer ref={navigationRef}>
-                  <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Navigator
+                    screenOptions={{
+                      headerShown: false,
+                      contentStyle: {
+                        backgroundColor: "transparent",
+                      },
+                    }}
+                  >
                     <Stack.Group>
                       <Stack.Screen name="siteList" component={SiteList} />
                       <Stack.Screen
@@ -104,6 +112,10 @@ const Slider = (props) => {
                       <Stack.Screen
                         name="AddPhotoDialog"
                         component={AddPhotoDialog}
+                      />
+                      <Stack.Screen
+                        name="PhotoViewer"
+                        component={PhotoViewer}
                       />
                     </Stack.Group>
                   </Stack.Navigator>
