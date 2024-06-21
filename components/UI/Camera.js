@@ -12,9 +12,9 @@ const CameraBox = () => {
   const cameraRef = useRef(null);
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [type, setType] = useState(CameraType.back);
-  const [flash, setFlash] = useState(FlashMode.off);
-  const [flashColor, setFlashColor] = useState("#b3b3b3");
-  const [flashIcon, setFlashIcon] = useState("flash-off");
+  const [flash, setFlash] = useState(FlashMode.auto);
+  const [flashColor, setFlashColor] = useState("#56ccdb");
+  const [flashIcon, setFlashIcon] = useState("flash-auto");
   const [image, setImage] = useState(null);
 
   const {
@@ -26,8 +26,6 @@ const CameraBox = () => {
     trees,
     selectedTrees,
   } = useContext(ScreenContext);
-
-  const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -158,9 +156,10 @@ const CameraBox = () => {
         <Camera
           type={type}
           flashMode={flash}
+          ratio="16:9"
           style={{
             flex: 1,
-            width: "100%",
+            width: "auto",
             height: "100%",
           }}
           ref={cameraRef}
