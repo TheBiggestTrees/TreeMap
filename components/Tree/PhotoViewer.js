@@ -87,28 +87,36 @@ const PhotoViewer = () => {
         <View className="bg-gray-500 h-1 rounded-full w-full mt-2 mb-4"></View>
       </View>
       <ScrollView>
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            marginBottom: 86,
-          }}
-        >
-          {images.map((image, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  handleImagePress(index);
-                }}
-                activeOpacity={0.2}
-                underlayColor={"#000000"}
-                key={index}
-              >
-                <PhotoItem image={image} size={24} />
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        {images.length === 0 ? (
+          <View className="flex items-center">
+            <Text className="text-white font-bold text-lg">
+              No photos yet...
+            </Text>
+          </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              marginBottom: 86,
+            }}
+          >
+            {images.map((image, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleImagePress(index);
+                  }}
+                  activeOpacity={0.2}
+                  underlayColor={"#000000"}
+                  key={index}
+                >
+                  <PhotoItem image={image} size={24} />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
