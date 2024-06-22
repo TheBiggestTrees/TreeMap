@@ -136,6 +136,7 @@ const SiteList = () => {
 
   const opacityStyle = {
     opacity: opacityAnimation,
+    zIndex: 10,
   };
 
   const animateElement = () => {
@@ -193,7 +194,7 @@ const SiteList = () => {
 
   return (
     <>
-      <View className="flex flex-col w-full h-full pb-36 items-center bg-gray-500">
+      <View className="flex flex-col w-full pb-36 items-center bg-gray-500">
         <View className="flex flex-row items-center bg-slate-400 shadow-lg w-full p-4 rounded-full">
           <View className="flex grow">
             <Text className="text-white font-bold text-lg">Site</Text>
@@ -237,22 +238,20 @@ const SiteList = () => {
       </View>
 
       {showList && (
-        <>
-          <Animated.View
-            className="absolute top-28 mx-2 drop-shadow-2xl w-2/3 z-auto overflow-hidden rounded-b-xl"
-            style={{ ...opacityStyle }}
-          >
-            <FlatList
-              data={search !== "" ? siteList : sites.features}
-              maxToRenderPerBatch={25}
-              keyExtractor={(item, index) => item._id.toString()}
-              removeClippedSubviews={true}
-              showsVerticalScrollIndicator={false}
-              renderItem={showlistItem}
-              className="max-h-56 bg-slate-400"
-            />
-          </Animated.View>
-        </>
+        <Animated.View
+          className="absolute top-16 left-14 mx-2 drop-shadow-2xl w-2/3 z-auto overflow-hidden rounded-b-xl"
+          style={{ ...opacityStyle }}
+        >
+          <FlatList
+            data={search !== "" ? siteList : sites.features}
+            maxToRenderPerBatch={25}
+            keyExtractor={(item, index) => item._id.toString()}
+            removeClippedSubviews={true}
+            showsVerticalScrollIndicator={false}
+            renderItem={showlistItem}
+            className="max-h-56 bg-slate-400"
+          />
+        </Animated.View>
       )}
     </>
   );

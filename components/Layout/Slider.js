@@ -14,10 +14,15 @@ import InspectMain from "../Tree/Edit/Inspect/InspectMain";
 import WorkMain from "../Tree/Edit/Work/WorkMain";
 import PopupMsg from "../UI/PopupMsg";
 import AddPhotoDialog from "../Tree/Edit/AddPhotoDialog";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { navigationRef } from "../../RootNavigation";
 import PhotoViewer from "../Tree/PhotoViewer";
+import ImageView from "react-native-image-viewing";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
@@ -117,6 +122,29 @@ const Slider = (props) => {
                         name="PhotoViewer"
                         component={PhotoViewer}
                       />
+                      <Stack.Screen
+                        name="ImageViewer"
+                        options={({ route }) => ({
+                          images: route.params.images,
+                          imageIndex: route.params.index,
+                        })}
+                      >
+                        {() => {
+                          const navigation = useNavigation();
+                          const route = useRoute();
+
+                          return (
+                            <ImageView
+                              images={route.params.images}
+                              imageIndex={route.params.index}
+                              visible={true}
+                              onRequestClose={() => {
+                                navigation.goBack();
+                              }}
+                            />
+                          );
+                        }}
+                      </Stack.Screen>
                     </Stack.Group>
                   </Stack.Navigator>
                 </NavigationContainer>
