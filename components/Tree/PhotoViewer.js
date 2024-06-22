@@ -7,6 +7,8 @@ import {
   View,
 } from "react-native";
 import PhotoItem from "./Edit/PhotoItem";
+import Icons from "@expo/vector-icons/MaterialIcons";
+
 import * as RootNavigation from "../../RootNavigation";
 import screenContext from "../../context/screenContext";
 import axios from "axios";
@@ -81,9 +83,21 @@ const PhotoViewer = () => {
   };
 
   return (
-    <View className="flex bg-slate-400 shadow-lg px-5 py-4 mt-2 rounded-xl grow">
+    <View className="flex bg-slate-400 shadow-lg px-4 py-4 mt-2 rounded-xl grow">
       <View className="flex items-center w-full">
-        <Text className="text-white font-bold text-lg">Photos</Text>
+        <View className="flex flex-row items-center justify-between w-full">
+          <Text className="text-white font-bold text-lg pl-2">Photos</Text>
+          <TouchableHighlight
+            className="rounded-lg bg-gray-500 p-2"
+            onPress={() => {
+              RootNavigation.navigate("AddPhotoDialog");
+            }}
+            activeOpacity={0.8}
+            underlayColor={"transparent"}
+          >
+            <Icons name="add" size={24} color="#56ccdb" />
+          </TouchableHighlight>
+        </View>
         <View className="bg-gray-500 h-1 rounded-full w-full mt-2 mb-4"></View>
       </View>
       <ScrollView>
@@ -100,6 +114,7 @@ const PhotoViewer = () => {
               flexWrap: "wrap",
               marginBottom: 86,
             }}
+            className="items-center gap-1"
           >
             {images.map((image, index) => {
               return (
