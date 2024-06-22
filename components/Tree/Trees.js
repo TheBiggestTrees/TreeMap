@@ -5,21 +5,20 @@ import ScreenContext from "../../context/screenContext";
 
 const Trees = () => {
   const { setTreeLength, selectedTrees } = useContext(ScreenContext);
+  const fetchTreeLength = async () => {
+    try {
+      const data = await axios.get(
+        `${process.env.REACT_APP_API_URL}/tree/totalcount`
+      );
+      setTreeLength(data.data.data);
+    } catch (err) {
+      console.log(err.data.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchTreeLength = async () => {
-      try {
-        const data = await axios.get(
-          `${process.env.REACT_APP_API_URL}/tree/totalcount`
-        );
-        setTreeLength(data.data.data);
-      } catch (err) {
-        console.log(err.data.message);
-      }
-    };
-
     fetchTreeLength();
-  }, []);
+  }, [selectedTrees]);
 
   const [trees, setTrees] = useState({
     type: "FeatureCollection",

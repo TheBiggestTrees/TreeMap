@@ -1,6 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { REACT_APP_MAPBOX_ACCESS_TOKEN, REACT_APP_API_URL } from "@env";
-import { StyleSheet, View, StatusBar, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Text,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import Sites from "./Site/Sites";
 import Trees from "./Tree/Trees";
 import Mapbox from "@rnmapbox/maps";
@@ -11,6 +18,7 @@ import * as Location from "expo-location";
 import NavBar from "./Layout/NavBar";
 import ScreenContext from "../context/screenContext";
 import * as RootNavigation from "../RootNavigation";
+import Icons from "@expo/vector-icons/MaterialIcons";
 
 Mapbox.setAccessToken(
   process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || REACT_APP_MAPBOX_ACCESS_TOKEN
@@ -267,6 +275,31 @@ const Home = () => {
           />
         )}
       </Mapbox.MapView>
+
+      <TouchableHighlight
+        underlayColor="#4e545f56"
+        onPress={() => {
+          camera.current?.setCamera({
+            centerCoordinate: [
+              location.coords.longitude,
+              location.coords.latitude,
+            ],
+            zoomLevel: 15,
+            animationDuration: 500,
+            animationMode: "flyTo",
+          });
+        }}
+        className="bg-gray-500"
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          borderRadius: 50,
+          padding: 10,
+        }}
+      >
+        <Icons name="my-location" size={30} color="#56ccdb" />
+      </TouchableHighlight>
 
       <Slider addNewSite={addNewSite} addNewTree={addNewTree} />
 

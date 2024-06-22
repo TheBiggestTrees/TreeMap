@@ -18,38 +18,45 @@ const Sites = (props) => {
     setSelectedTrees,
   } = useContext(ScreenContext);
 
+  const fetchSites = async () => {
+    try {
+      const data = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}/site/`,
+        timeout: 8000,
+      });
+
+      const totalCount = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}/site/totalcount`,
+        timeout: 8000,
+      });
+
+      const siteGeoJSON = {
+        type: "FeatureCollection",
+        features: [...data.data.data],
+      };
+
+      siteGeoJSON.features.map((site, index) => {
+        site.id = siteGeoJSON.features[index]._id;
+      });
+      setSiteLength(data.data.data.length);
+      console.log(totalCount.data.message);
+      setSites(siteGeoJSON);
+    } catch (err) {
+      console.log(err.data.message);
+    }
+  };
+
   useEffect(() => {
-    const fetchSites = async () => {
-      try {
-        const data = await axios({
-          method: "get",
-          url: `${process.env.REACT_APP_API_URL}/site/`,
-          timeout: 8000,
-        });
-
-        const totalCount = await axios({
-          method: "get",
-          url: `${process.env.REACT_APP_API_URL}/site/totalcount`,
-          timeout: 8000,
-        });
-
-        const siteGeoJSON = {
-          type: "FeatureCollection",
-          features: [...data.data.data],
-        };
-
-        siteGeoJSON.features.map((site, index) => {
-          site.id = siteGeoJSON.features[index]._id;
-        });
-        setSiteLength(totalCount.data.data);
-        console.log(totalCount.data.message);
-        setSites(siteGeoJSON);
-      } catch (err) {
-        console.log(err.data.message);
-      }
-    };
     fetchSites();
   }, []);
+
+  useEffect(() => {
+    if (sites) {
+      setSiteLength(sites.features.length);
+    }
+  }, [sites]);
 
   //get trees for site
   const getTrees = async (siteID) => {
