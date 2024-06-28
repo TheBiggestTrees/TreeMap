@@ -2,7 +2,7 @@
   "expo": {
     "name": "treemap",
     "slug": "treemap",
-    "version": "1.0.0",
+    "version": "a.1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
