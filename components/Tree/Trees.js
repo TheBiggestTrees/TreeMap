@@ -35,12 +35,12 @@ const Trees = () => {
       <Mapbox.CircleLayer
         id="Treepoint"
         style={{
-          circleRadius: 4,
+          circleRadius: 6,
           circleColor: "#1bc21b",
           circleStrokeWidth: 1,
           circleStrokeColor: "#000",
         }}
-        minZoomLevel={16.5}
+        minZoomLevel={16}
         maxZoomLevel={100}
       />
     </Mapbox.ShapeSource>

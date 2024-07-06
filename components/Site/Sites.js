@@ -105,13 +105,13 @@ const Sites = (props) => {
         <Mapbox.CircleLayer
           id="point"
           style={{
-            circleRadius: 6,
+            circleRadius: 8,
             circleColor: "#03c2fc",
             circleStrokeWidth: 1,
             circleStrokeColor: "#000",
           }}
           minZoomLevel={0}
-          maxZoomLevel={16.5}
+          maxZoomLevel={16}
         />
       </Mapbox.ShapeSource>
     </>
