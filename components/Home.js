@@ -242,8 +242,6 @@ const Home = () => {
           ref={camera}
         />
 
-        {location && <Mapbox.UserLocation visible={true} animated={true} />}
-
         <Trees />
         <Sites fetchTreesInSite={fetchTreesInSite} apiURL={API_URL} />
 
@@ -274,6 +272,8 @@ const Home = () => {
             coordinate={customMark}
           />
         )}
+
+        {location && <Mapbox.UserLocation visible={true} animated={true} />}
       </Mapbox.MapView>
 
       <TouchableHighlight
