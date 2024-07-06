@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "../Site/Selected";
 import SiteCustPos from "../Site/CustPos";
@@ -143,8 +143,38 @@ const Slider = (props) => {
                                 navigation.goBack();
                               }}
                               FooterComponent={({ imageIndex }) => (
-                                <View className="flex items-center mb-4">
-                                  <Text className="text-white font-bold text-lg">
+                                <View className="flex items-center w-full">
+                                  <View className="flex flex-row items-center justify-between px-6 w-full">
+                                    <TouchableHighlight
+                                      className="rounded-full bg-gray-500 p-2"
+                                      onPress={() => {
+                                        //save image to device
+                                      }}
+                                      activeOpacity={0.8}
+                                      underlayColor={"transparent"}
+                                    >
+                                      <Icons
+                                        name="download"
+                                        size={32}
+                                        color="#56ccdb"
+                                      />
+                                    </TouchableHighlight>
+                                    <TouchableHighlight
+                                      className="rounded-full bg-gray-500 p-2"
+                                      onPress={() => {
+                                        //share image
+                                      }}
+                                      activeOpacity={0.8}
+                                      underlayColor={"transparent"}
+                                    >
+                                      <Icons
+                                        name="share"
+                                        size={32}
+                                        color="#56ccdb"
+                                      />
+                                    </TouchableHighlight>
+                                  </View>
+                                  <Text className="text-white font-bold text-lg m-4">
                                     {imageIndex + 1} /{" "}
                                     {route.params.images.length}
                                   </Text>
