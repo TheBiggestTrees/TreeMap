@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SelectedSite from "../Site/Selected";
 import SiteCustPos from "../Site/CustPos";
@@ -23,6 +23,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { navigationRef } from "../../RootNavigation";
 import PhotoViewer from "../Tree/PhotoViewer";
 import ImageView from "react-native-image-viewing";
+import Icons from "@expo/vector-icons/MaterialIcons";
 
 const Slider = (props) => {
   const { addNewSite, addNewTree } = props;
@@ -141,6 +142,14 @@ const Slider = (props) => {
                               onRequestClose={() => {
                                 navigation.goBack();
                               }}
+                              FooterComponent={({ imageIndex }) => (
+                                <View className="flex items-center mb-4">
+                                  <Text className="text-white font-bold text-lg">
+                                    {imageIndex + 1} /{" "}
+                                    {route.params.images.length}
+                                  </Text>
+                                </View>
+                              )}
                             />
                           );
                         }}
